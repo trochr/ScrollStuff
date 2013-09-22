@@ -1,7 +1,8 @@
 ScrollStuff
 ===========
 
-In the great tradition of reinventing the wheel, here is ScrollStuff, a bookmarklet to scroll around a web page, in a continuous manner. Not unlike some middle mouse clicks, but with better precisions.
+In the great tradition of reinventing the wheel, here is ScrollStuff, a bookmarklet to scroll around a web page, 
+in a continuous manner. Not unlike some middle mouse clicks, but with better precision.
 
 
 Usage
