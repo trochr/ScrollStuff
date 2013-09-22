@@ -4,7 +4,6 @@ Adjustable auto scroller bookmarklet
 Add this bookmarklet to your bookmark bar :
 javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://appintime.com/scrollstuff.js';})();
 
-See how : http://goo.gl/bviGqB
 TODO : Customizable speed setting, saved in cookie
 */
 
