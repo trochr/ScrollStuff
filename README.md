@@ -7,8 +7,9 @@ In the great tradition of reinventing the wheel, here is ScrollStuff, a bookmark
 Usage
 -----
 
-Drag and drop the bookmarklet :
+See the instructions here().
 
+https://raw.github.com/trochr/ScrollStuff/master/scrollstuff.js
 
 
 Caveat
