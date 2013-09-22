@@ -7,14 +7,11 @@ In the great tradition of reinventing the wheel, here is ScrollStuff, a bookmark
 Usage
 -----
 
-See the instructions here().
-
-https://raw.github.com/trochr/ScrollStuff/master/scrollstuff.js
+See the setup instructions on the [homepage](http://trochr.github.io/ScrollStuff/) 
 
 
-Caveat
+Caveats
 ------
 
-HTTPS pages require the bookmarklet to be loaded from a HTTPS path
-
-Some sites blocks modifications of the DOM by externally loaded script.
+- HTTPS pages require the bookmarklet to be loaded from a HTTPS path
+- Some sites (such as github) block modifications of the DOM by externally loaded script.
