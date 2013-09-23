@@ -1,9 +1,6 @@
 /*
 trochr - 20130812
 Adjustable auto scroller bookmarklet
-Add this bookmarklet to your bookmark bar :
-javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://appintime.com/scrollstuff.js';})();
-
 TODO : Customizable speed setting, saved in cookie
 */
 
