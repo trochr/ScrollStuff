@@ -38,8 +38,6 @@ function fillContentOfScrollDiv (sd) {
   var divSteps = document.createElement('div');
   divSteps.id = "divSteps";
   sd.appendChild(divSteps);
-  // for (var i = -10 ; i <= 10 ; i++ )
-     // steps.push(i);
   for (var i = 0; i < steps.length; i++) {
    var divStep = document.createElement('div');
    divStep.id = 'scroll'+(i+1);
@@ -56,9 +54,6 @@ function fillContentOfScrollDiv (sd) {
 function updateStatusDiv () {
   document.title = scrollSpeed+"p/s "+initialTitle;
   sdiv = document.getElementById("statusDiv");
-  if (sdiv != null ) {
-    // sdiv.innerHTML =  scrollSpeed+"p/s";
-  }
 }
 
 function addStatusDiv (d) {
@@ -92,11 +87,6 @@ function displaySettings () {
     settingsDiv.style.borderRadius = "5px";
     settingsDiv.style.textAlign = "center";
     settingsDiv.value=steps.join('|');
-//    document.getElementById('listScrollVals').value = steps.join('|');
-    // for (var i = 0; i < steps.length; i++) {
-       // listScrollVals=steps[i];
-    // }
-
     document.body.insertBefore(settingsDiv,document.body.firstChild);
   }
 }
@@ -115,8 +105,6 @@ function displayScroller () {
     scrollDiv.style.top = 0;
     scrollDiv.style.zIndex = "99998";
     fillContentOfScrollDiv(scrollDiv);
-    // addStatusDiv(scrollDiv);
-    // updateStatusDiv();
     document.body.insertBefore(scrollDiv,document.body.firstChild);
     scrollDiv.onmouseout=function(){mouseElm = null;document.title=initialTitle;};
     scrollDiv.ondblclick=function(){displaySettings();};
