@@ -32,7 +32,7 @@ function addMouseOverEvents  () {
       d.style.background = "-webkit-gradient(linear, left top, left bottom, from(#"+phc+phc+"FF), to(#"+hc+hc+"FF))";
     }
     else {
-      d.style.background = "linear-gradient(to bottom, #"+phc+phc+"FF 0%, #"+hc+hc+"FF 100%);";
+      d.style.background = "linear-gradient(to bottom, #"+phc+phc+"FF 0%, #"+hc+hc+"FF 100%)";
     }
     phc=hc;
   }
