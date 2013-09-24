@@ -29,10 +29,10 @@ function addMouseOverEvents  () {
     d.style.opacity = 0.3;
     hc=(255-255*Math.abs(parseInt(d.getAttribute("pos"))-childs.length/2+1)/childs.length*2).toString(16);
     if (/KHTML/.test(navigator.userAgent)) {
-      d.style.background = "-webkit-gradient(linear, left top, left bottom, from(#"+phc+phc+"FF), to(#"+hc+hc+"FF))";
+      d.style.background = "-webkit-gradient(linear, left top, left bottom, from(#"+phc+phc+phc+"), to(#"+hc+hc+hc+"))";
     }
     else {
-      d.style.background = "linear-gradient(to bottom, #"+phc+phc+"FF 0%, #"+hc+hc+"FF 100%)";
+      d.style.background = "linear-gradient(to bottom, #"+phc+phc+phc+" 0%, #"+hc+hc+hc+" 100%)";
     }
     phc=hc;
   }
