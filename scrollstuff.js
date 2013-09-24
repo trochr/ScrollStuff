@@ -6,7 +6,6 @@ TODO : Customizable speed setting, saved in cookie
 
 var mouseElm = null;
 var scrollSpeed = 0;
-var scrollColor = "#BBB";
 var initialTitle = document.title;
 var steps = new Array(-250,-35,-20,-10,-3,-2,-1,0,1,2,3,10,20,35,250);
 
@@ -29,7 +28,12 @@ function addMouseOverEvents  () {
     d.onmouseover=function(){mouseElm = this;loopScroll(parseInt(this.innerHTML),this);};
     d.style.opacity = 0.3;
     hc=(255-255*Math.abs(parseInt(d.getAttribute("pos"))-childs.length/2+1)/childs.length*2).toString(16);
-    d.style.background = "-webkit-gradient(linear, left top, left bottom, from(#"+phc+phc+phc+"), to(#"+hc+hc+hc+"))";
+    if (/KHTML/.test(navigator.userAgent)) {
+      d.style.background = "-webkit-gradient(linear, left top, left bottom, from(#"+phc+phc+phc+"), to(#"+hc+hc+hc+"))";
+    }
+    else {
+      d.style.background = "linear-gradient(to bottom, #"+phc+phc+phc+" 0%, #"+hc+hc+hc+" 100%)";
+    }
     phc=hc;
   }
 }
