@@ -91,6 +91,48 @@ function displaySettings () {
   }
 }
 
+function highZ(parent, limit){
+    limit = limit || Infinity;
+    parent = parent || document.body;
+    var who, temp, max= 1, A= [], i= 0;
+    var children = parent.childNodes, length = children.length;
+    while(i<length){
+        who = children[i++];
+        if (who.nodeType != 1) continue; // element nodes only
+        if (deepCss(who,"position") !== "static") {
+            temp = deepCss(who,"z-index");
+            if (temp == "auto") { // z-index is auto, so not a new stacking context
+                temp = highZ(who);
+            } else {
+                temp = parseInt(temp, 10) || 0;
+            }
+        } else { // non-positioned element, so not a new stacking context
+            temp = highZ(who);
+        }
+        if (temp > max && temp <= limit) max = temp;                
+    }
+    return max;
+}
+
+function deepCss(who, css) {
+    var sty, val, dv= document.defaultView || window;
+    if (who.nodeType == 1) {
+        sty = css.replace(/\-([a-z])/g, function(a, b){
+            return b.toUpperCase();
+        });
+        val = who.style[sty];
+        if (!val) {
+            if(who.currentStyle) val= who.currentStyle[sty];
+            else if (dv.getComputedStyle) {
+                val= dv.getComputedStyle(who,"").getPropertyValue(css);
+            }
+        }
+    }
+    return val || "";
+}
+
+
+
 function displayScroller () {    
   var preexist=document.getElementById("scrollerDiv");
   if (preexist != null) {
@@ -103,7 +145,7 @@ function displayScroller () {
     scrollDiv.style.position = "fixed";
     scrollDiv.style.left = 0;
     scrollDiv.style.top = 0;
-    scrollDiv.style.zIndex = "99998";
+    scrollDiv.style.zIndex = highZ()+1;
     fillContentOfScrollDiv(scrollDiv);
     document.body.insertBefore(scrollDiv,document.body.firstChild);
     scrollDiv.onmouseout=function(){mouseElm = null;document.title=initialTitle;};
