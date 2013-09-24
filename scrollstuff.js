@@ -6,7 +6,7 @@ TODO : Customizable speed setting, saved in cookie
 
 var mouseElm = null;
 var scrollSpeed = 0;
-var scrollColor = "#BBB";
+var scrollColor = "#BB0";
 var initialTitle = document.title;
 var steps = new Array(-250,-35,-20,-10,-3,-2,-1,0,1,2,3,10,20,35,250);
 
