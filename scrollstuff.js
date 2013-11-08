@@ -53,6 +53,7 @@ function fillContentOfScrollDiv (sd) {
    divSteps.appendChild(divStep); 
   }
   setTimeout(function() { addMouseOverEvents();}, 10);
+  setTimeout(function() { moveScroller(sd,"show");}, 50);
 }
 
 function updateStatusDiv () {
@@ -137,17 +138,19 @@ function deepCss(who, css) {
 
 
 function moveScroller(scrollDiv,action) { 
+  if (scrollDiv == null) 
+    scrollDiv = document.getElementById('scrollerDiv');
   if (action == "show") {
     if (scrollDiv.offsetLeft < 2) 
     {
-      scrollDiv.left = scrollDiv.offsetLeft+1+"px";
-      setTimeout(function() { moveScroller(scrollDiv,action); }, 100);
+      scrollDiv.style.left = scrollDiv.offsetLeft+1+"px";
+      setTimeout(function() { moveScroller(scrollDiv,action); }, 5);
     }
   }
   else {
-    if (scrollDiv.offsetLeft > -2) {
-      scrollDiv.left = scrollDiv.offsetLeft-1+"px";
-      setTimeout(function() { moveScroller(scrollDiv,action); }, 100);
+    if (scrollDiv.offsetLeft > -20) {
+      scrollDiv.style.left = scrollDiv.offsetLeft-1+"px";
+      setTimeout(function() { moveScroller(scrollDiv,action); }, 5);
     }
   }
 }
@@ -157,7 +160,7 @@ function displayScroller () {
   var preexist=document.getElementById("scrollerDiv");
   if (preexist != null) {
     moveScroller(scrollDiv,"hide");
-    preexist.remove();
+    setTimeout(function() { preexist.remove();}, 500);
   }
   else {
     var scrollDiv=document.createElement('div');
@@ -176,7 +179,6 @@ function displayScroller () {
     document.body.insertBefore(scrollDiv,document.body.firstChild);
     scrollDiv.onmouseout=function(){mouseElm = null;document.title=initialTitle;};
     scrollDiv.ondblclick=function(){displaySettings();};
-    moveScroller(scrollDiv,"show");
   }
 }
 
