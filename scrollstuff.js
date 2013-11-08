@@ -136,10 +136,27 @@ function deepCss(who, css) {
 }
 
 
+function moveScroller(scrollDiv,action) { 
+  if (action == "show") {
+    if (scrollDiv.offsetLeft < 2) 
+    {
+      scrollDiv.left = scrollDiv.offsetLeft+1+"px";
+      setTimeout(function() { moveScroller(scrollDiv,action); }, 100);
+    }
+  }
+  else {
+    if (scrollDiv.offsetLeft > -2) {
+      scrollDiv.left = scrollDiv.offsetLeft-1+"px";
+      setTimeout(function() { moveScroller(scrollDiv,action); }, 100);
+    }
+  }
+}
+
 
 function displayScroller () {    
   var preexist=document.getElementById("scrollerDiv");
   if (preexist != null) {
+    moveScroller(scrollDiv,"hide");
     preexist.remove();
   }
   else {
@@ -148,7 +165,7 @@ function displayScroller () {
     scrollDiv.align = "center";
     var sds=scrollDiv.style;
     sds.position = "fixed";
-    sds.left = "2px";
+    sds.left = "-2px";
     sds.top = "2px";
     sds.zIndex = highZ()+1;
     sds.border = "1px solid rgb(204, 204, 204)";
@@ -159,6 +176,7 @@ function displayScroller () {
     document.body.insertBefore(scrollDiv,document.body.firstChild);
     scrollDiv.onmouseout=function(){mouseElm = null;document.title=initialTitle;};
     scrollDiv.ondblclick=function(){displaySettings();};
+    moveScroller(scrollDiv,"show");
   }
 }
 
