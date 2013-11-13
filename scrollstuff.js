@@ -171,10 +171,10 @@ function displayScroller () {
     sds.left = "-2px";
     sds.top = "2px";
     sds.zIndex = highZ()+1;
-    sds.border = "1px solid rgb(204, 204, 204)";
+    sds.border = "1px solid rgba(204, 204, 204, 0.3)";
     sds.borderRadius = "5px";
     sds.overflow = "hidden";
-    sds.boxShadow = "rgb(204, 204, 204) 1px 1px 5px";
+    sds.boxShadow = "rgba(50, 50, 50, 0.3) 1px 1px 5px";
     fillContentOfScrollDiv(scrollDiv);
     document.body.insertBefore(scrollDiv,document.body.firstChild);
     scrollDiv.onmouseout=function(){mouseElm = null;document.title=initialTitle;};
