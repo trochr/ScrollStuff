@@ -168,7 +168,9 @@ function displayScroller () {
     document.body.insertBefore(scrollDiv,document.body.firstChild);
     doubleTap(scrollDiv);
     scrollDiv.addEventListener('dblclick', function(e) {
-        alert('double clicked');
+      scrollDiv.remove();
+      window.ondevicemotion = function(event) {ay=0;ref=0};
+      return;
     }, false);
 
     loopScroll ();
