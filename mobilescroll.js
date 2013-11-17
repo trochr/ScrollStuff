@@ -4,7 +4,6 @@ Tilt Scroller for Mobile Web
 */
 
   // Acceleration
-  var ax = 0;
   var ay = 0;
   var cay = 0;
   var ref = 0; 
@@ -57,16 +56,6 @@ function loopScroll () {
   cay=ay-ref;
   var sign = cay?cay<0?-1:1:0;
   var delay=50/(sign*cay);
-/*  document.getElementById("scrollerDiv").innerHTML = sign+","
-                                                     +Math.round(cay*100)/100+","
-                                                     +Math.round(delay*100)/100;
-	document.getElementById("scrollerDiv").innerHTML = "ax=" + ax 
-  	 + "<br />ay=" + ay 
-  	 + "<br />cay=" + cay 
-										 + "<br />ref=" + ref 
-										 + "<br />will scroll by=" + sign*1
-										 + "<br />with delay=" + delay;
-										 */
   if (delay<200)
     window.scrollBy(0,sign*1);
   setTimeout(function() { loopScroll(); }, delay);
@@ -76,6 +65,7 @@ function displayScroller () {
   var preexist=document.getElementById("scrollerDiv");
   if (preexist != null) {
     preexist.remove();
+    window.ondevicemotion = function(event) {ay=0;ref=0};
     return;
   }
   else {
@@ -83,7 +73,6 @@ function displayScroller () {
       alert ("MobileScroll was unable to get Device Motion Events");
     } else {
   	window.ondevicemotion = function(event) {
-  	 ax = event.accelerationIncludingGravity.x;
     	 ay = event.accelerationIncludingGravity.y;
     	}
     	setInterval(function() {
