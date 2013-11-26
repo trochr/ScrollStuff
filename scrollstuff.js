@@ -71,31 +71,6 @@ function addStatusDiv (d) {
 }
 
 
-function displaySettings () { 
-  var preexist=document.getElementById("settingsDiv");
-  if (preexist != null) {
-    preexist.remove();
-  }
-  else {
-    var settingsDiv = document.createElement('input');
-    settingsDiv.id = 'settingsDiv';
-    settingsDiv.style.width = '400px';
-    settingsDiv.style.height = '30px';
-    settingsDiv.style.position = "fixed";
-    settingsDiv.style.left = "20px";
-    settingsDiv.style.top = "10px";
-    settingsDiv.style.zIndex = "99999";
-    settingsDiv.style.display = "block";
-    settingsDiv.style.boxShadow = "3px 3px 5px #888";
-
-    settingsDiv.style.backgroundColor = "white";
-    settingsDiv.style.borderRadius = "5px";
-    settingsDiv.style.textAlign = "center";
-    settingsDiv.value=steps.join('|');
-    document.body.insertBefore(settingsDiv,document.body.firstChild);
-  }
-}
-
 function highZ(parent, limit){
     limit = limit || Infinity;
     parent = parent || document.body;
@@ -178,7 +153,6 @@ function displayScroller () {
     fillContentOfScrollDiv(scrollDiv);
     document.body.insertBefore(scrollDiv,document.body.firstChild);
     scrollDiv.onmouseout=function(){mouseElm = null;document.title=initialTitle;};
-    scrollDiv.ondblclick=function(){displaySettings();};
   }
 }
 
