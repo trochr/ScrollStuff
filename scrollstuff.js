@@ -7,7 +7,7 @@ TODO : Customizable speed setting, saved in cookie
 var mouseElm = null;
 var scrollSpeed = 0;
 var initialTitle = document.title;
-var steps = new Array(-250,-35,-20,-10,-3,-2,-1,0,1,2,3,10,20,35,250);
+var steps = new Array(-250,-20,-10,-7,-3,-2,-1,0,1,2,3,7,10,20,250);
 
 function loopScroll (n,elm) {
   var sign = n?n<0?-1:1:0;
