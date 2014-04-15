@@ -6,6 +6,7 @@ TODO : Customizable speed setting, saved in cookie
 
 var mouseElm = null;
 var scrollSpeed = 0;
+var stoppedSpeed = 0;
 var initialTitle = document.title;
 var steps = new Array(-250,-20,-10,-7,-3,-2,-1,0,1,2,3,7,10,20,250);
 
@@ -153,6 +154,19 @@ function displayScroller () {
     fillContentOfScrollDiv(scrollDiv);
     document.body.insertBefore(scrollDiv,document.body.firstChild);
     scrollDiv.onmouseout=function(){mouseElm = null;document.title=initialTitle;};
+  }
+}
+
+document.onkeyup=function (event){
+  var keyCode = ('which' in event) ? event.which : event.keyCode;
+  if (keyCode === 27 ) {
+    if (scrollSpeed > 0) {
+      stoppedSpeed = scrollSpeed;
+      scrollSpeed = 0;
+    }
+    else {
+      scrollSpeed = stoppedSpeed;
+    }
   }
 }
 
