@@ -7,13 +7,14 @@ TODO : Customizable speed setting, saved in cookie
 var mouseElm = null;
 var scrollSpeed = 0;
 var stoppedSpeed = 0;
+var scrollStopped = false;
 var initialTitle = document.title;
 var steps = new Array(-250,-20,-10,-7,-3,-2,-1,0,1,2,3,7,10,20,250);
 
 function loopScroll (n,elm) {
   var sign = n?n<0?-1:1:0;
   var initElm = elm;
-  if (mouseElm != elm)
+  if (mouseElm != elm || scrollStopped)
     return;
   window.scrollBy(0,sign*1);
   scrollSpeed = (sign==0)?0:n;
@@ -162,10 +163,12 @@ document.onkeyup=function (event){
   if (keyCode === 27 ) {
     if (scrollSpeed > 0) {
       stoppedSpeed = scrollSpeed;
+      scrollStopped = true;
       scrollSpeed = 0;
     }
     else {
       scrollSpeed = stoppedSpeed;
+      scrollStopped = false;
     }
   }
 }
