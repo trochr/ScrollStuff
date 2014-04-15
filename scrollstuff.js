@@ -170,7 +170,7 @@ document.onkeyup=function (event){
       scrollSpeed = stoppedSpeed;
       scrollStopped = false;
       document.title = scrollSpeed+"p/s "+initialTitle;
-      loopScroll (scrollSpeed,document.getElementById("divSteps").childNodes[0]);
+      loopScroll (scrollSpeed,mouseElm);
     }
   }
 }
