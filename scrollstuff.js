@@ -169,6 +169,7 @@ document.onkeyup=function (event){
     else {
       scrollSpeed = stoppedSpeed;
       scrollStopped = false;
+      loopScroll (scrollSpeed,this);
     }
   }
 }
