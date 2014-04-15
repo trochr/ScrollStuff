@@ -165,10 +165,12 @@ document.onkeyup=function (event){
       stoppedSpeed = scrollSpeed;
       scrollStopped = true;
       scrollSpeed = 0;
+      document.title = '|| '+scrollSpeed+"p/s "+initialTitle;
     }
     else {
       scrollSpeed = stoppedSpeed;
       scrollStopped = false;
+      document.title = scrollSpeed+"p/s "+initialTitle;
       loopScroll (scrollSpeed,this);
     }
   }
