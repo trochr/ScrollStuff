@@ -30,6 +30,117 @@ in a continuous manner. Not unlike some middle mouse clicks, but with better pre
 <h3><a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
 
 <p>Drag this to Bookmarks Bar → <a class="minibutton" href="javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.src='https://rawgithub.com/trochr/ScrollStuff/master/scrollstuff.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();">Scroll</a></p>
+    
+<div id="wrapperDemo">
+<span style="position: fixed; font-size: 50px; top: 0px; left: 15px; color: rgb(255, 127, 80); display: none;" id="arrow">↙</span>
+<span style="position: fixed; font-size: 20px; top: 5px; left: 55px; color: rgb(255, 127, 80); display: none;" id="arrowText">place mouse cursor here</span>
+<h3>Demo</h3>
+        <p><a href="#demo" onclick="document.getElementById('arrow').style.display='block';document.getElementById('arrowText').style.display='block';s=document.createElement('script');s.type='text/javascript';s.src='https://rawgithub.com/trochr/ScrollStuff/master/scrollstuff.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);document.getElementById('demo').style.display='block';">Click here</a> to see the demo</p>
+<div id="demo" style="display: none;">
+
+<h3>Bookmarklet</h3><i>from <a href="http://en.wikipedia.org/wiki/Bookmarklet">http://en.wikipedia.org/wiki/Bookmarklet</a></i>
+<div lang="en" dir="ltr" class="mw-content-ltr"><table class="metadata plainlinks ambox ambox-style ambox-confusing" role="presentation">
+<tbody>
+</tbody></table>
+
+<p>A <b>bookmarklet</b> is a <a href="http://en.wikipedia.org/wiki/Internet_bookmark" title="Internet bookmark" class="mw-redirect">bookmark</a> stored in a <a href="http://en.wikipedia.org/wiki/Web_browser" title="Web browser">web browser</a> that contains <a href="http://en.wikipedia.org/wiki/JavaScript" title="JavaScript">JavaScript</a> commands to extend the browser's functionality. For instance, a bookmarklet might allow the user to select text on a page, click the bookmarklet, and be presented with a <a href="http://en.wikipedia.org/wiki/Search_engine_results_page" title="Search engine results page">search engine results page</a> for the search term selected.</p>
+<p>Bookmarklets are unobtrusive <a href="http://en.wikipedia.org/wiki/Script_(computing)" title="Script (computing)" class="mw-redirect">scripts</a> stored as the <a href="http://en.wikipedia.org/wiki/Uniform_Resource_Locator" title="Uniform Resource Locator" class="mw-redirect">URL</a> of a <a href="http://en.wikipedia.org/wiki/Internet_bookmark" title="Internet bookmark" class="mw-redirect">bookmark</a> in a <a href="http://en.wikipedia.org/wiki/Web_browser" title="Web browser">web browser</a> or as a <a href="http://en.wikipedia.org/wiki/Hyperlink" title="Hyperlink">hyperlink</a> on a <a href="http://en.wikipedia.org/wiki/Web_page" title="Web page">web page</a>. The term is a <a href="http://en.wikipedia.org/wiki/Portmanteau" title="Portmanteau">portmanteau</a> of the terms <i>bookmark</i> and <i>applet</i>,<sup id="cite_ref-1" class="reference"><a href="#cite_note-1"><span>[</span>1<span>]</span></a></sup> however, an <a href="http://en.wikipedia.org/wiki/Applet" title="Applet">applet</a> is not to be confused with a bookmarklet, just as script written in <a href="http://en.wikipedia.org/wiki/JavaScript" title="JavaScript">JavaScript</a> is not to be confused with a script written in <a href="http://en.wikipedia.org/wiki/Java_(programming_language)" title="Java (programming language)">Java</a>. Whether bookmarklet <a href="http://en.wikipedia.org/wiki/Utility_software" title="Utility software">utilities</a> are stored as bookmarks or hyperlinks, they are designed to add <a href="http://en.wikipedia.org/wiki/Bookmarklet#Usage" title="Bookmarklet">one-click functionality</a> to a browser or web page. When clicked, a bookmarklet performs some function, one of a wide variety such as a search query or data extraction. Bookmarklets are usually <a href="http://en.wikipedia.org/wiki/JavaScript" title="JavaScript">JavaScript</a> <a href="http://en.wikipedia.org/wiki/Computer_program" title="Computer program">programs</a>.</p>
+<p></p>
+<div id="toc" class="toc">
+<div id="toctitle">
+<h2>Contents</h2>
+</div>
+<ol>
+<li class="toclevel-1 tocsection-1"><a href="#Concept"> <span class="toctext">Concept</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Usage"> <span class="toctext">Usage</span></a>
+<ol style="margin-bottom: 0;">
+<li class="toclevel-2 tocsection-3" value="21"><a href="#Installation"> <span class="toctext">Installation</span></a></li>
+</ol>
+</li>
+<li class="toclevel-1 tocsection-4"><a href="#History"> <span class="toctext">History</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#Example"> <span class="toctext">Example</span></a></li>
+<li class="toclevel-1 tocsection-6"><a href="#See_also"> <span class="toctext">See also</span></a></li>
+<li class="toclevel-1 tocsection-7"><a href="#References"> <span class="toctext">References</span></a></li>
+<li class="toclevel-1 tocsection-8"><a href="#External_links"> <span class="toctext">External links</span></a></li>
+</ol>
+</div>
+<p></p>
+<h2><span class="mw-headline" id="Concept">Concept</span></h2>
+<p>Web browsers use <a href="http://en.wikipedia.org/wiki/Uniform_Resource_Identifier" title="Uniform Resource Identifier" class="mw-redirect">URIs</a> for the <code>href</code> attribute of the <code>&lt;a&gt;</code> tag and for bookmarks. The <a href="http://en.wikipedia.org/wiki/URI_scheme" title="URI scheme">URI scheme</a>, such as <code>http:</code>, <code>file:</code>, or <code>ftp:</code>, specifies the <a href="http://en.wikipedia.org/wiki/Protocol_(computing)" title="Protocol (computing)" class="mw-redirect">protocol</a> and the format for the rest of the string. Browsers also implement a prefix <code>javascript:</code> that to a parser is just like any other URI. Internally, the browser sees that the specified protocol is <i>javascript</i>, treats the rest of the string as a JavaScript application which is then executed, and uses the resulting string as the new page.</p>
+<p>The executing script has access to the current page, which it may inspect and change. If the script returns an undefined type (rather than, for example, a string), the browser will not load a new page, with the result that the script simply runs against the current page content. This permits changes such as in-place font size and color changes without a page reload.</p>
+<p>An <a href="http://en.wikipedia.org/wiki/Anonymous_function#JavaScript" title="Anonymous function">anonymous function</a> that does not return a value, define a function etc., can be used to force the script to return an undefined type:</p>
+<div dir="ltr" class="mw-geshi mw-code mw-content-ltr">
+<div class="javascript source-javascript">
+<pre class="de1">javascript<span class="sy0">:</span><span class="br0">(</span><span class="kw1">function</span><span class="br0">(</span><span class="br0">)</span><span class="br0">{</span>
+  <span class="co1">//Statements returning a non-undefined type, e.g. assignments</span>
+<span class="br0">}</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+</pre></div>
+</div>
+<p>However, if a script includes a function definition/redefinition, such as <code>function Use_this_globally(){...}</code>, the environment will not be populated with it. For this reason an <code>{arbitrary script}</code> should be suffixed with <a href="#History" title="Bookmarklet"><code>;void(...);</code></a>.</p>
+<div dir="ltr" class="mw-geshi mw-code mw-content-ltr">
+<div class="javascript source-javascript">
+<pre class="de1">javascript<span class="sy0">:</span><span class="br0">{</span>arbitrary script<span class="br0">}</span><span class="sy0">;</span><span class="kw1">void</span><span class="br0">(</span><span class="nu0">0</span><span class="br0">)</span><span class="sy0">;</span>
+</pre></div>
+</div>
+<h2><span class="mw-headline" id="Usage">Usage</span></h2>
+<p>Bookmarklets are saved and used as normal bookmarks. As such, they are simple "one-click" tools which add functionality to the browser. For example, they can:</p>
+<ul>
+<li>Modify the appearance of a web page within the browser (<i>e.g.</i>, change font size, background color, etc.)</li>
+<li>Extract data from a web page (<i>e.g.</i>, <a href="http://en.wikipedia.org/wiki/Hyperlink" title="Hyperlink">hyperlinks</a>, <a href="http://en.wikipedia.org/wiki/Image" title="Image">images</a>, <a href="http://en.wikipedia.org/wiki/String_(computer_science)" title="String (computer science)">text</a>, etc.)</li>
+<li>Remove redirects from (e.g. Google) search results, to show the actual target URL<sup id="cite_ref-2" class="reference"><a href="#cite_note-2"><span>[</span>2<span>]</span></a></sup></li>
+<li>Submit the current page to a blogging service such as <a href="http://en.wikipedia.org/wiki/Posterous" title="Posterous">Posterous</a>, link-shortening service such as <a href="http://en.wikipedia.org/wiki/Bit.ly" title="Bit.ly" class="mw-redirect">bit.ly</a>, or bookmarking service such as <a href="http://en.wikipedia.org/wiki/Delicious_(website)" title="Delicious (website)">Delicious</a></li>
+<li>Query a <a href="http://en.wikipedia.org/wiki/Web_search_engine" title="Web search engine">search engine</a> or online encyclopedia with highlighted text or by a <a href="http://en.wikipedia.org/wiki/Dialog_box" title="Dialog box">dialog box</a></li>
+<li>Submit the current page to a <a href="/w/index.php?title=Link_validation&amp;action=edit&amp;redlink=1" class="new" title="Link validation (page does not exist)">link validation</a> service or <a href="http://en.wikipedia.org/wiki/Translation" title="Translation">translation</a> service</li>
+<li>Set commonly chosen configuration options when the page itself provides no way to do this</li>
+</ul>
+<h3><span class="mw-headline" id="Installation">Installation</span></h3>
+<p>"Installation" of a bookmarklet is performed by creating a new bookmark, and pasting the code into the URL destination field. Alternatively, if the bookmarklet is presented as a link, under some browsers it can be dragged and dropped onto the bookmark bar. The bookmarklet can then be run by loading the bookmark normally.</p>
+<h2><span class="mw-headline" id="History">History</span></h2>
+<p>Steve Kangas of bookmarklets.com coined the term "bookmarklet",<sup id="cite_ref-bookmarklets.com_3-0" class="reference"><a href="#cite_note-bookmarklets.com-3"><span>[</span>3<span>]</span></a></sup> which he started to create based on an idea suggested in the <a href="http://en.wikipedia.org/wiki/Netscape_Communications_Corporation" title="Netscape Communications Corporation" class="mw-redirect">Netscape</a> JavaScript Guide.<sup id="cite_ref-4" class="reference"><a href="#cite_note-4"><span>[</span>4<span>]</span></a></sup> The term <b>favelet</b> was used early on by <a href="http://en.wikipedia.org/wiki/Tantek_%C3%87elik" title="Tantek Çelik">Tantek Çelik</a> on 6 September 2001 (personal email). <a href="http://en.wikipedia.org/wiki/Brendan_Eich" title="Brendan Eich">Brendan Eich</a>, who developed <a href="http://en.wikipedia.org/wiki/JavaScript" title="JavaScript">JavaScript</a> at Netscape, gave this account of the origin of bookmarklets:</p>
+<blockquote class="templatequote">
+<p>They were a deliberate feature in this sense: I invented the <code>javascript:</code> URL along with JavaScript in 1995, and intended that <code>javascript:</code> URLs could be used as any other kind of URL, including being bookmark-able. In particular, I made it possible to generate a new document by loading, e.g. <code>javascript:'hello, world'</code>, but also (key for bookmarklets) to run arbitrary script against the <a href="http://en.wikipedia.org/wiki/Document_Object_Model" title="Document Object Model">DOM</a> of the current document, e.g. <code>javascript:alert(document.links[0].href)</code>. The difference is that the latter kind of URL uses an expression that evaluates to the undefined type in JS. I added the void operator to JS before Netscape 2 shipped to make it easy to discard any non-undefined value in a <code>javascript:</code> URL.</p>
+<div class="templatequotecite">—Brendan Eich,&nbsp;<cite>email to <a href="http://en.wikipedia.org/wiki/Simon_Willison" title="Simon Willison">Simon Willison</a><sup id="cite_ref-5" class="reference"><a href="#cite_note-5"><span>[</span>5<span>]</span></a></sup></cite></div>
+</blockquote>
+<h2><span class="mw-headline" id="Example">Example</span></h2>
+<p>This example bookmarklet performs a Wikipedia search on any highlighted text in the web browser window. In normal use, the following Javascript would be installed to a bookmark in a browser<sup id="cite_ref-6" class="reference"><a href="#cite_note-6"><span>[</span>6<span>]</span></a></sup> bookmarks toolbar. From then on, after selecting any text, clicking the bookmarklet performs the search.</p>
+<div dir="ltr" class="mw-geshi mw-code mw-content-ltr">
+<div class="javascript source-javascript">javascript<span class="sy0">:</span><span class="br0">(</span><span class="kw1">function</span><span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span><br>
+<span class="kw1">function</span> se<span class="br0">(</span>d<span class="br0">)</span> <span class="br0">{</span><br>
+&nbsp; &nbsp; <span class="kw1">return</span> d.<span class="me1">selection</span> <span class="sy0">?</span> d.<span class="me1">selection</span>.<span class="me1">createRange</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">text</span> <span class="sy0">:</span> d.<span class="me1">getSelection</span><span class="br0">(</span><span class="br0">)</span><br>
+<span class="br0">}</span><br>
+s <span class="sy0">=</span> se<span class="br0">(</span>document<span class="br0">)</span><span class="sy0">;</span><br>
+<span class="kw1">for</span> <span class="br0">(</span>i<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span> i<span class="sy0">&lt;</span>frames.<span class="me1">length</span> <span class="sy0">&amp;&amp;</span> <span class="sy0">!</span>s<span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">)</span> s <span class="sy0">=</span> se<span class="br0">(</span>frames<span class="br0">[</span>i<span class="br0">]</span>.<span class="me1">document</span><span class="br0">)</span><span class="sy0">;</span><br>
+<span class="kw1">if</span> <span class="br0">(</span><span class="sy0">!</span>s <span class="sy0">||</span> s<span class="sy0">==</span><span class="st0">''</span><span class="br0">)</span> s <span class="sy0">=</span> prompt<span class="br0">(</span><span class="st0">'Enter%20search%20terms%20for%20Wikipedia'</span><span class="sy0">,</span><span class="st0">''</span><span class="br0">)</span><span class="sy0">;</span><br>
+open<span class="br0">(</span><span class="st0">'http://en.wikipedia.org'</span> <span class="sy0">+</span> <span class="br0">(</span>s <span class="sy0">?</span> <span class="st0">'/w/index.php?title=Special:Search&amp;search='</span> <span class="sy0">+</span> encodeURIComponent<span class="br0">(</span>s<span class="br0">)</span> <span class="sy0">:</span> <span class="st0">''</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">focus</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br>
+<span class="br0">}</span><span class="br0">)</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span></div>
+</div>
+<h2><span class="mw-headline" id="See_also">See also</span></h2>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Greasemonkey" title="Greasemonkey">Greasemonkey</a></li>
+<li><a href="http://en.wikipedia.org/wiki/IMacros" title="IMacros">iMacros</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Ubiquity_(Firefox)" title="Ubiquity (Firefox)">Ubiquity (Firefox)</a></li>
+</ul>
+<h2><span class="mw-headline" id="References">References</span></h2>
+<div class="reflist" style="list-style-type: decimal;">
+<ol class="references">
+<li id="cite_note-1"><span class="mw-cite-backlink"><b><a href="#cite_ref-1"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><span class="citation web">Peterka, Jiří (27 May 1999). <a rel="nofollow" class="external text" href="https://web.archive.org/web/20010409221539/http://archiv.czech.net/anovinky/ai2192.htm">"Vytvořte si svůj vlastní bookmarklet!"</a>. <i>Archiv.cz</i> (in Czech). Archived from <a rel="nofollow" class="external text" href="http://www.earchiv.cz/anovinky/ai2192.php3">the original</a> on 15 November 2000<span class="reference-accessdate">. Retrieved 29 March 2013</span>.</span><span title="ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ABookmarklet&amp;rft.atitle=Vytvo%C5%99te+si+sv%C5%AFj+vlastn%C3%AD+bookmarklet%21&amp;rft.aufirst=Ji%C5%99%C3%AD&amp;rft.aulast=Peterka&amp;rft.au=Peterka%2C+Ji%C5%99%C3%AD&amp;rft.date=27+May+1999&amp;rft.genre=article&amp;rft_id=http%3A%2F%2Fwww.earchiv.cz%2Fanovinky%2Fai2192.php3&amp;rft.jtitle=Archiv.cz&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal" class="Z3988"><span style="display:none;">&nbsp;</span></span></span></li>
+<li id="cite_note-2"><span class="mw-cite-backlink"><b><a href="#cite_ref-2"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><span class="citation web">Ruderman, Jesse. <a rel="nofollow" class="external text" href="https://www.squarefree.com/bookmarklets/zap.html#remove_redirects">"Bookmarklets for Zapping Annoyances"</a>. <i>Jesse's Bookmarklets Site</i><span class="reference-accessdate">. Retrieved 29 March 2013</span>.</span><span title="ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ABookmarklet&amp;rft.atitle=Bookmarklets+for+Zapping+Annoyances&amp;rft.aufirst=Jesse&amp;rft.aulast=Ruderman&amp;rft.au=Ruderman%2C+Jesse&amp;rft.genre=article&amp;rft_id=https%3A%2F%2Fwww.squarefree.com%2Fbookmarklets%2Fzap.html%23remove_redirects&amp;rft.jtitle=Jesse%27s+Bookmarklets+Site&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal" class="Z3988"><span style="display:none;">&nbsp;</span></span></span></li>
+<li id="cite_note-bookmarklets.com-3"><span class="mw-cite-backlink"><b><a href="#cite_ref-bookmarklets.com_3-0"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text">Domain <a rel="nofollow" class="external text" href="http://www.bookmarklets.com">bookmarklets.com</a> registered 9 April 1998</span></li>
+<li id="cite_note-4"><span class="mw-cite-backlink"><b><a href="#cite_ref-4"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><span class="citation web"><a rel="nofollow" class="external text" href="http://web.archive.org/web/20020611183734/http://developer.netscape.com/docs/manuals/communicator/jsguide/misc.htm#1005712">"Activating JavaScript Commands From the Personal Toolbar"</a>. <i>What's New in JavaScript 1.2</i>. Netscape Communications Corporation. 1997. Archived from <a rel="nofollow" class="external text" href="http://developer.netscape.com/docs/manuals/communicator/jsguide/misc.htm#1005712">the original</a> on 2002-06-11.</span><span title="ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ABookmarklet&amp;rft.atitle=Activating+JavaScript+Commands+From+the+Personal+Toolbar&amp;rft.date=1997&amp;rft.genre=article&amp;rft_id=http%3A%2F%2Fdeveloper.netscape.com%2Fdocs%2Fmanuals%2Fcommunicator%2Fjsguide%2Fmisc.htm%231005712&amp;rft.jtitle=What%27s+New+in+JavaScript+1.2&amp;rft.pub=Netscape+Communications+Corporation&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal" class="Z3988"><span style="display:none;">&nbsp;</span></span></span></li>
+<li id="cite_note-5"><span class="mw-cite-backlink"><b><a href="#cite_ref-5"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><span class="citation web">Willison, Simon (April 10, 2004). <a rel="nofollow" class="external text" href="http://www.sitepoint.com/blogs/2004/04/09/bookmarklets/#comment-3424">"Email from Brendan Eich"</a>. <a href="http://en.wikipedia.org/wiki/SitePoint" title="SitePoint">SitePoint</a><span class="reference-accessdate">. Retrieved 22 April 2007</span>.</span><span title="ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ABookmarklet&amp;rft.aufirst=Simon&amp;rft.aulast=Willison&amp;rft.au=Willison%2C+Simon&amp;rft.btitle=Email+from+Brendan+Eich&amp;rft.date=April+10%2C+2004&amp;rft.genre=book&amp;rft_id=http%3A%2F%2Fwww.sitepoint.com%2Fblogs%2F2004%2F04%2F09%2Fbookmarklets%2F%23comment-3424&amp;rft.pub=SitePoint&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook" class="Z3988"><span style="display:none;">&nbsp;</span></span></span></li>
+<li id="cite_note-6"><span class="mw-cite-backlink"><b><a href="#cite_ref-6"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text">Tested on <a href="http://en.wikipedia.org/wiki/Mozilla_Firefox" title="Mozilla Firefox" class="mw-redirect">Mozilla Firefox</a>, <a href="http://en.wikipedia.org/wiki/Opera_(web_browser)" title="Opera (web browser)">Opera</a>, <a href="http://en.wikipedia.org/wiki/Safari_(web_browser)" title="Safari (web browser)">Safari</a>, and <a href="http://en.wikipedia.org/wiki/Google_Chrome" title="Google Chrome">Chrome</a>. Does not work in IE7 or IE8. Original source: <a rel="nofollow" class="external text" href="http://math-www.uni-paderborn.de/~axel/bookmarklet.html">Alex Boldt</a></span></li>
+</ol>
+</div>
+<h2><span class="mw-headline" id="External_links">External links</span></h2>
+<ul>
+<li><a rel="nofollow" class="external text" href="http://marklets.com">Marklets.com - Bookmarklet Directory</a> - By far the largest collection of bookmarklets. This site is user run.</li>
+<li><a rel="nofollow" class="external text" href="https://www.squarefree.com/bookmarklets/">Jesse's Bookmarklets Site</a> - An early collection of bookmarklets.</li>
+<li><a rel="nofollow" class="external text" href="http://www.pcmag.com/print_article2/0,1217,a=116252,00.asp">Bookmarklets Boost Web Surfing</a>, <i><a rel="nofollow" class="external text" href="http://pcmag.com">PC Magazine</a></i>, Tara Calishain, 4 March 2004. Retrieved 31 August 2007.</li>
+<li><a rel="nofollow" class="external text" href="http://ted.mielczarek.org/code/mozilla/bookmarklet.html">Bookmarklet Crunchinator</a> - is a simple page that takes pasted-in javascript code and produces a bookmarklet.</li>
+</ul>
+
+</div></div></div>
+    
        
 <h3>
 <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Contact</h3>
