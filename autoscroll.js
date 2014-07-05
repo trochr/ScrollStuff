@@ -9,17 +9,15 @@ var scrolling = 1;
 window.onload = function(){load()};
 
 function load() {
-var ps=document.body.getElementsByTagName('p');
+  var ps = document.body.getElementsByTagName('p');
 
-for (var i=0; i<ps.length;i++) {
-  ps[i].onmouseover = function () {
-     onP(this);
-  };     
-}
+  for (var i = 0; i < ps.length; i++) {
+    ps[i].onmouseover = function() {
+      onP(this);
+    };
+  }
   displayStatus();
 }
-
-
 
 function displayStatus() {
  var as = document.createElement('div');
@@ -46,16 +44,18 @@ function onP(elm) {
 }
 
 function offP() {
-    clearInterval(interval);
+  clearInterval(interval);
 }
-function launchScroll(wpl,ppl) {
-    var delay = ppl / (wps * wpl) ;    
-    clearInterval(interval);
-    interval = setInterval(function(){
-        console.log("ppl:"+ppl+" | wps:"+wps+" | wpl:"+wpl+" | pxPerSec:"+delay);
-        window.scrollBy(0,1*scrolling);
-    },1000*delay);
+
+function launchScroll(wpl, ppl) {
+  var delay = ppl / (wps * wpl);
+  clearInterval(interval);
+  interval = setInterval(function() {
+    console.log("ppl:" + ppl + " | wps:" + wps + " | wpl:" + wpl + " | pxPerSec:" + delay);
+    window.scrollBy(0, 1 * scrolling);
+  }, 1000 * delay);
 }
+
 
 document.onkeyup=function (event){
   var keyCode = ('which' in event) ? event.which : event.keyCode;
