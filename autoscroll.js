@@ -4,7 +4,7 @@
 var wps=3;
 var interval;
 var scrolling = 1;
-var debug = false;
+var debug = true;
 
 window.onload = function(){load()};
 
@@ -24,8 +24,16 @@ function load() {
 function toggleStatus(elm) {
  if  (elm.className.match(/hover/) == null ) {
    elm.className += " " + "hover";
+   // create a small div on top right of the p to dislpay debug info
+   var ddiv = document.createElement('div');
+   ddiv.id = "ddiv";
+   ddiv.innerHTML = "debug";
+   elm.insertBefore(ddiv, elm.firstChild);
+   
  }
  else {
+   var ddiv = document.getElementById('ddiv');
+   ddiv.parentNode.removeChild(ddiv);
    elm.className = elm.className.replace(/ hover\b/,'');
  }
 }
