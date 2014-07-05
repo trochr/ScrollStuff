@@ -1,0 +1,333 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+// AutoScroll : we compute the scrolling speed by knowing the reading speed of the user
+// and the number of words per line in the paragraph under the mouse
+
+var wps=3;
+var interval;
+var scrolling = 1;
+
+window.onload = function(){load()};
+
+function load() {
+var ps=document.body.getElementsByTagName('p');
+
+for (var i=0; i<ps.length;i++) {
+  ps[i].onmouseover = function () {
+     onP(this);
+  };     
+}
+  displayStatus();
+}
+
+
+
+function displayStatus() {
+ var as = document.createElement('div');
+ as.id = "asStatus";
+ document.body.insertBefore(as,document.body.firstChild);
+ document.onmousemove = function(e) {
+   document.body.getElementById('asStatus').setAttribute('style');
+ }
+}
+
+function onP(elm) {
+ pcopy=elm.cloneNode(true);
+ elm.parentNode.insertBefore(pcopy, elm.nextSibling);
+ pcopy.innerHTML = 'A<br>B<br>C<br>D<br>E';
+ pcopy.setAttribute("style",'position:absolute;left:-2000px;');
+ var lineCount=Math.round(elm.offsetHeight/(pcopy.offsetHeight/5));
+ var pxPerLine = elm.offsetHeight/lineCount;
+ var wordsPerLine = elm.innerHTML.split(' ').length/lineCount;
+ console.log("Lines count: "+lineCount+" | mean words per line : "+wordsPerLine);
+ pcopy.parentNode.removeChild(pcopy);
+ if (lineCount >= 3) { // only scroll when on a real paragraph
+     launchScroll(wordsPerLine,pxPerLine);
+ }
+}
+
+function offP() {
+    clearInterval(interval);
+}
+function launchScroll(wpl,ppl) {
+    var delay = ppl / (wps * wpl) ;    
+    clearInterval(interval);
+    interval = setInterval(function(){
+        console.log("ppl:"+ppl+" | wps:"+wps+" | wpl:"+wpl+" | pxPerSec:"+delay);
+        window.scrollBy(0,1*scrolling);
+    },1000*delay);
+}
+
+document.onkeyup=function (event){
+  var keyCode = ('which' in event) ? event.which : event.keyCode;
+  if (keyCode === 27 ) {
+    scrolling = (scrolling > 0) ? 0 : 1;
+  }
+}
+
+</script>
+    <style type="text/css">p {
+text-align: justify;
+  margin-left: 10em;
+  margin-right: 10em;
+}
+p.large {
+text-align: justify;
+  font-size: large;
+  margin-left: 10em;
+  margin-right: 10em;
+}
+p.bold {
+text-align: justify;
+  font-weight: bold;
+  margin-left: 10em;
+  margin-right: 10em;
+}
+
+p.margin20 {
+text-align: justify;
+  margin-left: 20em;
+  margin-right: 20em;
+}
+p.margin5 {
+text-align: justify;
+  margin-left: 5em;
+  margin-right: 5em;
+}
+
+div#asStatus {
+width: 200px;
+height: 100px;
+background: grey;
+position: absolute;
+opacity: 0.3;
+border-radius: 5px;
+}
+
+    </style>
+  </head>
+  <body>
+    <p>
+      If left up to the editors, no new tool would ever be designed
+      and no improvements would be possible. They saw no advantage
+      to change and couldn't imagine how using a
+      computer would make their work easier or better. But if we
+      designed the new system in a vacuum, moving ahead without the
+      editors' input, we would end up with a
+      tool that didn't address their needs.
+      Being confident about the value of our innovation was not
+      enough. We needed buy-in from the community we were trying to
+      serve. Without it, we were forced to abandon our plans.</p>
+    <p>
+
+      </p><p>
+
+      </p><p style="
+    text-align: justify;
+" class="bold">
+      
+      Clearly, it wasn't enough for managers to
+      have good ideas they had to be able to
+      engender support for those ideas among the people
+      who'd be charged with employing them. I
+      Clearly, it wasn't enough for managers to
+      have good ideas they had to be able to
+      engender support for those ideas among the people
+      who'd be charged with employing them. I
+      Clearly, it wasn't enough for managers to
+      have good ideas they had to be able to
+      engender support for those ideas among the people
+      who'd be charged with employing them. I
+      took that lesson to heart.</p>
+      <p class="large">
+      
+      During the Lucasfilm years, I definitely had my periods of
+      feeling overwhelmed as a manager, periods when I wondered
+      about my own abilities and asked myself if I should try to
+      adopt a more forceful, alpha male management style.
+      I'd put my version of hierarchy in place
+      by delegating to other managers, but I was also part of a
+      chain of command in the greater Lucasfilm empire. I remember
+      going home at night, exhausted, feeling like I was balancing
+      on the backs of a herd of horses only some
+      of the horses were thoroughbreds, some were completely wild,
+      and some were ponies who were struggling to keep up. I found
+      it hard enough to hold on, let alone steer.</p>
+      <p>
+
+      </p><p class="margin20">
+
+        Simply put, managing was hard. No one took
+        me aside to give me tips. The books I read that promised
+        insight on the topic were mostly devoid of content. So I
+        looked to George to see how he did it. I saw that his way
+        seemed to reflect some of the philosophy he 
+        had put into Yoda. Just as Yoda said things
+        like,  Do, or do not. There is no
+        try,  George had a fondness for folksy
+        analogies that sought to describe, neatly, the mess of
+        life. He would compare the often arduous process of
+        developing his 4,700-acre Skywalker Ranch compound (a
+        minicity of residences and production facilities) to a ship
+        going down river that had
+        been cut in half and whose
+        captain had been thrown overboard.
+         We're still going to
+        get there,  he would say.
+         Grab the paddles and
+        let's keep going! 
+      </p>
+
+      <p class="margin5">
+        
+        Another of his favorite analogies was that building a
+        company was like being on a wagon train headed west. On the
+        long journey to the land of plenty, the pioneers would be
+        full of purpose and united by the goal of reaching their
+        destination. Once they arrived, he'd
+        say, people would come and go, and that was as it should
+        be. But the process of moving 
+        <em>toward</em> something of having
+        not yet arrived was what he
+        idealized.</p>
+        <p>
+        
+        Whether evoking wagons or ships, George thought in terms of
+        a long view; he believed in the future and his ability to
+        shape it. The story has been told and retold about how, as
+        a young filmmaker, in the wake of 
+        <em>American Graffiti</em>'s success, he
+        was advised to demand a higher salary on his next
+        movie, 
+        <em>Star Wars</em>. That would be the expected move in
+        Hollywood: Bump up your quote. Not for George, though. He
+        skipped the raise altogether and asked instead to retain
+        ownership of licensing and merchandising rights to 
+        <em>Star Wars</em>. The studio that was distributing the
+        film, 20th Century Fox, readily agreed to his request,
+        thinking it was not giving up much. George would prove them
+        wrong, setting the stage for major changes in the industry
+        he loved. He bet on himself and won.</p>
+        <p>
+          
+        </p><p>
+          
+        </p><p>
+
+          <a id="page32">
+          <span class="big" style="font-size: large; font-weight: bold;">
+          L</span>ucasfilm, in those post “
+          <em>Star Wars</em> days, was a magnet for big names.
+          Famous directors, from Steven Spielberg to Martin
+          Scorsese, were always stopping by to see what we were
+          working on and what new effects or innovations they might
+          use in their films. But more than the drop-ins from
+          A-listers, the visit that would stick </a>
+          <a id="page33">with me most was the group of Disney
+          animators who came for a tour just after
+          Valentine's Day, 1983. As I showed
+          them around, I noted that one of
+          them a kid in baggy jeans named
+          John seemed particularly excited about
+          what we were up to. In fact, the first thing I noticed
+          was his curiosity. When I showed everyone a
+          computer-animated image that we were so proud of
+          we'd given it a
+          name  The Road to
+          Point Reyes  he just stood
+          there, transfixed. I told him we'd
+          developed the image of a gently curving road overlooking
+          the Pacific Ocean using a software program
+          we'd developed called Reyes (for
+          Renders Everything You Ever Saw), and the pun was
+          intended: Point Reyes, California, is a seaside village
+          on Route 1, not far from Lucasfilm. Reyes represented the
+          cutting edge of computer graphics at the time. And it
+          bowled this John guy over.</a>
+        </p>
+        <p>
+          
+        </p><p>
+          
+          </p><p>
+          Soon, I learned why. He had an idea, he told me, for a
+          film called 
+          <em>The Brave Little Toaster</em> about a toaster, a
+          blanket, a lamp, a radio, and a vacuum cleaner who
+          journey to the city to find their master after being
+          abandoned in their cabin in the woods. He told me that
+          his film, which he was about to pitch to his bosses at
+          Disney Animation, would be the first to place hand-drawn
+          characters inside computer-generated backgrounds, much
+          like the one I'd just shown him. He
+          wanted to know if we could work together to make this
+          happen.</p>
+          <p>
+                      
+          </p><p>
+
+            That animator was John Lasseter.
+            Unbeknownst to me, soon after our meeting at Lucasfilm,
+            he would lose his job at Disney. Apparently, his
+            supervisors felt that 
+            <em>The Brave Little
+            Toaster</em> was like
+            him a little 
+            <em>too</em> avant-garde. They listened to his
+            pitch and, immediately afterward, fired him. A few
+            months later, I ran into John again on the Queen Mary,
+            of all places. The historic Long Beach hotel, which
+            also happens to be a docked ocean liner, was the site
+            of the annual Pratt Institute Symposium on Computer
+            Graphics. Not knowing of his newly unemployed status, I
+            asked if there was any way he could come up to
+            Lucasfilm and help us make our first short film. He
+            said yes without hesitation. I remember
+            thinking 
+            <a id="page34">it was almost as if Professor
+            Sutherland's exchange program idea
+            was finally getting its moment. To have a Disney
+            animator on our team, even temporarily, would be a huge
+            leap forward. For the first time, a true storyteller
+            would be joining our ranks.</a>
+          </p>
+                    
+
+            <p>
+            
+            John was a born dreamer. As a boy, he lived mostly in
+            his head and in the tree houses and tunnels and
+            spaceships he drew in his sketchbook. His dad was the
+            parts manager at the local Chevrolet dealership in
+            Whittier, California instilling in
+            John a lifelong obsession with
+            cars and his mom was a high school
+            art teacher. Like me, John remembers discovering that
+            there were people who made animation for a living and
+            thinking he'd found his place in the
+            world. For him, as for me, that realization was
+            Disney-related; it came when he stumbled upon a
+            well-worn copy of 
+            <em>The Art of Animation</em>, Bob
+            Thomas's history of the Disney
+            Studios, in his high school library. By the time I met
+            John, he was as connected to Walt Disney as any
+            twenty-six-year-old on earth. He had graduated from
+            CalArts, the legendary art school founded by Walt,
+            where he'd learned from some of the
+            greatest artists of Disney's Golden
+            Age; he'd worked as a river guide on
+            the Jungle Cruise at Disneyland; and
+            he'd won a Student Academy Award in
+            1979 for his short film 
+            <em>The Lady and the Lamp</em> an
+            homage to Disney's 
+            <em>Lady and the Tramp</em> whose
+            main character, a white desk lamp, would later evolve
+            into our Pixar logo.</p>
+          
+    
+  
+
+</body></html>
