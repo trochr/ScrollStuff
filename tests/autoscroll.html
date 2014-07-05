@@ -1,54 +1,78 @@
 <html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="../autoscroll.js"></script>
-    <style type="text/css">p {
-text-align: justify;
-  margin-left: 10em;
-  margin-right: 10em;
+    <style type="text/css">
+    
+p {
+  text-align: justify;
+  margin-left: 25em;
+  margin-right: 25em;
+  line-height: 22px;
 }
+
+/*Other styles : large text, small text, bold, narrow paragraph, large paragraph,  big interlines */
+
 p.large {
-text-align: justify;
   font-size: large;
-  margin-left: 10em;
-  margin-right: 10em;
 }
+
+p.small {
+  font-size: small;
+}
+
 p.bold {
-text-align: justify;
   font-weight: bold;
+}
+
+p.marginBig {
+  margin-left: 30em;
+  margin-right: 30em;
+}
+
+p.marginSmall {
   margin-left: 10em;
   margin-right: 10em;
 }
 
-p.margin20 {
-text-align: justify;
-  margin-left: 20em;
-  margin-right: 20em;
-}
-p.margin5 {
-text-align: justify;
-  margin-left: 5em;
-  margin-right: 5em;
+p.bigIL {
+  line-height: 28px;
 }
 
-div#asStatus {
-width: 200px;
-height: 100px;
-background: grey;
-position: absolute;
-opacity: 0.3;
-border-radius: 5px;
-}
+
 
 p.hover {
   background: #EEEEEE;
 }
 
 div#ddiv {
-  position: relative;
+  position: fixed;
   top: 20px;
-  right: 110px;
+  left: 10px;
+  background: lightgrey;
+  border-radius: 5px;
+  padding: 10px;
 }
-    </style>
+  </style>
+  <script>
+  
+  window.onload = load;
+  
+  
+  function load(){
+   shuffleStyle(); 
+   loadAS();
+  }
+  
+  function shuffleStyle() {
+    var styles = ["large","small","bold","marginBig","marginSmall","bigIL"];
+    var ps = document.getElementsByTagName('p');
+    for (var i=0,j=0;i<ps.length;i++) {
+      if (i%2 == 1) {
+        ps[i].className = styles[j++];
+      }
+    }
+  }
+  </script>
   </head>
   <body>
     <p>
@@ -61,12 +85,9 @@ div#ddiv {
       tool that didn't address their needs.
       Being confident about the value of our innovation was not
       enough. We needed buy-in from the community we were trying to
-      serve. Without it, we were forced to abandon our plans.</p>
+      serve. Without it, we were forced to abandon our plans.
+    </p>
     <p>
-
-      </p><p>
-
-      </p><p class="bold">
       
       Clearly, it wasn't enough for managers to
       have good ideas they had to be able to
@@ -80,9 +101,9 @@ div#ddiv {
       have good ideas they had to be able to
       engender support for those ideas among the people
       who'd be charged with employing them. I
-      took that lesson to heart.</p>
-
-      <p class="large">
+      took that lesson to heart.
+    </p>
+    <p>
       During the Lucasfilm years, I definitely had my periods of
       feeling overwhelmed as a manager, periods when I wondered
       about my own abilities and asked myself if I should try to
@@ -94,11 +115,9 @@ div#ddiv {
       on the backs of a herd of horses only some
       of the horses were thoroughbreds, some were completely wild,
       and some were ponies who were struggling to keep up. I found
-      it hard enough to hold on, let alone steer.</p>
-      <p>
-
-      </p><p class="margin20">
-
+      it hard enough to hold on, let alone steer.
+    </p>
+    <p>
         Simply put, managing was hard. No one took
         me aside to give me tips. The books I read that promised
         insight on the topic were mostly devoid of content. So I
@@ -111,17 +130,11 @@ div#ddiv {
         life. He would compare the often arduous process of
         developing his 4,700-acre Skywalker Ranch compound (a
         minicity of residences and production facilities) to a ship
-        going down river that had
-        been cut in half and whose
-        captain had been thrown overboard.
-         We're still going to
-        get there,  he would say.
-         Grab the paddles and
-        let's keep going! 
+        going down river that had been cut in half and whose captain had been thrown overboard.
+         We're still going to get there,  he would say.
+         Grab the paddles andlet's keep going! 
       </p>
-
-      <p class="margin5">
-        
+      <p>
         Another of his favorite analogies was that building a
         company was like being on a wagon train headed west. On the
         long journey to the land of plenty, the pioneers would be
@@ -131,9 +144,9 @@ div#ddiv {
         be. But the process of moving 
         <em>toward</em> something of having
         not yet arrived was what he
-        idealized.</p>
-        <p>
-        
+        idealized.
+      </p>
+      <p>
         Whether evoking wagons or ships, George thought in terms of
         a long view; he believed in the future and his ability to
         shape it. The story has been told and retold about how, as
@@ -149,14 +162,9 @@ div#ddiv {
         film, 20th Century Fox, readily agreed to his request,
         thinking it was not giving up much. George would prove them
         wrong, setting the stage for major changes in the industry
-        he loved. He bet on himself and won.</p>
-        <p>
-          
-        </p><p>
-          
-        </p><p>
-
-          <span class="big" style="font-size: large; font-weight: bold;">
+        he loved. He bet on himself and won.
+      </p>
+      <p>
           L</span>ucasfilm, in those post “
           <em>Star Wars</em> days, was a magnet for big names.
           Famous directors, from Steven Spielberg to Martin
@@ -187,10 +195,6 @@ div#ddiv {
           bowled this John guy over.
         </p>
         <p>
-          
-        </p><p>
-          
-          </p><p>
           Soon, I learned why. He had an idea, he told me, for a
           film called 
           <em>The Brave Little Toaster</em> about a toaster, a
@@ -202,11 +206,9 @@ div#ddiv {
           characters inside computer-generated backgrounds, much
           like the one I'd just shown him. He
           wanted to know if we could work together to make this
-          happen.</p>
-          <p>
-                      
-          </p><p>
-
+          happen.
+        </p>
+        <p>
             That animator was John Lasseter.
             Unbeknownst to me, soon after our meeting at Lucasfilm,
             he would lose his job at Disney. Apparently, his
@@ -232,10 +234,7 @@ div#ddiv {
             leap forward. For the first time, a true storyteller
             would be joining our ranks.
           </p>
-                    
-
-            <p>
-            
+          <p>
             John was a born dreamer. As a boy, he lived mostly in
             his head and in the tree houses and tunnels and
             spaceships he drew in his sketchbook. His dad was the
@@ -265,9 +264,6 @@ div#ddiv {
             homage to Disney's 
             <em>Lady and the Tramp</em> whose
             main character, a white desk lamp, would later evolve
-            into our Pixar logo.</p>
-          
-    
-  
-
+            into our Pixar logo.
+          </p>
 </body></html>
