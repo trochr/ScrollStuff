@@ -1,7 +1,6 @@
 // AutoScroll : we compute the scrolling speed in pixels/seconds by knowing the reading speed of the user,
 // the number of words per line in the paragraph under the mouse, and the height in pixels of the line
 
-// Feature : make it work for divs also
 // Enhancement : show a status with reading speed, info (hit esc to stop), adjust link, debug checkbox
 
 // bookmarklet : 
@@ -21,8 +20,12 @@ function loadAS() {
     toggleDebug();
   }
   showStatus();
-  var ps = document.body.getElementsByTagName('p');
-
+  var psp = document.body.getElementsByTagName('p');
+  psp = Array.prototype.slice.call(psp)
+  var psd = document.body.getElementsByTagName('div');
+  psd = Array.prototype.slice.call(psd)
+  var ps = psp.concat(psd);
+  
   for (var i = 0; i < ps.length; i++) {
     ps[i].onmouseover = function() {
       onP(this);
@@ -64,7 +67,8 @@ function toggleDebug() {
    // Add the CSS rule to change bgcolor of current paragraph
    var css = document.createElement("style");
    css.type = "text/css";
-   css.innerHTML = "p.hover {background: #EEEEEE;}";
+   css.innerHTML = "div.hover {background: #EEEEEE;}"
+                  +"p.hover {background: #EEEEEE;}";
    document.body.appendChild(css);
    
    if (curElm != null) {
