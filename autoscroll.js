@@ -5,6 +5,7 @@ var wordsReadPerSecond=3;
 var interval;
 var scrolling = 1;
 var debug = true;
+var curElm;
 
 function loadAS() {
   if (debug) {
@@ -30,10 +31,12 @@ function toggleStatus() {
    // create a small div on top right of the p to dislpay debug info
    var ddiv = document.createElement('div');
    ddiv.id = "ddiv";
-   ddiv.innerHTML = "Reading at <span id='wpm'></span> words per minute<br>"
-                    +"~<span id='lpp'></span> lines paragraph<br>"
-                    +"~<span id='wpl'></span> words per line<br>"
-                    +"~<span id='psd'></span>s delay to scroll 1px";
+   ddiv.innerHTML = "Paragraph style : <span id='pstyle'>default</span><br>"
+                    +"<span id='lpp'>0</span> lines paragraph<br>"
+                    +"<span id='wpl'>0</span> average words per line<br>"
+                    +"<span id='lh'>0</span>px line height<br>"
+                    +"Reading at <span id='wpm'>0</span> words per minute<br>"
+                    +"<span id='psd'>∞</span>s delay to scroll 1px";
    var elm = document.body;
    elm.insertBefore(ddiv, elm.firstChild);   
  }
@@ -44,26 +47,32 @@ function toggleStatus() {
 }
 
 function onP(elm) {
+  curElm = elm;
   if  (debug && elm.className.match(/hover/) == null ) {
     elm.className += " " + "hover";
   }
  pcopy=elm.cloneNode(true);
  elm.parentNode.insertBefore(pcopy, elm.nextSibling);
- pcopy.innerHTML = 'A<br>B<br>C<br>D<br>E'; // Create a identical element with a known number of lines (5)
+ pcopy.innerHTML = 'A<br>B<br>C<br>D<br>E'; // Create a identical element with a known number of lines : 5
  pcopy.setAttribute("style",'position:absolute;left:-2000px;');
  var lineCount=elm.offsetHeight/(pcopy.offsetHeight/5);
- var pxPerLine = elm.offsetHeight/lineCount;
+ var pixelsPerLine = elm.offsetHeight/lineCount;
  var wordsPerLine = elm.innerHTML.split(' ').filter(function(e,i,a){return (e.length>0)}).length/lineCount;
  if (debug) {
-   var psd = pxPerLine/(wordsReadPerSecond * wordsPerLine);
+   var psd =  (wordsPerLine / wordsReadPerSecond) / pixelsPerLine;
+   var pstyle = elm.className.replace(/ hover\b/,'');
+   document.getElementById('pstyle').innerHTML = pstyle == "" ? "default": pstyle;
    document.getElementById('wpm').innerHTML = wordsReadPerSecond*60;
    document.getElementById('lpp').innerHTML = lineCount;
+   document.getElementById('lh').innerHTML = pixelsPerLine;
    document.getElementById('wpl').innerHTML = Math.round(wordsPerLine);
-   document.getElementById('psd').innerHTML = Math.round(psd*1000)/1000;
+   if (scrolling == 1) {
+     document.getElementById('psd').innerHTML = Math.round(psd*1000)/1000;     
+   }
  }
  pcopy.parentNode.removeChild(pcopy);
  if (lineCount > 3) { // only scroll when on a real paragraph
-     launchScroll(wordsPerLine,pxPerLine);
+     launchScroll(wordsPerLine,pixelsPerLine);
  }
 }
 
@@ -73,11 +82,10 @@ function offP(elm) {
   }
 }
 
-function launchScroll(wpl, ppl) {
-  var delay = ppl / (wordsReadPerSecond * wpl);
+function launchScroll(wordsPerLine, pixelsPerLine) {
+  var delay = (wordsPerLine / wordsReadPerSecond) / pixelsPerLine;
   clearInterval(interval);
   interval = setInterval(function() {
-//    console.log("ppl:" + ppl + " | wps:" + wps + " | wpl:" + wpl + " | pxPerSec:" + delay);
     window.scrollBy(0, 1 * scrolling);
   }, 1000 * delay);
 }
@@ -89,6 +97,9 @@ document.onkeyup=function (event){
     scrolling = (scrolling > 0) ? 0 : 1;
     if (scrolling == 0) {
       document.getElementById('psd').innerHTML = "∞";
+    }
+    else {
+      onP(curElm);
     }
   }
 }
