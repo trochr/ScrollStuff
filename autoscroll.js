@@ -7,15 +7,12 @@ var scrolling = 1;
 var debug = false;
 var curElm;
 
-// Todo
 // Missing feature :
 // Make the bookmarklet work by itself
+// Debug css to js file
 
-// Show a status : 
-// Reading speed, hit esc to stop
-// Adjust link
-// debug checkbox
-
+// Enhancement :
+// Show a status () : Reading speed, hit esc to stop, Adjust link, debug checkbox
 
 
 var debugInvokeDelay = 200;
@@ -25,6 +22,7 @@ function loadAS() {
   if (debug) {
     toggleDebug();
   }
+  showStatus();
   var ps = document.body.getElementsByTagName('p');
 
   for (var i = 0; i < ps.length; i++) {
@@ -37,11 +35,26 @@ function loadAS() {
   }
 }
 
+function showStatus() {
+  var sdiv = document.createElement('div');
+  sdiv.id = "sdiv";
+  sdiv.innerHTML = "Status";
+  sdiv.setAttribute('style',"background:blue;");
+  var elm = document.body;
+  elm.insertBefore(sdiv, elm.firstChild);   
+}
+
 function toggleDebug() {
  if  (document.getElementById('ddiv') == null ) {
    // create a small div on top right of the p to dislpay debug info
    var ddiv = document.createElement('div');
    ddiv.id = "ddiv";
+   ddiv.setAttribute("style","position: fixed;"
+                            +"top: 20px;"
+                            +"left: 10px;"
+                            +"background: lightgrey;"
+                            +"border-radius: 5px;"
+                            +"padding: 10px;");
    ddiv.innerHTML = "Paragraph style : <span id='pstyle'>default</span><br>"
                     +"<span id='lpp'>0</span> lines paragraph<br>"
                     +"<span id='wpl'>0</span> average words per line<br>"
@@ -50,6 +63,13 @@ function toggleDebug() {
                     +"<span id='psd'>∞</span>s delay to scroll 1px";
    var elm = document.body;
    elm.insertBefore(ddiv, elm.firstChild);   
+   // Add the CSS rule to change bgcolor of current paragraph
+   var css = document.createElement("style");
+   css.type = "text/css";
+   css.innerHTML = "p.hover {background: #EEEEEE;}";
+   document.body.appendChild(css);
+   
+   onP(curElm);
    debug = true;
  }
  else {
@@ -104,7 +124,7 @@ function launchScroll(wordsPerLine, pixelsPerLine) {
   }, 1000 * delay);
 }
 
-
+// Handling of ESC key. One press : stop the scroll, 2 presses : display debug 
 document.onkeyup=function (event){
   var keyCode = ('which' in event) ? event.which : event.keyCode;
   if (keyCode === 27 ) {
@@ -118,8 +138,6 @@ document.onkeyup=function (event){
     var thisKeypressTime = new Date();
     if (thisKeypressTime - lastEscPressTime <= debugInvokeDelay) {
       toggleDebug();
-      // optional - if we'd rather not detect a triple-press
-      // as a second double-press, reset the timestamp
       thisKeypressTime = 0;
     }
     lastEscPressTime = thisKeypressTime;
