@@ -1,19 +1,14 @@
 // AutoScroll : we compute the scrolling speed in pixels/seconds by knowing the reading speed of the user,
 // the number of words per line in the paragraph under the mouse, and the height in pixels of the line
 
+// Feature : make the bookmarklet work by itself
+// Enhancement : show a status () : Reading speed, hit esc to stop, Adjust link, debug checkbox
+
 var wordsReadPerSecond=3;
 var interval;
 var scrolling = 1;
 var debug = false;
 var curElm;
-
-// Missing feature :
-// Make the bookmarklet work by itself
-// Debug css to js file
-
-// Enhancement :
-// Show a status () : Reading speed, hit esc to stop, Adjust link, debug checkbox
-
 
 var debugInvokeDelay = 200;
 var lastEscPressTime = 0;
