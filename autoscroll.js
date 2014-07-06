@@ -4,14 +4,27 @@
 var wordsReadPerSecond=3;
 var interval;
 var scrolling = 1;
-var debug = true;
+var debug = false;
 var curElm;
+
+// Todo
+// Missing feature :
+// Make the bookmarklet work by itself
+
+// Show a status : 
+// Reading speed, hit esc to stop
+// Adjust link
+// debug checkbox
+
+
+
+var debugInvokeDelay = 200;
+var lastEscPressTime = 0;
 
 function loadAS() {
   if (debug) {
-    toggleStatus();
+    toggleDebug();
   }
-  
   var ps = document.body.getElementsByTagName('p');
 
   for (var i = 0; i < ps.length; i++) {
@@ -24,9 +37,7 @@ function loadAS() {
   }
 }
 
-// Mixing the styles
-
-function toggleStatus() {
+function toggleDebug() {
  if  (document.getElementById('ddiv') == null ) {
    // create a small div on top right of the p to dislpay debug info
    var ddiv = document.createElement('div');
@@ -39,10 +50,13 @@ function toggleStatus() {
                     +"<span id='psd'>∞</span>s delay to scroll 1px";
    var elm = document.body;
    elm.insertBefore(ddiv, elm.firstChild);   
+   debug = true;
  }
  else {
    var ddiv = document.getElementById('ddiv');
    ddiv.parentNode.removeChild(ddiv);
+   curElm.className = curElm.className.replace(/ hover\b/,'');
+   debug = false;
  }
 }
 
@@ -95,11 +109,19 @@ document.onkeyup=function (event){
   var keyCode = ('which' in event) ? event.which : event.keyCode;
   if (keyCode === 27 ) {
     scrolling = (scrolling > 0) ? 0 : 1;
-    if (scrolling == 0) {
+    if (scrolling == 0 && debug == true) {
       document.getElementById('psd').innerHTML = "∞";
     }
     else {
       onP(curElm);
     }
+    var thisKeypressTime = new Date();
+    if (thisKeypressTime - lastEscPressTime <= debugInvokeDelay) {
+      toggleDebug();
+      // optional - if we'd rather not detect a triple-press
+      // as a second double-press, reset the timestamp
+      thisKeypressTime = 0;
+    }
+    lastEscPressTime = thisKeypressTime;
   }
 }
