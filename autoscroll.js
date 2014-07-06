@@ -2,7 +2,10 @@
 // the number of words per line in the paragraph under the mouse, and the height in pixels of the line
 
 // Feature : make the bookmarklet work by itself
-// Enhancement : show a status () : Reading speed, hit esc to stop, Adjust link, debug checkbox
+// Enhancement : show a status with reading speed, info (hit esc to stop), adjust link, debug checkbox
+
+// bookmarklet : 
+// javascript:(function()%7Bs%3Ddocument.createElement(%27script%27)%3Bs.type%3D%27text/javascript%27%3Bs.src%3D%27file://localhost/Users/tom/Documents/Thomas/Dev/ScrollStuff/autoscroll.js%3Fv%3D%27%2BparseInt(Math.random()*99999999)%3Bdocument.body.appendChild(s)%3B%7D)()%3B
 
 var wordsReadPerSecond=3;
 var interval;
@@ -138,3 +141,5 @@ document.onkeyup=function (event){
     lastEscPressTime = thisKeypressTime;
   }
 }
+
+loadAS();
