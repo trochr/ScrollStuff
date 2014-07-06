@@ -1,7 +1,7 @@
 // AutoScroll : we compute the scrolling speed in pixels/seconds by knowing the reading speed of the user,
 // the number of words per line in the paragraph under the mouse, and the height in pixels of the line
 
-// Feature : make the bookmarklet work by itself
+// Feature : make it work for divs also
 // Enhancement : show a status with reading speed, info (hit esc to stop), adjust link, debug checkbox
 
 // bookmarklet : 
@@ -67,13 +67,17 @@ function toggleDebug() {
    css.innerHTML = "p.hover {background: #EEEEEE;}";
    document.body.appendChild(css);
    
-   onP(curElm);
+   if (curElm != null) {
+     onP(curElm);        
+   }
    debug = true;
  }
  else {
    var ddiv = document.getElementById('ddiv');
    ddiv.parentNode.removeChild(ddiv);
-   curElm.className = curElm.className.replace(/ hover\b/,'');
+   if (curElm != null) {
+     curElm.className = curElm.className.replace(/ hover\b/,'');
+   }
    debug = false;
  }
 }
@@ -131,7 +135,9 @@ document.onkeyup=function (event){
       document.getElementById('psd').innerHTML = "∞";
     }
     else {
-      onP(curElm);
+      if (curElm != null) {
+       onP(curElm);        
+      }
     }
     var thisKeypressTime = new Date();
     if (thisKeypressTime - lastEscPressTime <= debugInvokeDelay) {
