@@ -2,6 +2,7 @@
 // the number of words per line in the paragraph under the mouse, and the height in pixels of the line
 
 // Enhancement : show a status with reading speed, info (hit esc to stop), adjust link, debug checkbox
+// Enhancement : restrict the divs to min 20 words 
 
 // bookmarklet : 
 // javascript:(function()%7Bs%3Ddocument.createElement(%27script%27)%3Bs.type%3D%27text/javascript%27%3Bs.src%3D%27file://localhost/Users/tom/Documents/Thomas/Dev/ScrollStuff/autoscroll.js%3Fv%3D%27%2BparseInt(Math.random()*99999999)%3Bdocument.body.appendChild(s)%3B%7D)()%3B
@@ -55,7 +56,8 @@ function toggleDebug() {
                             +"left: 10px;"
                             +"background: lightgrey;"
                             +"border-radius: 5px;"
-                            +"padding: 10px;");
+                            +"padding: 10px;"
+                            +"z-index:"+highZ()+1);
    ddiv.innerHTML = "Paragraph style : <span id='pstyle'>default</span><br>"
                     +"<span id='lpp'>0</span> lines paragraph<br>"
                     +"<span id='wpl'>0</span> average words per line<br>"
@@ -151,5 +153,46 @@ document.onkeyup=function (event){
     lastEscPressTime = thisKeypressTime;
   }
 }
+
+function highZ(parent, limit){
+    limit = limit || Infinity;
+    parent = parent || document.body;
+    var who, temp, max= 1, A= [], i= 0;
+    var children = parent.childNodes, length = children.length;
+    while(i<length){
+        who = children[i++];
+        if (who.nodeType != 1) continue; // element nodes only
+        if (deepCss(who,"position") !== "static") {
+            temp = deepCss(who,"z-index");
+            if (temp == "auto") { // z-index is auto, so not a new stacking context
+                temp = highZ(who);
+            } else {
+                temp = parseInt(temp, 10) || 0;
+            }
+        } else { // non-positioned element, so not a new stacking context
+            temp = highZ(who);
+        }
+        if (temp > max && temp <= limit) max = temp;                
+    }
+    return max;
+}
+
+function deepCss(who, css) {
+    var sty, val, dv= document.defaultView || window;
+    if (who.nodeType == 1) {
+        sty = css.replace(/\-([a-z])/g, function(a, b){
+            return b.toUpperCase();
+        });
+        val = who.style[sty];
+        if (!val) {
+            if(who.currentStyle) val= who.currentStyle[sty];
+            else if (dv.getComputedStyle) {
+                val= dv.getComputedStyle(who,"").getPropertyValue(css);
+            }
+        }
+    }
+    return val || "";
+}
+
 
 loadAS();
