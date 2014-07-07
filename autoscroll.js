@@ -38,7 +38,7 @@ function loadAS() {
                     childs = Array.prototype.slice.call(childs);
                     var hasNoDivOrPChilds = true;
                     childs.forEach(function(elm,i,a){
-                        hasNoDivOrPChilds &= elm.tagName!="DIV" && elm.tagName!="P";
+                        hasNoDivOrPChilds &= elm.tagName!="DIV" && elm.tagName!="P"&& elm.tagName!="SPAN";
                     });
                    var hasMoreThan10words = (e.innerText.split(' ').length>10); 
                     return hasMoreThan10words && hasNoDivOrPChilds;
