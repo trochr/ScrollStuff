@@ -4,7 +4,6 @@
 // Enhancement : show a flash status with reading speed, info (hit esc to stop), adjust link, debug checkbox
 // Enhancement : protect from reloading the bookmarklet
 // Enhancement : make it pretty
-// Enhancement : need the currentelm to be outlined when debug is entered
 // Bug : things are seriously broken on a page with lots of comments 
 // (see http://blogs.gartner.com/anton-chuvakin/2014/06/06/siem-analytics-histories-and-lessons/)
 
@@ -28,7 +27,7 @@ function loadAS() {
   psd = Array.prototype.slice.call(psd)
   var ps = psp.concat(psd);
   ps = ps.filter(function(e,i,a){
-  if (e.firstChild.nodeType == 3) { // a text node
+  if (e.firstChild != null && e.firstChild.nodeType == 3) { // a text node
     var nonEmptyWords = e.firstChild.textContent.split(' ').filter(function(elm){return (elm.length>0);});
      return (nonEmptyWords.length > 10); // more than 10 non empty words
     }
@@ -54,7 +53,7 @@ function showStatus() {
 
 function toggleDebug() {
  if  (document.getElementById('ddiv') == null ) {
-   // create a small div on top right of the p to dislpay debug info
+   debug = true;
    var ddiv = document.createElement('div');
    ddiv.id = "ddiv";
    ddiv.setAttribute("style","position: fixed;"
@@ -78,11 +77,9 @@ function toggleDebug() {
    css.innerHTML = "div.hover {background: #EEEEEE;}"
                   +"p.hover {background: #EEEEEE;}";
    document.body.appendChild(css);
-   
    if (curElm != null) {
      onP(curElm);        
    }
-   debug = true;
  }
  else {
    var ddiv = document.getElementById('ddiv');
