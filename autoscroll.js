@@ -4,8 +4,6 @@
 // Enhancement : show a flash status with reading speed, info (hit esc to stop), adjust link, debug checkbox
 // Enhancement : protect from reloading the bookmarklet
 // Enhancement : make it pretty
-// Bug : things are seriously broken on a page with lots of comments 
-// (see http://blogs.gartner.com/anton-chuvakin/2014/06/06/siem-analytics-histories-and-lessons/)
 
 var wordsReadPerSecond=3;
 var interval;
