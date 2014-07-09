@@ -22,16 +22,22 @@ function loadAS() {
   }
   showStatus();
   var psp = document.body.getElementsByTagName('p');
-  psp = Array.prototype.slice.call(psp)
+  psp = Array.prototype.slice.call(psp);
+  psp = psp.filter(function(e,i,a){
+  if (e.firstChild != null && e.firstChild.nodeType == 3) { // a text node
+    var nonEmptyWords = e.textContent.split(' ').filter(function(elm){return (elm.length>0);});
+     return (nonEmptyWords.length > 10); // more than 10 non empty words
+    }
+  });
   var psd = document.body.getElementsByTagName('div');
-  psd = Array.prototype.slice.call(psd)
-  var ps = psp.concat(psd);
-  ps = ps.filter(function(e,i,a){
+  psd = Array.prototype.slice.call(psd);
+  psd = psd.filter(function(e,i,a){
   if (e.firstChild != null && e.firstChild.nodeType == 3) { // a text node
     var nonEmptyWords = e.firstChild.textContent.split(' ').filter(function(elm){return (elm.length>0);});
      return (nonEmptyWords.length > 10); // more than 10 non empty words
     }
   });
+  var ps = psp.concat(psd);
   for (var i = 0; i < ps.length; i++) {
     ps[i].onmouseover = function() {
       onP(this);
