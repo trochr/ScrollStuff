@@ -2,8 +2,11 @@
 // the number of words per line in the paragraph under the mouse, and the height in pixels of the line
 
 // Enhancement : show a flash status with reading speed, info (hit esc to stop), adjust link, debug checkbox
+// Enhancement : and make it pretty
 // Enhancement : protect from reloading the bookmarklet
-// Enhancement : make it pretty
+// Enhancement : maybe deal with custom tags, such as this page does :
+// http://pro.clubic.com/entreprises/google/actualite-714679-achats-app-google-cible-ftc-concours-apple.html
+// Enhancement : Speed scroll to next paragraph
 
 var wordsReadPerSecond=3;
 var interval;
