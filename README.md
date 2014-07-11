@@ -16,3 +16,9 @@ Caveats
 
 - HTTPS pages require the bookmarklet to be loaded from a HTTPS path
 - Some sites (such as github) block modifications of the DOM by externally loaded script.
+
+
+Testing page 
+-----
+
+https://rawgithub.com/trochr/ScrollStuff/master/tests/autoscroll.html
