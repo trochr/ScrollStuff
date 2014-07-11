@@ -61,7 +61,7 @@ function showStatus() {
   sdiv.innerHTML = "Auto-scrolling at "+wordsReadPerSecond*60+"wpm";
   sdiv.setAttribute('style',"background: #E7E7E7;position: fixed;text-align: center;"
 +"text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;"
-+"font-weight: bold;top: -10;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;");
++"font-weight: bold;top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;");
   var elm = document.body;
   elm.insertBefore(sdiv, elm.firstChild);
   revealStatus(sdiv);
