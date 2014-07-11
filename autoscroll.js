@@ -59,6 +59,10 @@ function showStatus() {
   var sdiv = document.createElement('div');
   sdiv.id = "sdiv";
   sdiv.innerHTML = "Auto-scrolling at "+asSettings.wordsReadPerSecond*60+"wpm";
+  sdiv.setAttribute('style',"background: #E7E7E7;position: fixed;text-align: center;"
++"text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;"
++"font-weight: bold;top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;"
++"z-index:"+highZ()+1+";");
   var spanautohide = document.createElement('span');
   spanautohide.setAttribute('style',"font-size: x-small;margin-left: 10px;vertical-align: middle;");
   spanautohide.innerHTML = "auto-hide";
@@ -74,13 +78,18 @@ function showStatus() {
       window.setTimeout(function(){hideStatus(ds);},2000);
     }
   };
+  var ddebug = document.createElement('div');
+  ddebug.id = "ddebug";
+  ddebug.setAttribute('style',"display: none;");
+  var sdebug = document.createElement('span');  
+  sdebug.setAttribute('style',"font-size: x-small;margin-left: 10px;vertical-align: middle;");
+  sdebug.innerHTML = "<span id='lpp'>0</span> lines | <span id='wpl'>0</span> awpl |"
+                    +" <span id='psd'>0</span>s pps"
   sdiv.appendChild(spanautohide);
   sdiv.appendChild(cbautohide);
+  ddebug.appendChild(sdebug);
+  sdiv.appendChild(ddebug);
 
-  sdiv.setAttribute('style',"background: #E7E7E7;position: fixed;text-align: center;"
-+"text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;"
-+"font-weight: bold;top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;"
-+"z-index:"+highZ()+1+";");
   var elm = document.body;
   elm.insertBefore(sdiv, elm.firstChild);
   revealStatus(sdiv);
@@ -105,25 +114,13 @@ function hideStatus(ds) {
 
 
 function toggleDebug() {
- if  (document.getElementById('ddiv') == null ) {
+ ddebug = document.getElementById('ddebug');
+ if  (ddebug.style.display == "none" ) {
+   revealStatus(document.getElementById('sdiv'));
+   document.getElementById('cbautohide').checked = false;
+   ddebug.style.display = "block";
+   asSettings.statusAutoHide = false;
    asSettings.debug = true;
-   var ddiv = document.createElement('div');
-   ddiv.id = "ddiv";
-   ddiv.setAttribute("style","position: fixed;"
-                            +"top: 20px;"
-                            +"left: 10px;"
-                            +"background: lightgrey;"
-                            +"border-radius: 5px;"
-                            +"padding: 10px;"
-                            +"z-index:"+highZ()+1);
-   ddiv.innerHTML = "Paragraph style : <span id='pstyle'>default</span><br>"
-                    +"<span id='lpp'>0</span> lines paragraph<br>"
-                    +"<span id='wpl'>0</span> average words per line<br>"
-                    +"<span id='lh'>0</span>px line height<br>"
-                    +"Reading at <span id='wpm'>0</span> words per minute<br>"
-                    +"<span id='psd'>∞</span>s delay to scroll 1px";
-   var elm = document.body;
-   elm.insertBefore(ddiv, elm.firstChild);   
    // Add the CSS rule to change bgcolor of current paragraph
    var css = document.createElement("style");
    css.type = "text/css";
@@ -135,8 +132,7 @@ function toggleDebug() {
    }
  }
  else {
-   var ddiv = document.getElementById('ddiv');
-   ddiv.parentNode.removeChild(ddiv);
+  ddebug.style.display = "none";
    if (asSettings.curElm != null) {
      asSettings.curElm.className = asSettings.curElm.className.replace(/ hover\b/,'');
    }
@@ -159,10 +155,7 @@ function onP(elm) {
  if (asSettings.debug) {
    var psd =  (wordsPerLine / asSettings.wordsReadPerSecond) / pixelsPerLine;
    var pstyle = elm.className.replace(/ hover\b/,'');
-   document.getElementById('pstyle').innerHTML = pstyle == "" ? "default": pstyle;
-   document.getElementById('wpm').innerHTML = asSettings.wordsReadPerSecond*60;
-   document.getElementById('lpp').innerHTML = lineCount;
-   document.getElementById('lh').innerHTML = pixelsPerLine;
+   document.getElementById('lpp').innerHTML = Math.round(lineCount*10)/10;
    document.getElementById('wpl').innerHTML = Math.round(wordsPerLine);
    if (asSettings.scrolling == 1) {
      document.getElementById('psd').innerHTML = Math.round(psd*1000)/1000;     
