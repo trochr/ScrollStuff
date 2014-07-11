@@ -7,6 +7,7 @@
 // Enhancement : maybe deal with custom tags, such as this page does :
 // http://pro.clubic.com/entreprises/google/actualite-714679-achats-app-google-cible-ftc-concours-apple.html
 // Enhancement : Speed scroll to next paragraph
+// Bug : duplication of paragraphs : http://www.schillmania.com/content/projects/javascript-animation-1/
 
 var wordsReadPerSecond=3;
 var interval;
@@ -57,14 +58,34 @@ function loadAS() {
 function showStatus() {
   var sdiv = document.createElement('div');
   sdiv.id = "sdiv";
-  sdiv.innerHTML = "Status";
+  sdiv.innerHTML = "Auto-scrolling at "+wordsReadPerSecond*60+"wpm";
   sdiv.setAttribute('style',"background: #E7E7E7;position: fixed;text-align: center;"
 +"text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;"
-+"font-weight: bold;top: 0;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;");
++"font-weight: bold;top: -10;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;");
   var elm = document.body;
   elm.insertBefore(sdiv, elm.firstChild);
-  
+  revealStatus(sdiv);
 }
+
+function revealStatus(ds) {
+  if (parseInt(ds.style.top) < 0) {
+    ds.style.top = parseInt(ds.style.top)+1+"px";
+    console.log(Date()+" : mode 1px down");
+    window.setTimeout(function(){revealStatus(ds);},20);
+  }
+  else {
+    window.setTimeout(function(){hideStatus(ds);},2000);
+  }
+}
+
+function hideStatus(ds) {
+  if (parseInt(ds.style.top) > -(ds.offsetHeight+2)) {
+    ds.style.top = parseInt(ds.style.top)-1+"px";
+    console.log(Date()+" : mode 1px down");
+    window.setTimeout(function(){hideStatus(ds);},20);
+  }
+}
+
 
 function toggleDebug() {
  if  (document.getElementById('ddiv') == null ) {
