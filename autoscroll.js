@@ -104,7 +104,6 @@ function toggleDebug() {
 }
 
 function onP(elm) {
-  console.log('onP');
   curElm = elm;
   if  (debug && elm.className.match(/hover/) == null ) {
     elm.className += " " + "hover";
