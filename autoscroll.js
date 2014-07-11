@@ -15,7 +15,8 @@ var asSettings = {wordsReadPerSecond:3,
                   debug:false,
                   curElm:null,
                   debugInvokeDelay:200,
-                  lastEscPressTime:0};
+                  lastEscPressTime:0,
+                  statusAutoHide:true};
 
 function loadAS() {
   if (asSettings.debug) {
@@ -58,6 +59,24 @@ function showStatus() {
   var sdiv = document.createElement('div');
   sdiv.id = "sdiv";
   sdiv.innerHTML = "Auto-scrolling at "+asSettings.wordsReadPerSecond*60+"wpm";
+  var spanautohide = document.createElement('span');
+  spanautohide.setAttribute('style',"font-size: x-small;margin-left: 10px;vertical-align: middle;");
+  spanautohide.innerHTML = "auto-hide";
+  var cbautohide = document.createElement('input');
+  cbautohide.setAttribute('type',"checkbox");
+  cbautohide.setAttribute('id',"cbautohide");
+  cbautohide.setAttribute('style',"transform: scale(0.8);vertical-align: middle;margin: 0;");
+  cbautohide.checked = asSettings.statusAutoHide;
+  cbautohide.onchange = function (e){
+    asSettings.statusAutoHide = e.target.checked;
+    if (asSettings.statusAutoHide) {
+      var ds = document.getElementById('sdiv');
+      window.setTimeout(function(){hideStatus(ds);},2000);
+    }
+  };
+  sdiv.appendChild(spanautohide);
+  sdiv.appendChild(cbautohide);
+
   sdiv.setAttribute('style',"background: #E7E7E7;position: fixed;text-align: center;"
 +"text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;"
 +"font-weight: bold;top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;"
@@ -73,13 +92,12 @@ function revealStatus(ds) {
     window.setTimeout(function(){revealStatus(ds);},20);
   }
   else {
-    window.setTimeout(function(){hideStatus(ds);
-     },2000);
+    window.setTimeout(function(){hideStatus(ds);},2000);
   }
 }
 
 function hideStatus(ds) {
-  if (parseInt(ds.style.top) > -(ds.offsetHeight+2)) {
+  if (asSettings.statusAutoHide && parseInt(ds.style.top) > -(ds.offsetHeight+2)) {
     ds.style.top = parseInt(ds.style.top)-1+"px";
     window.setTimeout(function(){hideStatus(ds);},20);
   }
