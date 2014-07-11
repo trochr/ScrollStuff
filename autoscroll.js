@@ -43,6 +43,11 @@ function loadAS() {
     ps[i].onmouseover = function() {
       onP(this);
     };
+    ps[i].onmousemove = function() {
+      if (curElm == null) {
+        onP(this);
+      }
+    };
     ps[i].onmouseout = function() {
       offP(this);
     };
@@ -99,6 +104,7 @@ function toggleDebug() {
 }
 
 function onP(elm) {
+  console.log('onP');
   curElm = elm;
   if  (debug && elm.className.match(/hover/) == null ) {
     elm.className += " " + "hover";
