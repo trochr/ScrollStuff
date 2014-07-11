@@ -9,17 +9,16 @@
 // Enhancement : Speed scroll to next paragraph
 // Bug : duplication of paragraphs : http://www.schillmania.com/content/projects/javascript-animation-1/
 
-var wordsReadPerSecond=3;
-var interval;
-var scrolling = 1;
-var debug = false;
-var curElm;
-
-var debugInvokeDelay = 200;
-var lastEscPressTime = 0;
+var asSettings = {wordsReadPerSecond:3,
+                  interval:null,
+                  scrolling:1,
+                  debug:false,
+                  curElm:null,
+                  debugInvokeDelay:200,
+                  lastEscPressTime:0};
 
 function loadAS() {
-  if (debug) {
+  if (asSettings.debug) {
     toggleDebug();
   }
   showStatus();
@@ -45,7 +44,7 @@ function loadAS() {
       onP(this);
     };
     ps[i].onmousemove = function() {
-      if (curElm == null) {
+      if (asSettings.curElm == null) {
         onP(this);
       }
     };
@@ -58,10 +57,11 @@ function loadAS() {
 function showStatus() {
   var sdiv = document.createElement('div');
   sdiv.id = "sdiv";
-  sdiv.innerHTML = "Auto-scrolling at "+wordsReadPerSecond*60+"wpm";
+  sdiv.innerHTML = "Auto-scrolling at "+asSettings.wordsReadPerSecond*60+"wpm";
   sdiv.setAttribute('style',"background: #E7E7E7;position: fixed;text-align: center;"
 +"text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;"
-+"font-weight: bold;top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;");
++"font-weight: bold;top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;"
++"z-index:"+highZ()+1+";");
   var elm = document.body;
   elm.insertBefore(sdiv, elm.firstChild);
   revealStatus(sdiv);
@@ -70,18 +70,17 @@ function showStatus() {
 function revealStatus(ds) {
   if (parseInt(ds.style.top) < 0) {
     ds.style.top = parseInt(ds.style.top)+1+"px";
-    console.log(Date()+" : mode 1px down");
     window.setTimeout(function(){revealStatus(ds);},20);
   }
   else {
-    window.setTimeout(function(){hideStatus(ds);},2000);
+    window.setTimeout(function(){hideStatus(ds);
+     },2000);
   }
 }
 
 function hideStatus(ds) {
   if (parseInt(ds.style.top) > -(ds.offsetHeight+2)) {
     ds.style.top = parseInt(ds.style.top)-1+"px";
-    console.log(Date()+" : mode 1px down");
     window.setTimeout(function(){hideStatus(ds);},20);
   }
 }
@@ -89,7 +88,7 @@ function hideStatus(ds) {
 
 function toggleDebug() {
  if  (document.getElementById('ddiv') == null ) {
-   debug = true;
+   asSettings.debug = true;
    var ddiv = document.createElement('div');
    ddiv.id = "ddiv";
    ddiv.setAttribute("style","position: fixed;"
@@ -113,23 +112,23 @@ function toggleDebug() {
    css.innerHTML = "div.hover {background: #EEEEEE;}"
                   +"p.hover {background: #EEEEEE;}";
    document.body.appendChild(css);
-   if (curElm != null) {
-     onP(curElm);        
+   if (asSettings.curElm != null) {
+     onP(asSettings.curElm);        
    }
  }
  else {
    var ddiv = document.getElementById('ddiv');
    ddiv.parentNode.removeChild(ddiv);
-   if (curElm != null) {
-     curElm.className = curElm.className.replace(/ hover\b/,'');
+   if (asSettings.curElm != null) {
+     asSettings.curElm.className = asSettings.curElm.className.replace(/ hover\b/,'');
    }
-   debug = false;
+   asSettings.debug = false;
  }
 }
 
 function onP(elm) {
-  curElm = elm;
-  if  (debug && elm.className.match(/hover/) == null ) {
+  asSettings.curElm = elm;
+  if  (asSettings.debug && elm.className.match(/hover/) == null ) {
     elm.className += " " + "hover";
   }
  pcopy=elm.cloneNode(true);
@@ -139,15 +138,15 @@ function onP(elm) {
  var lineCount=elm.offsetHeight/(pcopy.offsetHeight/5);
  var pixelsPerLine = elm.offsetHeight/lineCount;
  var wordsPerLine = elm.innerHTML.split(' ').filter(function(e,i,a){return (e.length>0)}).length/lineCount;
- if (debug) {
-   var psd =  (wordsPerLine / wordsReadPerSecond) / pixelsPerLine;
+ if (asSettings.debug) {
+   var psd =  (wordsPerLine / asSettings.wordsReadPerSecond) / pixelsPerLine;
    var pstyle = elm.className.replace(/ hover\b/,'');
    document.getElementById('pstyle').innerHTML = pstyle == "" ? "default": pstyle;
-   document.getElementById('wpm').innerHTML = wordsReadPerSecond*60;
+   document.getElementById('wpm').innerHTML = asSettings.wordsReadPerSecond*60;
    document.getElementById('lpp').innerHTML = lineCount;
    document.getElementById('lh').innerHTML = pixelsPerLine;
    document.getElementById('wpl').innerHTML = Math.round(wordsPerLine);
-   if (scrolling == 1) {
+   if (asSettings.scrolling == 1) {
      document.getElementById('psd').innerHTML = Math.round(psd*1000)/1000;     
    }
  }
@@ -158,16 +157,16 @@ function onP(elm) {
 }
 
 function offP(elm) {
-  if  (debug && elm.className.match(/hover/) != null ) {
+  if  (asSettings.debug && elm.className.match(/hover/) != null ) {
      elm.className = elm.className.replace(/ hover\b/,'');
   }
 }
 
 function launchScroll(wordsPerLine, pixelsPerLine) {
-  var delay = (wordsPerLine / wordsReadPerSecond) / pixelsPerLine;
-  clearInterval(interval);
-  interval = setInterval(function() {
-    window.scrollBy(0, 1 * scrolling);
+  var delay = (wordsPerLine / asSettings.wordsReadPerSecond) / pixelsPerLine;
+  clearInterval(asSettings.interval);
+  asSettings.interval = setInterval(function() {
+    window.scrollBy(0, 1 * asSettings.scrolling);
   }, 1000 * delay);
 }
 
@@ -175,21 +174,21 @@ function launchScroll(wordsPerLine, pixelsPerLine) {
 document.onkeyup=function (event){
   var keyCode = ('which' in event) ? event.which : event.keyCode;
   if (keyCode === 27 ) {
-    scrolling = (scrolling > 0) ? 0 : 1;
-    if (scrolling == 0 && debug == true) {
+    asSettings.scrolling = (asSettings.scrolling > 0) ? 0 : 1;
+    if (asSettings.scrolling == 0 && asSettings.debug == true) {
       document.getElementById('psd').innerHTML = "∞";
     }
     else {
-      if (curElm != null) {
-       onP(curElm);        
+      if (asSettings.curElm != null) {
+       onP(asSettings.curElm);        
       }
     }
     var thisKeypressTime = new Date();
-    if (thisKeypressTime - lastEscPressTime <= debugInvokeDelay) {
+    if (thisKeypressTime - asSettings.lastEscPressTime <= asSettings.debugInvokeDelay) {
       toggleDebug();
       thisKeypressTime = 0;
     }
-    lastEscPressTime = thisKeypressTime;
+    asSettings.lastEscPressTime = thisKeypressTime;
   }
 }
 
