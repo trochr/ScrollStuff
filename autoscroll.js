@@ -8,6 +8,7 @@
 // http://pro.clubic.com/entreprises/google/actualite-714679-achats-app-google-cible-ftc-concours-apple.html
 // Enhancement : Speed scroll to next paragraph
 // Bug : duplication of paragraphs : http://www.schillmania.com/content/projects/javascript-animation-1/
+// And : https://www.agwa.name/blog/post/libressls_prng_is_unsafe_on_linux
 
 var asSettings = {wordsReadPerSecond:3,
                   interval:null,
