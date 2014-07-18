@@ -1,15 +1,6 @@
 // AutoScroll : we compute the scrolling speed in pixels/seconds by knowing the reading speed of the user,
 // the number of words per line in the paragraph under the mouse, and the height in pixels of the line
 
-// Enhancement : show a flash status with reading speed, info (hit esc to stop), adjust link, debug checkbox
-// Enhancement : and make it pretty
-// Enhancement : protect from reloading the bookmarklet
-// Enhancement : maybe deal with custom tags, such as this page does :
-// http://pro.clubic.com/entreprises/google/actualite-714679-achats-app-google-cible-ftc-concours-apple.html
-// Enhancement : Speed scroll to next paragraph
-// Bug : duplication of paragraphs : http://www.schillmania.com/content/projects/javascript-animation-1/
-// And : https://www.agwa.name/blog/post/libressls_prng_is_unsafe_on_linux
-
 var asSettings = {wordsReadPerSecond:3,
                   interval:null,
                   scrolling:1,
