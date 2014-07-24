@@ -7,8 +7,7 @@ var asSettings = {wordsReadPerSecond: 3,
     debug: false,
     curElm: null,
     debugInvokeDelay: 200,
-    lastEscPressTime: 0,
-    statusAutoHide: true};
+    lastEscPressTime: 0};
 
 
 function getAllPs() {
@@ -80,19 +79,24 @@ function showStatus() {
     + "z-index:" + highZ() + 1 + ";");
     var spanautohide = document.createElement('span');
     spanautohide.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
-    spanautohide.innerHTML = "auto-hide";
-    var cbautohide = document.createElement('input');
-    cbautohide.setAttribute('type', "checkbox");
-    cbautohide.setAttribute('id', "cbautohide");
-    cbautohide.setAttribute('style', "transform: scale(0.8);vertical-align: middle;margin: 0;");
-    cbautohide.checked = asSettings.statusAutoHide;
-    cbautohide.onchange = function(e) {
-        asSettings.statusAutoHide = e.target.checked;
-        if (asSettings.statusAutoHide) {
+    spanautohide.innerHTML = "debug";
+    var cddebug = document.createElement('input');
+    cddebug.setAttribute('type', "checkbox");
+    cddebug.setAttribute('id', "cddebug");
+    cddebug.setAttribute('style', "transform: scale(0.8);vertical-align: middle;margin: 0;");
+    cddebug.checked = asSettings.statusAutoHide;
+    cddebug.onchange = function(e) {
+        asSettings.debug = e.target.checked;
+        if (asSettings.debug) {
             var ds = document.getElementById('smartscrollbanner');
             window.setTimeout(function() {
                 hideStatus(ds);
             }, 2000);
+        }
+        else {
+            var ds = document.getElementById('smartscrollbanner');
+            document.getElementById('ddebug').setAttribute('style', "display: none;");
+            hideStatus(ds);
         }
     };
     var ddebug = document.createElement('div');
@@ -103,7 +107,7 @@ function showStatus() {
     sdebug.innerHTML = "<span id='lpp'>0</span> lines | <span id='wpl'>0</span> awpl |" 
     + " <span id='psd'>0</span>s pps"
     sdiv.appendChild(spanautohide);
-    sdiv.appendChild(cbautohide);
+    sdiv.appendChild(cddebug);
     ddebug.appendChild(sdebug);
     sdiv.appendChild(ddebug);
     
@@ -127,7 +131,7 @@ function revealStatus(ds) {
 }
 
 function hideStatus(ds) {
-    if (asSettings.statusAutoHide && parseInt(ds.style.top) > -(ds.offsetHeight + 2)) {
+    if (!asSettings.debug && parseInt(ds.style.top) > -(ds.offsetHeight + 2)) {
         ds.style.top = parseInt(ds.style.top) - 1 + "px";
         window.setTimeout(function() {
             hideStatus(ds);
@@ -140,9 +144,8 @@ function toggleDebug() {
     ddebug = document.getElementById('ddebug');
     if (ddebug.style.display == "none") {
         revealStatus(document.getElementById('smartscrollbanner'));
-        document.getElementById('cbautohide').checked = false;
+        document.getElementById('cddebug').checked = true;
         ddebug.style.display = "block";
-        asSettings.statusAutoHide = false;
         asSettings.debug = true;
         // Add the CSS rule to change bgcolor of current paragraph
         var css = document.createElement("style");
@@ -156,6 +159,7 @@ function toggleDebug() {
     } 
     else {
         ddebug.style.display = "none";
+        document.getElementById('cddebug').checked = false;
         if (asSettings.curElm != null) {
             asSettings.curElm.className = asSettings.curElm.className.replace(/ hover\b/, '');
         }
