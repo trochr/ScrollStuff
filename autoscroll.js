@@ -95,7 +95,7 @@ function showStatus() {
             }, 2000);
         }
         else {
-            document.getElementById('ddebug').setAttribute('style', "display: block;");
+            toggleDebug();
         }
     };
     var ddebug = document.createElement('div');
