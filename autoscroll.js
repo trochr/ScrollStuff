@@ -87,16 +87,15 @@ function showStatus() {
     cddebug.checked = asSettings.statusAutoHide;
     cddebug.onchange = function(e) {
         asSettings.debug = e.target.checked;
-        if (asSettings.debug) {
+        if (!asSettings.debug) {
+            document.getElementById('ddebug').setAttribute('style', "display: none;");
             var ds = document.getElementById('smartscrollbanner');
             window.setTimeout(function() {
                 hideStatus(ds);
             }, 2000);
         }
         else {
-            var ds = document.getElementById('smartscrollbanner');
-            document.getElementById('ddebug').setAttribute('style', "display: none;");
-            hideStatus(ds);
+            document.getElementById('ddebug').setAttribute('style', "display: block;");
         }
     };
     var ddebug = document.createElement('div');
