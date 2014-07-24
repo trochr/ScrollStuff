@@ -76,7 +76,7 @@ function showStatus() {
     sdiv.setAttribute('style', "background: #E7E7E7;position: fixed;text-align: center;" 
     + "text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;" 
     + "font-weight: bold;top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;" 
-    + "z-index:" + highZ() + 1 + ";");
+    + "margin: auto;width: 30em;z-index:" + highZ() + 1 + ";");
     var spanautohide = document.createElement('span');
     spanautohide.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
     spanautohide.innerHTML = "debug";
