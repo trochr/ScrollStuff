@@ -103,7 +103,7 @@ function showStatus() {
     ddebug.setAttribute('style', "display: none;");
     var sdebug = document.createElement('span');
     sdebug.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
-    sdebug.innerHTML = "<span id='lpp'>0</span> lines | <span id='wpl'>0</span> awpl |" 
+    sdebug.innerHTML = "<span id='lpp'>0</span> | <span id='wpl'>0</span> awpl |" 
     + " <span id='psd'>0</span>s pps"
     sdiv.appendChild(spanautohide);
     sdiv.appendChild(cddebug);
@@ -183,7 +183,8 @@ function onP(elm) {
     if (asSettings.debug) {
         var psd = (wordsPerLine / asSettings.wordsReadPerSecond) / pixelsPerLine;
         var pstyle = elm.className.replace(/ hover\b/, '');
-        document.getElementById('lpp').innerHTML = Math.round(lineCount * 10) / 10;
+        var lpp = Math.round(lineCount * 10) / 10;
+        document.getElementById('lpp').innerHTML = lpp+' line'+((lpp>1)?'s':'');
         document.getElementById('wpl').innerHTML = Math.round(wordsPerLine);
         if (asSettings.scrolling == 1) {
             document.getElementById('psd').innerHTML = Math.round(psd * 1000) / 1000;
