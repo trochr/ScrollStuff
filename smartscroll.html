@@ -11,6 +11,27 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+      <script>
+      
+      var guid = (function() {
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+                     .toString(16)
+                     .substring(1);
+        }
+        return function() {
+          return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                 s4() + '-' + s4() + s4() + s4();
+        };
+      })();
+            
+           
+      window.onload = function() {
+       var js = "javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.src='https://rawgithub.com/trochr/ScrollStuff/master/autoscroll.js?id="+guid()+"&v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();";
+        document.getElementById("bmlet").setAttribute("href",js);
+      } 
+      </script>
+      
   </head>
   <body>
     <div class="wrapper">
@@ -29,7 +50,7 @@ in a continuous manner. It detects the words per lines and, knowing your reading
 
 <h3><a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
 
-<p>Drag this to Bookmarks Bar → <a class="minibutton" href="javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.src='https://rawgithub.com/trochr/ScrollStuff/master/autoscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();">SmartScroll</a></p>
+<p>Drag this to Bookmarks Bar → <a id="bmlet" class="minibutton" href="">SmartScroll</a></p>
     
 <div id="wrapperDemo">
 <span style="position: fixed; font-size: 50px; top: 0px; left: 15px; color: rgb(255, 127, 80); display: none;" id="arrow">↙</span>
