@@ -7,7 +7,8 @@ var asSettings = {wordsReadPerSecond: 3,
     debug: false,
     curElm: null,
     debugInvokeDelay: 200,
-    lastEscPressTime: 0};
+    lastEscPressTime: 0,
+    guid:null};
 
 
 function getAllPs() {
