@@ -1,7 +1,7 @@
  // AutoScroll : we compute the scrolling speed in pixels/seconds by knowing the reading speed of the user,
 // the number of words per line in the paragraph under the mouse, and the height in pixels of the line
 
-var asSettings = {wordsReadPerSecond: 3,
+var asSettings = {wordsReadPerMinute: 180,
     interval: null,
     scrolling: 1,
     debug: false,
@@ -49,11 +49,34 @@ function unloadAS() {
 }
 
 
+function getServerSettings() {
+    var http = new XMLHttpRequest();
+    var url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
+    http.open("GET", url, true);
+    http.setRequestHeader("Guid-SmartScroll", asSettings.guid);
+
+    http.onreadystatechange = function() {//Call a function when the state changes.
+	   if(http.readyState == 4 && http.status == 200) {
+	       resp=JSON.parse(http.responseText);
+	       if (!resp.hasOwnProperty('wpm')) {
+	           return console.log("Settings doesn't contain wpm");
+	       }
+	       if (Math.floor(resp.wpm)> 0) {
+	           asSettings.wordsReadPerMinute = resp.wpm;
+	           document.getElementById('wpm').innerHTML = resp.wpm;
+	       }
+	   }
+	}
+    http.send(null);
+}
+
+
 function loadAS() {
     if (asSettings.debug) {
         toggleDebug();
     }
     showStatus();
+    getServerSettings();
     var ps = getAllPs();
     for (var i = 0; i < ps.length; i++) {
         ps[i].onmouseover = function() {
@@ -73,7 +96,7 @@ function loadAS() {
 function showStatus() {
     var sdiv = document.createElement('div');
     sdiv.id = "smartscrollbanner";
-    sdiv.innerHTML = "Auto-scrolling at " + asSettings.wordsReadPerSecond * 60 + "wpm";
+    sdiv.innerHTML = "Auto-scrolling at " + "<span id='wpm'>"+asSettings.wordsReadPerMinute+"</span>" + " wpm";
     sdiv.setAttribute('style', "background: #E7E7E7;position: fixed;text-align: center;" 
     + "text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;" 
     + "font-weight: bold;top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;" 
@@ -182,7 +205,7 @@ function onP(elm) {
         return (e.length > 0)
     }).length / lineCount;
     if (asSettings.debug) {
-        var psd = (wordsPerLine / asSettings.wordsReadPerSecond) / pixelsPerLine;
+        var psd = (wordsPerLine / (asSettings.wordsReadPerMinute/60)) / pixelsPerLine;
         var pstyle = elm.className.replace(/ hover\b/, '');
         var lpp = Math.round(lineCount * 10) / 10;
         document.getElementById('lpp').innerHTML = lpp+' line'+((lpp>1)?'s':'');
@@ -204,7 +227,7 @@ function offP(elm) {
 }
 
 function launchScroll(wordsPerLine, pixelsPerLine) {
-    var delay = (wordsPerLine / asSettings.wordsReadPerSecond) / pixelsPerLine;
+    var delay = (wordsPerLine / (asSettings.wordsReadPerMinute/60)) / pixelsPerLine;
     clearInterval(asSettings.interval);
     asSettings.interval = setInterval(function() {
         window.scrollBy(0, 1 * asSettings.scrolling);
