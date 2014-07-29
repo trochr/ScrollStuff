@@ -76,7 +76,6 @@ function loadAS() {
         toggleDebug();
     }
     showStatus();
-    getServerSettings();
     var ps = getAllPs();
     for (var i = 0; i < ps.length; i++) {
         ps[i].onmouseover = function() {
