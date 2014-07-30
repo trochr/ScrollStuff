@@ -27,7 +27,7 @@
             
            
       window.onload = function() {
-       var js = "javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.onload=function(){asSettings.guid='"+guid()+"';};s.src='https://rawgithub.com/trochr/ScrollStuff/master/autoscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();";
+       var js = "javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.onload=function(){getServerSettings('"+guid()+"');};s.src='https://rawgithub.com/trochr/ScrollStuff/master/autoscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();";
         document.getElementById("bmlet").setAttribute("href",js);
       } 
       </script>
