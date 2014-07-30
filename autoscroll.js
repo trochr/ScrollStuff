@@ -355,6 +355,5 @@ if (document.getElementById('smartscrollbanner') != null) { // if AS is already 
     unloadAS();
 } 
 else {
-    console.log(JSON.stringify(location));
     loadAS();
 }
