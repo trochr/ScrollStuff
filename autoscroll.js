@@ -49,11 +49,11 @@ function unloadAS() {
 }
 
 
-function getServerSettings() {
+function getServerSettings(guid) {
     var http = new XMLHttpRequest();
     var url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
     http.open("GET", url, true);
-    http.setRequestHeader("Guid-SmartScroll", asSettings.guid);
+    http.setRequestHeader("Guid-SmartScroll", guid);
 
     http.onreadystatechange = function() {//Call a function when the state changes.
 	   if(http.readyState == 4 && http.status == 200) {
@@ -64,6 +64,7 @@ function getServerSettings() {
 	       if (Math.floor(resp.wpm)> 0) {
 	           asSettings.wordsReadPerMinute = resp.wpm;
 	           document.getElementById('wpm').innerHTML = resp.wpm;
+             asSettings.guid = guid;
 	       }
 	   }
 	}
