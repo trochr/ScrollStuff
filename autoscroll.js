@@ -8,7 +8,8 @@ var asSettings = {wordsReadPerMinute: 180,
     curElm: null,
     debugInvokeDelay: 200,
     lastEscPressTime: 0,
-    guid:null};
+    saveInterval: null,
+    guid: null};
 
 
 function getAllPs() {
@@ -50,24 +51,24 @@ function unloadAS() {
 
 
 function getServerSettings(guid) {
+    asSettings.guid = guid;
     var http = new XMLHttpRequest();
     var url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
     http.open("GET", url, true);
     http.setRequestHeader("Guid-SmartScroll", guid);
-
-    http.onreadystatechange = function() {//Call a function when the state changes.
-	   if(http.readyState == 4 && http.status == 200) {
-	       resp=JSON.parse(http.responseText);
-	       if (!resp.hasOwnProperty('wpm')) {
-	           return console.log("Settings doesn't contain wpm");
-	       }
-	       if (Math.floor(resp.wpm)> 0) {
-	           asSettings.wordsReadPerMinute = resp.wpm;
-	           document.getElementById('wpm').innerHTML = resp.wpm;
-             asSettings.guid = guid;
-	       }
-	   }
-	}
+    
+    http.onreadystatechange = function() { //Call a function when the state changes.
+        if (http.readyState == 4 && http.status == 200) {
+            resp = JSON.parse(http.responseText);
+            if (!resp.hasOwnProperty('wpm')) {
+                return console.log("Settings doesn't contain wpm");
+            }
+            if (Math.floor(resp.wpm) > 0) {
+                asSettings.wordsReadPerMinute = resp.wpm;
+                document.getElementById('wpm').innerHTML = resp.wpm;
+            }
+        }
+    }
     http.send(null);
 }
 
@@ -96,11 +97,15 @@ function loadAS() {
 function showStatus() {
     var sdiv = document.createElement('div');
     sdiv.id = "smartscrollbanner";
-    sdiv.innerHTML = "Auto-scrolling at " + "<span id='wpm'>"+asSettings.wordsReadPerMinute+"</span>" + " wpm";
+    sdiv.innerHTML = "Auto-scrolling at " + "<span id='chwpm'>" 
+    + "<span id='mwpm' style='display:none;cursor:pointer;'> - </span>" 
+    + "<span id='wpm'>" + asSettings.wordsReadPerMinute + "</span>" 
+    + "<span id='pwpm' style='display:none;cursor:pointer;'> + </span></span>" + " wpm";
     sdiv.setAttribute('style', "background: #E7E7E7;position: fixed;text-align: center;" 
     + "text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;" 
     + "font-weight: bold;top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;" 
-    + "margin: auto;width: 30em;z-index:" + highZ() + 1 + ";");
+    + "margin: auto;width: 30em;z-index:" + highZ() + 1 + ";" 
+    + "-webkit-user-select: none;");
     var spanautohide = document.createElement('span');
     spanautohide.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
     spanautohide.innerHTML = "debug";
@@ -117,7 +122,7 @@ function showStatus() {
             window.setTimeout(function() {
                 hideStatus(ds);
             }, 2000);
-        }
+        } 
         else {
             toggleDebug();
         }
@@ -136,7 +141,53 @@ function showStatus() {
     
     var elm = document.body;
     elm.insertBefore(sdiv, elm.firstChild);
+    setupPlusMinus();
     revealStatus(sdiv);
+}
+
+function setupPlusMinus() {
+    var chwpm = document.getElementById('chwpm');
+    var mwpm = document.getElementById('mwpm');
+    var pwpm = document.getElementById('pwpm');
+    var wpm = document.getElementById('wpm');
+    chwpm.onmouseover = function() {
+        mwpm.style.display = "inline";
+        pwpm.style.display = "inline";
+    };
+    chwpm.onmouseout = function() {
+        mwpm.style.display = "none";
+        pwpm.style.display = "none";
+    };
+    
+    mwpm.onclick = function() {
+        asSettings.wordsReadPerMinute -= 1;
+        wpmChanged();
+    };
+    pwpm.onclick = function() {
+        asSettings.wordsReadPerMinute += 1;
+        wpmChanged();
+    };
+}
+
+function wpmChanged() {
+    wpm.innerText = asSettings.wordsReadPerMinute;
+    clearInterval(asSettings.saveInterval);
+    asSettings.saveInterval = setTimeout(function (){saveSettings();}, 3000);        
+}
+
+function saveSettings() {
+    var http = new XMLHttpRequest();
+    var url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
+    http.open("POST", url, true);
+    http.setRequestHeader("Guid-SmartScroll", asSettings.guid);
+    http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    var params = "wpm="+asSettings.wordsReadPerMinute;
+    http.onreadystatechange = function() { //Call a function when the state changes.
+        if (http.readyState == 4 && http.status == 200) {
+            console.log("Settings saved");
+        }
+    }
+    http.send(params);
 }
 
 function revealStatus(ds) {
@@ -205,10 +256,10 @@ function onP(elm) {
         return (e.length > 0)
     }).length / lineCount;
     if (asSettings.debug) {
-        var psd = (wordsPerLine / (asSettings.wordsReadPerMinute/60)) / pixelsPerLine;
+        var psd = (wordsPerLine / (asSettings.wordsReadPerMinute / 60)) / pixelsPerLine;
         var pstyle = elm.className.replace(/ hover\b/, '');
         var lpp = Math.round(lineCount * 10) / 10;
-        document.getElementById('lpp').innerHTML = lpp+' line'+((lpp>1)?'s':'');
+        document.getElementById('lpp').innerHTML = lpp + ' line' + ((lpp > 1) ? 's' : '');
         document.getElementById('wpl').innerHTML = Math.round(wordsPerLine);
         if (asSettings.scrolling == 1) {
             document.getElementById('psd').innerHTML = Math.round(psd * 1000) / 1000;
@@ -227,12 +278,12 @@ function offP(elm) {
 }
 
 function launchScroll(wordsPerLine, pixelsPerLine) {
-    var delay = (wordsPerLine / (asSettings.wordsReadPerMinute/60)) / pixelsPerLine;
+    var delay = (wordsPerLine / (asSettings.wordsReadPerMinute / 60)) / pixelsPerLine;
     clearInterval(asSettings.interval);
     asSettings.interval = setInterval(function() {
         window.scrollBy(0, 1 * asSettings.scrolling);
     }, 1000 * delay);
-    document.getElementById('smartscrollbanner').setAttribute('interval',asSettings.interval);
+    document.getElementById('smartscrollbanner').setAttribute('interval', asSettings.interval);
 }
 
 // Handling of ESC key. One press : stop the scroll, 2 presses : display debug 
@@ -304,6 +355,6 @@ if (document.getElementById('smartscrollbanner') != null) { // if AS is already 
     unloadAS();
 } 
 else {
-   console.log(JSON.stringify(location));
+    console.log(JSON.stringify(location));
     loadAS();
 }
