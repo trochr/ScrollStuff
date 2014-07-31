@@ -108,17 +108,17 @@ function showStatus() {
     + "<span id='wpm'>" + asSettings.wordsReadPerMinute + "</span>" 
     + "<span id='pwpm' style='display:none;cursor:pointer;'> + </span></span>" + " wpm";
     sdiv.setAttribute('style', "background: #E7E7E7;position: fixed;text-align: center;" 
-    + "text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;" 
+    + "text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;font-size:16px;" 
     + "font-weight: bold;top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;" 
     + "margin: auto;width: 30em;z-index:" + highZ() + 1 + ";" 
-    + "-webkit-user-select: none;");
+    + "-webkit-user-select: none;line-height:normal;");
     var spanautohide = document.createElement('span');
     spanautohide.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
     spanautohide.innerHTML = "debug";
     var cddebug = document.createElement('input');
     cddebug.setAttribute('type', "checkbox");
     cddebug.setAttribute('id', "cddebug");
-    cddebug.setAttribute('style', "transform: scale(0.8);vertical-align: middle;margin: 0;");
+    cddebug.setAttribute('style', "transform: scale(0.8);vertical-align:middle;margin:0;height:13px;width:13px;");
     cddebug.checked = asSettings.statusAutoHide;
     cddebug.onchange = function(e) {
         asSettings.debug = e.target.checked;
