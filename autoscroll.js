@@ -28,13 +28,21 @@ function getAllPs() {
     var psd = document.body.getElementsByTagName('div');
     psd = Array.prototype.slice.call(psd);
     psd = psd.filter(function(e, i, a) {
-        if (e.firstChild != null && e.firstChild.nodeType == 3) { // a text node
-            var nonEmptyWords = e.firstChild.textContent.split(' ').filter(function(elm) {
-                return (elm.length > 0);
-            });
-            asSettings.totalWords += nonEmptyWords.length > 10 ? nonEmptyWords.length : 0; 
-            return (nonEmptyWords.length > 10); // more than 10 non empty words
-        }
+      // in case of a div, we need to concat all text  nodes in it to evaluate the length in words
+        var allTextChilds = "";
+        var cn = Array.prototype.slice.call(e.childNodes);
+        cn.forEach(function(ec,a,i){
+           // only count nodes of type text of a, otherwise we have a 'wrapper' div
+          if (ec.nodeName == "A" || ec.nodeName == "#text") {
+            allTextChilds += ec.textContent;
+          }
+        });
+
+        var nonEmptyWords = allTextChilds.split(' ').filter(function(elm) {
+            return (elm.length > 0);
+        });
+        asSettings.totalWords += nonEmptyWords.length > 10 ? nonEmptyWords.length : 0; 
+        return (nonEmptyWords.length > 10); // more than 10 non empty words
     });
     return psp.concat(psd);
 }
