@@ -17,7 +17,8 @@ function getAllPs() {
     var psp = document.body.getElementsByTagName('p');
     psp = Array.prototype.slice.call(psp);
     psp = psp.filter(function(e, i, a) {
-        if (e.firstChild != null && e.firstChild.nodeType == 3) { // a text node
+        if (e.firstChild != null && (e.firstChild.nodeType == 3
+             ||e.firstChild.nodeName == "A")) { // a text node
             var nonEmptyWords = e.textContent.split(' ').filter(function(elm) {
                 return (elm.length > 0);
             });
