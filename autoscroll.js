@@ -51,6 +51,9 @@ function unloadAS() {
 
 
 function getServerSettings(guid) {
+    if (document.getElementById('wpm')==null){
+      return;
+    }
     asSettings.guid = guid;
     var http = new XMLHttpRequest();
     var url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
@@ -172,7 +175,8 @@ function setupPlusMinus() {
 function wpmChanged() {
     wpm.innerText = asSettings.wordsReadPerMinute;
     clearInterval(asSettings.saveInterval);
-    asSettings.saveInterval = setTimeout(function (){saveSettings();}, 3000);        
+    onP(asSettings.curElm);
+    asSettings.saveInterval = setTimeout(function (){saveSettings();}, 3000);
 }
 
 function saveSettings() {
