@@ -9,6 +9,7 @@ var asSettings = {wordsReadPerMinute: 180,
     debugInvokeDelay: 200,
     lastEscPressTime: 0,
     saveInterval: null,
+    totalWords:0,
     guid: null};
 
 
@@ -20,6 +21,7 @@ function getAllPs() {
             var nonEmptyWords = e.textContent.split(' ').filter(function(elm) {
                 return (elm.length > 0);
             });
+            asSettings.totalWords += nonEmptyWords.length > 10 ? nonEmptyWords.length : 0; 
             return (nonEmptyWords.length > 10); // more than 10 non empty words
         }
     });
@@ -30,6 +32,7 @@ function getAllPs() {
             var nonEmptyWords = e.firstChild.textContent.split(' ').filter(function(elm) {
                 return (elm.length > 0);
             });
+            asSettings.totalWords += nonEmptyWords.length > 10 ? nonEmptyWords.length : 0; 
             return (nonEmptyWords.length > 10); // more than 10 non empty words
         }
     });
@@ -136,7 +139,7 @@ function showStatus() {
     var sdebug = document.createElement('span');
     sdebug.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
     sdebug.innerHTML = "<span id='lpp'>0</span> | <span id='wpl'>0</span> awpl |" 
-    + " <span id='psd'>0</span>s pps"
+    + " <span id='psd'>0</span>spl | <span id='ert'>0</span> min"
     sdiv.appendChild(spanautohide);
     sdiv.appendChild(cddebug);
     ddebug.appendChild(sdebug);
@@ -265,6 +268,7 @@ function onP(elm) {
         var lpp = Math.round(lineCount * 10) / 10;
         document.getElementById('lpp').innerHTML = lpp + ' line' + ((lpp > 1) ? 's' : '');
         document.getElementById('wpl').innerHTML = Math.round(wordsPerLine);
+        document.getElementById('ert').innerHTML = parseInt(asSettings.totalWords/asSettings.wordsReadPerMinute);
         if (asSettings.scrolling == 1) {
             document.getElementById('psd').innerHTML = Math.round(psd * 1000) / 1000;
         }
