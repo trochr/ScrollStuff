@@ -70,7 +70,7 @@ function getServerSettings(guid) {
     var http = new XMLHttpRequest();
     var url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
     http.open("GET", url, true);
-    http.setRequestHeader("Guid-SmartScroll", guid);
+    http.setRequestHeader("Authorization", guid);
     
     http.onreadystatechange = function() { //Call a function when the state changes.
         if (http.readyState == 4 && http.status == 200) {
@@ -195,7 +195,7 @@ function saveSettings() {
     var http = new XMLHttpRequest();
     var url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
     http.open("POST", url, true);
-    http.setRequestHeader("Guid-SmartScroll", asSettings.guid);
+    http.setRequestHeader("Authorization", asSettings.guid);
     http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     var params = "wpm="+asSettings.wordsReadPerMinute;
     http.onreadystatechange = function() { //Call a function when the state changes.
