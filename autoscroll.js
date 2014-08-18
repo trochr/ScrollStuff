@@ -245,6 +245,7 @@ function toggleDebug() {
         if (asSettings.curElm != null) {
             asSettings.curElm.className = asSettings.curElm.className.replace(/ hover\b/, '');
         }
+        hideStatus(document.getElementById('smartscrollbanner'));
         asSettings.debug = false;
     }
 }
