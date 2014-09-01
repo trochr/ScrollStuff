@@ -28,10 +28,19 @@ function getAllPs() {
     });
     var psd = document.body.getElementsByTagName('div');
     psd = Array.prototype.slice.call(psd);
+    psd = psd.filter(function(e, i, a) { // remove div containing divs
+        var childNodes = Array.prototype.slice.call(e.childNodes);
+        childNodes=childNodes.filter(function(e2,i2,a2) {
+            return (e2.nodeName == "DIV");
+        });
+        return (childNodes.length == 0);
+    });
+
     psd = psd.filter(function(e, i, a) {
       // in case of a div, we need to concat all text  nodes in it to evaluate the length in words
         var allTextChilds = "";
         var cn = Array.prototype.slice.call(e.childNodes);
+        var hadDiv = false;
         cn.forEach(function(ec,a,i){
            // only count nodes of type text of a, otherwise we have a 'wrapper' div
           if (ec.nodeName == "A" || ec.nodeName == "#text") {
@@ -40,10 +49,10 @@ function getAllPs() {
         });
 
         var nonEmptyWords = allTextChilds.split(' ').filter(function(elm) {
-            return (elm.length > 0);
+            return (elm.length > 0 && !hadDiv);
         });
         asSettings.totalWords += nonEmptyWords.length > 10 ? nonEmptyWords.length : 0; 
-        return (nonEmptyWords.length > 10); // more than 10 non empty words
+        return (nonEmptyWords.length > 10 && !hadDiv); // more than 10 non empty words
     });
     return psp.concat(psd);
 }
