@@ -40,7 +40,6 @@ function getAllPs() {
       // in case of a div, we need to concat all text  nodes in it to evaluate the length in words
         var allTextChilds = "";
         var cn = Array.prototype.slice.call(e.childNodes);
-        var hadDiv = false;
         cn.forEach(function(ec,a,i){
            // only count nodes of type text of a, otherwise we have a 'wrapper' div
           if (ec.nodeName == "A" || ec.nodeName == "#text") {
@@ -49,10 +48,10 @@ function getAllPs() {
         });
 
         var nonEmptyWords = allTextChilds.split(' ').filter(function(elm) {
-            return (elm.length > 0 && !hadDiv);
+            return (elm.length > 0);
         });
         asSettings.totalWords += nonEmptyWords.length > 10 ? nonEmptyWords.length : 0; 
-        return (nonEmptyWords.length > 10 && !hadDiv); // more than 10 non empty words
+        return (nonEmptyWords.length > 10); // more than 10 non empty words
     });
     return psp.concat(psd);
 }
