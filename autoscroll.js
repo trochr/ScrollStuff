@@ -10,7 +10,9 @@ var asSettings = {wordsReadPerMinute: 180,
     lastEscPressTime: 0,
     saveInterval: null,
     totalWords:0,
-    guid: null};
+    guid: null,
+    completion:null,
+    ps:null};
 
 
 function getAllPs() {
@@ -22,7 +24,6 @@ function getAllPs() {
             var nonEmptyWords = e.textContent.split(' ').filter(function(elm) {
                 return (elm.length > 0);
             });
-            asSettings.totalWords += nonEmptyWords.length > 10 ? nonEmptyWords.length : 0; 
             return (nonEmptyWords.length > 10); // more than 10 non empty words
         }
     });
@@ -53,7 +54,30 @@ function getAllPs() {
         asSettings.totalWords += nonEmptyWords.length > 10 ? nonEmptyWords.length : 0; 
         return (nonEmptyWords.length > 10); // more than 10 non empty words
     });
-    return psp.concat(psd);
+    ps = psp.concat(psd);
+    ps.forEach(function(e,a,i){
+     var nonEmptyWords = e.textContent.split(' ').filter(function(elm) {
+      return (elm.length > 0);
+     });
+     asSettings.totalWords += nonEmptyWords.length > 10 ? nonEmptyWords.length : 0; 
+    });
+    asSettings.completion = new Array();
+    ps.forEach(function(e,a,i){
+     var nonEmptyWords = e.textContent.split(' ').filter(function(elm) {
+      return (elm.length > 0);
+     });
+     var newc = nonEmptyWords.length > 10 ? nonEmptyWords.length : 0;
+     var currentCount;
+     if (asSettings.completion[asSettings.completion.length-1] == null) {
+       currentCount=newc;
+     }
+     else {
+         currentCount=newc+asSettings.completion[asSettings.completion.length-1];
+     }
+     asSettings.completion.push(currentCount);
+    });
+    asSettings.ps = ps;
+    return ps;
 }
 
 function unloadAS() {
@@ -102,6 +126,13 @@ function loadAS() {
     }
     showStatus();
     var ps = getAllPs();
+    /* Read progress */
+
+    /* List of paragraphs, length
+    [p1,p2,p3,p4];
+
+    */
+
     for (var i = 0; i < ps.length; i++) {
         ps[i].onmouseover = function() {
             onP(this);
@@ -278,7 +309,12 @@ function onP(elm) {
         var lpp = Math.round(lineCount * 10) / 10;
         document.getElementById('lpp').innerHTML = lpp + ' line' + ((lpp > 1) ? 's' : '');
         document.getElementById('wpl').innerHTML = Math.round(wordsPerLine);
-        document.getElementById('ert').innerHTML = parseInt(asSettings.totalWords/asSettings.wordsReadPerMinute);
+        var estimatedTotalTime = parseInt(asSettings.totalWords/asSettings.wordsReadPerMinute);
+        var estimatedRemainingTime = parseInt(estimatedTotalTime*
+                                            asSettings.completion[asSettings.ps.indexOf(asSettings.curElm)]
+                                            /asSettings.totalWords);
+        document.getElementById('ert').innerHTML = estimatedRemainingTime+'/'+estimatedTotalTime;
+        
         if (asSettings.scrolling == 1) {
             document.getElementById('psd').innerHTML = Math.round(psd * 1000) / 1000;
         }
