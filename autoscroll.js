@@ -1,6 +1,20 @@
  // AutoScroll : we compute the scrolling speed in pixels/seconds by knowing the reading speed of the user,
 // the number of words per line in the paragraph under the mouse, and the height in pixels of the line
 
+/* reading speed history 
+
+After each paragraph, remember the speed
+that is : 
+onP  start of reading : sor : timestamp 
+offP : end of reading : eor : timestamp
+paragraph word count : pwc
+pwc /  eor-sor : in array
+end of read : mean + 
+store each paragraphs in an array
+keep reading history, display it on a graph, extract mean, med, min, max, mean of 95pc
+
+*/
+
 var asSettings = {wordsReadPerMinute: 180,
     interval: null,
     scrolling: 1,
@@ -12,7 +26,9 @@ var asSettings = {wordsReadPerMinute: 180,
     totalWords:0,
     guid: null,
     completion:null,
-    ps:null};
+    ps:null,
+    history:new Array(),
+    historyGraph:new Array()};
 
 
 function getAllPs() {
@@ -291,6 +307,9 @@ function toggleDebug() {
 
 function onP(elm) {
     asSettings.curElm = elm;
+    asSettings.history[asSettings.ps.indexOf(asSettings.curElm)] = {
+                  start:new Date().getTime(),end:null
+               ,pwc:asSettings.completion[asSettings.ps.indexOf(asSettings.curElm)]};
     if (asSettings.debug && elm.className.match(/hover/) == null) {
         elm.className += " " + "hover";
     }
@@ -325,7 +344,18 @@ function onP(elm) {
     }
 }
 
+function drawHistory() {
+    asSettings.history.forEach(function(e,i,a){
+      if (e.end > e.start) {
+        asSettings.historyGraph.push(60*e.pwc /(e.end-e.start));
+        }
+    });
+}
+
 function offP(elm) {
+    if (asSettings.curElm != null) {
+      asSettings.history[asSettings.ps.indexOf(asSettings.curElm)].end = new Date().getTime();
+    }
     if (asSettings.debug && elm.className.match(/hover/) != null) {
         elm.className = elm.className.replace(/ hover\b/, '');
     }
