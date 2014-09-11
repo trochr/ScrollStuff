@@ -160,22 +160,35 @@ function showStatus() {
     + "font-weight: bold;top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;" 
     + "margin: auto;width: 30em;z-index:" + highZ() + 1 + ";" 
     + "-webkit-user-select: none;line-height:normal;");
+    var spanpause = document.createElement('span');
+    spanpause.innerHTML = "pause"
+    spanpause.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
+    sdiv.appendChild(spanpause);
+    var cbpause = document.createElement('input');
+    cbpause.setAttribute('type', "checkbox");
+    cbpause.setAttribute('id', "cbpause");
+    cbpause.setAttribute('style', "transform: scale(0.8);vertical-align:middle;margin:0;height:13px;width:13px;");
+    cbpause.checked = false;
+    cbpause.onchange = function(e) {
+        pauseScroll();
+    };
+    sdiv.appendChild(cbpause);
     var spanautohide = document.createElement('span');
     spanautohide.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
     spanautohide.innerHTML = "debug";
-    var cddebug = document.createElement('input');
-    cddebug.setAttribute('type', "checkbox");
-    cddebug.setAttribute('id', "cddebug");
-    cddebug.setAttribute('style', "transform: scale(0.8);vertical-align:middle;margin:0;height:13px;width:13px;");
-    cddebug.checked = asSettings.statusAutoHide;
-    cddebug.onchange = function(e) {
+    var cbdebug = document.createElement('input');
+    cbdebug.setAttribute('type', "checkbox");
+    cbdebug.setAttribute('id', "cbdebug");
+    cbdebug.setAttribute('style', "transform: scale(0.8);vertical-align:middle;margin:0;height:13px;width:13px;");
+    cbdebug.checked = asSettings.statusAutoHide;
+    cbdebug.onchange = function(e) {
         asSettings.debug = e.target.checked;
         if (!asSettings.debug) {
             document.getElementById('ddebug').setAttribute('style', "display: none;");
             var ds = document.getElementById('smartscrollbanner');
-            window.setTimeout(function() {
+/*            window.setTimeout(function() {
                 hideStatus(ds);
-            }, 2000);
+            }, 2000);  */
         } 
         else {
             toggleDebug();
@@ -189,7 +202,7 @@ function showStatus() {
     sdebug.innerHTML = "<span id='lpp'>0</span> | <span id='wpl'>0</span> awpl |" 
     + " <span id='psd'>0</span>spl | <span id='ert'>0</span> min"
     sdiv.appendChild(spanautohide);
-    sdiv.appendChild(cddebug);
+    sdiv.appendChild(cbdebug);
     ddebug.appendChild(sdebug);
     sdiv.appendChild(ddebug);
     
@@ -245,9 +258,9 @@ function revealStatus(ds) {
         }, 20);
     } 
     else {
-        window.setTimeout(function() {
+/*        window.setTimeout(function() { // We now keep the status visible by default
             hideStatus(ds);
-        }, 2000);
+        }, 2000);*/
     }
 }
 
@@ -265,7 +278,7 @@ function toggleDebug() {
     ddebug = document.getElementById('ddebug');
     if (ddebug.style.display == "none") {
         revealStatus(document.getElementById('smartscrollbanner'));
-        document.getElementById('cddebug').checked = true;
+        document.getElementById('cbdebug').checked = true;
         ddebug.style.display = "block";
         asSettings.debug = true;
         // Add the CSS rule to change bgcolor of current paragraph
@@ -280,7 +293,7 @@ function toggleDebug() {
     } 
     else {
         ddebug.style.display = "none";
-        document.getElementById('cddebug').checked = false;
+        document.getElementById('cbdebug').checked = false;
         if (asSettings.curElm != null) {
             asSettings.curElm.className = asSettings.curElm.className.replace(/ hover\b/, '');
         }
@@ -340,10 +353,8 @@ function launchScroll(wordsPerLine, pixelsPerLine) {
     document.getElementById('smartscrollbanner').setAttribute('interval', asSettings.interval);
 }
 
-// Handling of ESC key. One press : stop the scroll, 2 presses : display debug 
-document.onkeyup = function(event) {
-    var keyCode = ('which' in event) ? event.which : event.keyCode;
-    if (keyCode === 27) {
+
+function pauseScroll() {
         asSettings.scrolling = (asSettings.scrolling > 0) ? 0 : 1;
         if (asSettings.scrolling == 0 && asSettings.debug == true) {
             document.getElementById('psd').innerHTML = "∞";
@@ -353,6 +364,13 @@ document.onkeyup = function(event) {
                 onP(asSettings.curElm);
             }
         }
+}
+
+// Handling of ESC key. One press : stop the scroll, 2 presses : display debug 
+document.onkeyup = function(event) {
+    var keyCode = ('which' in event) ? event.which : event.keyCode;
+    if (keyCode === 27) {
+        pauseScroll();
         var thisKeypressTime = new Date();
         if (thisKeypressTime - asSettings.lastEscPressTime <= asSettings.debugInvokeDelay) {
             toggleDebug();
