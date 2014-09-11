@@ -370,6 +370,7 @@ function pauseScroll() {
 document.onkeyup = function(event) {
     var keyCode = ('which' in event) ? event.which : event.keyCode;
     if (keyCode === 27) {
+        document.getElementById('cbpause').checked = !document.getElementById('cbpause').checked;
         pauseScroll();
         var thisKeypressTime = new Date();
         if (thisKeypressTime - asSettings.lastEscPressTime <= asSettings.debugInvokeDelay) {
