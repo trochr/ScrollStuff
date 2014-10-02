@@ -194,16 +194,12 @@ function showStatus() {
             toggleDebug();
         }
     };
-    /*
-    <a href="http://trochr.github.io/ScrollStuff/smartscroll.html" style="
-    position: absolute;
-    right: 7px;
-">⌂</a>
-    */
+
     var hlink = document.createElement('a');
     hlink.href="http://trochr.github.io/ScrollStuff/smartscroll.html";
     hlink.style.position = "absolute";
     hlink.style.right = "7px";
+    hlink.innerHTML='⌂';
    
     var ddebug = document.createElement('div');
     ddebug.id = "ddebug";
