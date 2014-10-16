@@ -196,7 +196,7 @@ function showStatus() {
     };
 
     var hlink = document.createElement('a');
-    hlink.href="http://trochr.github.io/ScrollStuff/smartscroll.html";
+    hlink.href="http://trochr.github.io/ScrollStuff";
     hlink.style.position = "absolute";
     hlink.style.right = "7px";
     hlink.innerHTML='⌂';
