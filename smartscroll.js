@@ -154,7 +154,7 @@ function showStatus() {
     sdiv.innerHTML = "Auto-scrolling at " + "<span id='chwpm'>" 
     + "<span id='mwpm' style='cursor:pointer;'> - </span>" 
     + "<span id='wpm'>" + asSettings.wordsReadPerMinute + "</span>" 
-    + "<span id='pwpm' style='cursor:pointer;'> + </span></span>" + " wpm";
+    + "<span id='pwpm' style='cursor:pointer;'> + </span></span>" + "<span title=\"words per minute\"> wpm</span>";
     sdiv.setAttribute('style', "background: #E7E7E7;position: fixed;text-align: center;" 
     + "text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;font-size:16px;" 
     + "font-weight: bold;top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;" 
