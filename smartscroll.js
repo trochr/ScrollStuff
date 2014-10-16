@@ -341,7 +341,7 @@ function onP(elm) {
         }
     }
     pcopy.parentNode.removeChild(pcopy);
-    if (lineCount > 3) { // only scroll when on a real paragraph
+    if (lineCount > 1) { // only scroll when on a real paragraph
         launchScroll(wordsPerLine, pixelsPerLine);
     }
 }
