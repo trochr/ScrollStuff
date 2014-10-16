@@ -21,4 +21,4 @@ Caveats
 Testing page 
 -----
 
-https://rawgithub.com/trochr/ScrollStuff/master/tests/autoscroll.html
+http://trochr.github.io/ScrollStuff/tests/autoscroll.html
