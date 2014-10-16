@@ -206,7 +206,7 @@ function showStatus() {
     ddebug.setAttribute('style', "display: none;");
     var sdebug = document.createElement('span');
     sdebug.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
-    sdebug.innerHTML = "<span id='lpp'>0</span> | <span id='wpl'>0</span> awpl |" 
+    sdebug.innerHTML = "<span id='lpp'>0</span> | <span id='wpl'>0</span> <span title=\"average words per line\">awpl</span> |" 
     + " <span id='psd'>0</span>spl | <span id='ert'>0</span> min"
     sdiv.appendChild(spanautohide);
     sdiv.appendChild(cbdebug);
