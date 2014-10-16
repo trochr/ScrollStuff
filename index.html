@@ -30,6 +30,13 @@
        var js = "javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.onload=function(){getServerSettings('"+guid()+"');};s.src='https://trochr.github.io/ScrollStuff/smartscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();";
         document.getElementById("bmlet").setAttribute("href",js);
       } 
+      
+      function launchDemo() {
+        s=document.createElement('script');
+        s.type='text/javascript';
+        s.src='https://trochr.github.io/ScrollStuff/smartscroll.js?v='+parseInt(Math.random()*99999999);
+        document.body.appendChild(s);
+      }
       </script>
       
   </head>
@@ -54,7 +61,7 @@ in a continuous manner. It detects the words per lines and, knowing your reading
     
 <div id="wrapperDemo">
 <h3>Demo</h3>
-        <p><a href="#demo" onclick="s=document.createElement('script');s.type='text/javascript';s.onload=function(){getServerSettings(guid());};s.src='https://trochr.github.io/ScrollStuff/smartscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();">Click here</a> to see the demo</p>
+        <p><a href="#demo" onclick="launchDemo();">Click here</a> to see the demo</p>
 <div id="demo" style="display: none;">
 
 <h3>Bookmarklet</h3><i>from <a href="http://en.wikipedia.org/wiki/Bookmarklet">http://en.wikipedia.org/wiki/Bookmarklet</a></i>
