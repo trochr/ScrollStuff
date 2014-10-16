@@ -19,9 +19,8 @@ function getAllPs() {
     var psp = document.body.getElementsByTagName('p');
     psp = Array.prototype.slice.call(psp);
     psp = psp.filter(function(e, i, a) {
-        var toleratedNodeName = ["A","SPAN","FONT"].indexOf(e.firstChild.nodeName) >= 0;
-        if (e.firstChild != null && (e.firstChild.nodeType == 3
-             ||toleratedNodeName)) { // a text node
+        if (e.firstChild != null && (e.firstChild.nodeType == 3 // a text node
+             ||["A","SPAN","FONT"].indexOf(e.firstChild.nodeName) >= 0)) { // a tolerated node
             var nonEmptyWords = e.textContent.split(' ').filter(function(elm) {
                 return (elm.length > 0);
             });
