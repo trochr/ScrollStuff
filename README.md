@@ -1,8 +1,7 @@
 ScrollStuff
 ===========
 
-In the great tradition of reinventing the wheel, here is ScrollStuff, a bookmarklet to scroll around a web page, 
-in a continuous manner. Not unlike some middle mouse clicks, but with better precision.
+In the great tradition of reinventing the wheel, here is SmartScroll, a bookmarklet to scroll around a web page, in a continuous manner. It detects the words per lines and, knowing your reading speed, will scroll accordingly.
 
 
 Usage
