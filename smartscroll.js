@@ -165,6 +165,7 @@ function showStatus() {
     spanpause.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
     sdiv.appendChild(spanpause);
     var cbpause = document.createElement('input');
+    cbpause.setAttribute('title','Tip : Press ESC anytime to pause/unpause scrolling');
     cbpause.setAttribute('type', "checkbox");
     cbpause.setAttribute('id', "cbpause");
     cbpause.setAttribute('style', "transform: scale(0.8);vertical-align:middle;margin:0;height:13px;width:13px;");
