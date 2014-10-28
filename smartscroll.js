@@ -208,7 +208,8 @@ function showStatus() {
     var sdebug = document.createElement('span');
     sdebug.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
     sdebug.innerHTML = "<span id='lpp'>0</span> | <span id='wpl'>0</span> <span title=\"average words per line\">awpl</span> |" 
-    + " <span id='psd'>0</span> <span title=\"seconds per line\">spl</span> | <span id='ert'>0</span> min"
+    + " <span id='psd'>0</span> <span title=\"seconds per line\">spl</span> |"
+    + " <span id='ert'>0</span> <span title=\"estimated reading time\">min</span>";
     sdiv.appendChild(spanautohide);
     sdiv.appendChild(cbdebug);
     sdiv.appendChild(hlink);
