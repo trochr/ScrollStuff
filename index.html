@@ -38,6 +38,10 @@
       window.onload = function() {
        var js = "javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.onload=function(){getServerSettings('"+guid()+"');};s.src='https://trochr.github.io/ScrollStuff/smartscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();";
         document.getElementById("bmlet").setAttribute("href",js);
+        document.getElementById('showcode').onclick =
+          function(){
+            document.getElementById('bmcode').style.display = "block";
+          };
       } 
       
       function launchDemo() {
@@ -46,10 +50,6 @@
         s.src='https://trochr.github.io/ScrollStuff/smartscroll.js?v='+parseInt(Math.random()*99999999);
         document.body.appendChild(s);
         document.getElementById('demo').style.display='block';
-        document.getElementById('showcode').onclick =
-          function(){
-            document.getElementById('bmcode').style.display = "block";
-          };
       }
       
     </script>
