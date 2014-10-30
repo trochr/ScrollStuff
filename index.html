@@ -47,6 +47,11 @@
         document.body.appendChild(s);
         document.getElementById('demo').style.display='block';
       }
+      
+      document.getElementById('showcode').onclick =
+          function(){
+            document.getElementById('bmcode').style.display = "block";
+          };
     </script>
   </head>
   <body>
@@ -62,13 +67,17 @@
 <p>In the great tradition of reinventing the mouse wheel, here is SmartScroll, a bookmarklet to scroll down a web page, 
 in a continuous manner. It detects the words per lines and, knowing your reading speed, will scroll accordingly.</p>
 
-<p>The thing is unusable on a touch display, you need a cursor to use it.</p>
-
 <h3><a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
 
 <div><ul>
   <li>Drag this to your Bookmarks Bar → 
-  <a id="bmlet" class="minibutton" href="javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.onload=function(){getServerSettings('0a35106c-9937-e426-967a-43302806e910');};s.src='https://trochr.github.io/ScrollStuff/smartscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();">SmartScroll</a></li>
+  <a id="bmlet" class="minibutton" href="javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.onload=function(){getServerSettings('0a35106c-9937-e426-967a-43302806e910');};s.src='https://trochr.github.io/ScrollStuff/smartscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();">SmartScroll</a>
+  [<a id="showcode" href="#scode">show</a>]
+  <div id="bmcode" style="display: none;">
+    <pre style="word-wrap:break-word;">javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.onload=function(){getServerSettings('a0a53a33-201c-840b-c78f-fdc51f8c1bf9');};s.src='https://trochr.github.io/ScrollStuff/smartscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();
+    </pre>
+  </div>
+  </li>
   <li>Surf to a website with some text to read.</li>
   <li>Click the bookmarklet (click again to discard)</li>
   <li>Point your mouse cursor to a paragraph</li>
