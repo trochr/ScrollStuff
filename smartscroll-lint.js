@@ -313,6 +313,8 @@ function toggleDebug() {
 
 function onP(elm) {
   'use strict';
+  var pcopy;
+  
   asSettings.curElm = elm;
   if (asSettings.debug && elm.className.match(/hover/) == null) {
     elm.className += " " + "hover";
