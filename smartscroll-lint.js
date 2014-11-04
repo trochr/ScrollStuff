@@ -431,25 +431,25 @@ function loadAS() {
 // Handling of ESC key. One press : stop the scroll, 2 presses : display debug 
 document.onkeyup = function (event) {
   'use strict';
-  var keyCode = event.keyCode;
+  var keyCode = event.keyCode,
+    thisKeypressTime;
   if (event.hasOwnProperty('which')) {
     keyCode = event.which;
   }
   if (keyCode === 27) {
     document.getElementById('cbpause').checked = !document.getElementById('cbpause').checked;
     pauseScroll();
-    var thisKeypressTime = new Date();
+    thisKeypressTime = new Date();
     if (thisKeypressTime - asSettings.lastEscPressTime <= asSettings.debugInvokeDelay) {
       toggleDebug();
       thisKeypressTime = 0;
     }
     asSettings.lastEscPressTime = thisKeypressTime;
   }
-}
+};
 
-if (document.getElementById('smartscrollbanner') != null) { // if AS is already there, remove it
+if (document.getElementById('smartscrollbanner') !== null) { // if AS is already there, remove it
   unloadAS();
-} 
-else {
+} else {
   loadAS();
 }
