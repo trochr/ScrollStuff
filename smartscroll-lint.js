@@ -156,7 +156,6 @@ function onP(elm) {
     pixelsPerLine,
     wordsPerLine,
     psd,
-    pstyle,
     lpp,
     estimatedTotalTime,
     estimatedRemainingTime;
@@ -175,7 +174,7 @@ function onP(elm) {
   }).length / lineCount;
   if (asSettings.debug) {
     psd = (wordsPerLine / (asSettings.wordsReadPerMinute / 60)) / pixelsPerLine;
-    pstyle = elm.className.replace(/ hover\b/, '');
+    elm.className.replace(/ hover\b/, '');
     lpp = Math.round(lineCount * 10) / 10;
     document.getElementById('lpp').innerHTML = lpp + ' line' + ((lpp > 1) ? 's' : '');
     document.getElementById('wpl').innerHTML = Math.round(wordsPerLine);
@@ -196,10 +195,22 @@ function onP(elm) {
 
 function offP(elm) {
   'use strict';
-    if (asSettings.debug && elm.className.match(/hover/) != null) {
-        elm.className = elm.className.replace(/ hover\b/, '');
-    }
+  if (asSettings.debug && elm.className.match(/hover/) !== null) {
+    elm.className = elm.className.replace(/ hover\b/, '');
+  }
 }
+
+
+function hideStatus(ds) {
+  'use strict';
+  if (!asSettings.debug && parseInt(ds.style.top, 10) > -(ds.offsetHeight + 2)) {
+    ds.style.top = parseInt(ds.style.top, 10) - 1 + "px";
+    window.setTimeout(function () {
+      hideStatus(ds);
+    }, 20);
+  }
+}
+
 
 
 function toggleDebug() {
@@ -218,11 +229,10 @@ function toggleDebug() {
     if (asSettings.curElm !== null) {
       onP(asSettings.curElm);
     }
-  } 
-  else {
+  } else {
     ddebug.style.display = "none";
     document.getElementById('cbdebug').checked = false;
-    if (asSettings.curElm != null) {
+    if (asSettings.curElm !== null) {
       asSettings.curElm.className = asSettings.curElm.className.replace(/ hover\b/, '');
     }
     hideStatus(document.getElementById('smartscrollbanner'));
@@ -231,97 +241,19 @@ function toggleDebug() {
 }
 
 
-function loadAS() {
-  'use strict';
-  if (asSettings.debug) {
-    toggleDebug();
-  }
-  showStatus();
-  var ps = getAllPs();
-
-  for (var i = 0; i < ps.length; i++) {
-    ps[i].onmouseover = function() {
-      onP(this);
-    };
-    ps[i].onmousemove = function() {
-      if (asSettings.curElm == null) {
-        onP(this);
-      }
-    };
-    ps[i].onmouseout = function() {
-      offP(this);
-    };
-  }
-}
-
-function setupPlusMinus() {
-  'use strict';
-  var chwpm = document.getElementById('chwpm');
-  var mwpm = document.getElementById('mwpm');
-  var pwpm = document.getElementById('pwpm');
-  var wpm = document.getElementById('wpm');
-
-  mwpm.onclick = function() {
-    asSettings.wordsReadPerMinute -= 1;
-    wpmChanged();
-  };
-  pwpm.onclick = function() {
-    asSettings.wordsReadPerMinute += 1;
-    wpmChanged();
-  };
-}
-
-function wpmChanged() {
-  'use strict';
-  wpm.innerText = asSettings.wordsReadPerMinute;
-  clearInterval(asSettings.saveInterval);
-  onP(asSettings.curElm);
-  asSettings.saveInterval = setTimeout(function (){saveSettings();}, 3000);
-}
-
-function saveSettings() {
-  'use strict';
-  var http = new XMLHttpRequest();
-  var url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
-  http.open("POST", url, true);
-  http.setRequestHeader("Authorization", asSettings.guid);
-  http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  var params = "wpm="+asSettings.wordsReadPerMinute;
-  http.onreadystatechange = function() { //Call a function when the state changes.
-    if (http.readyState == 4 && http.status == 200) {
-      console.log("Settings saved");
-    }
-  }
-  http.send(params);
-}
-
-
-
-function hideStatus(ds) {
-  'use strict';
-  if (!asSettings.debug && parseInt(ds.style.top) > -(ds.offsetHeight + 2)) {
-    ds.style.top = parseInt(ds.style.top) - 1 + "px";
-    window.setTimeout(function() {
-      hideStatus(ds);
-    }, 20);
-  }
-}
-
-
-
 function showStatus() {
   'use strict';
   var sdiv = document.createElement('div');
   sdiv.id = "smartscrollbanner";
-  sdiv.innerHTML = "Auto-scrolling at " + "<span id='chwpm'>" 
-  + "<span id='mwpm' style='cursor:pointer;'> - </span>" 
-  + "<span id='wpm'>" + asSettings.wordsReadPerMinute + "</span>" 
-  + "<span id='pwpm' style='cursor:pointer;'> + </span></span>" + "<span title=\"words per minute\"> wpm</span>";
-  sdiv.setAttribute('style', "background: #E7E7E7;position: fixed;text-align: center;" 
-  + "text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;font-size:16px;" 
-  + "top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;" 
-  + "margin: auto;width: "+((document.documentElement.clientWidth < 480)?17:30)+"em;z-index:" + highZ() + 1 + ";" 
-  + "-webkit-user-select: none;line-height:normal;");
+  sdiv.innerHTML = "Auto-scrolling at " + "<span id='chwpm'>"
+    + "<span id='mwpm' style='cursor:pointer;'> - </span>"
+    + "<span id='wpm'>" + asSettings.wordsReadPerMinute + "</span>"
+    + "<span id='pwpm' style='cursor:pointer;'> + </span></span>" + "<span title=\"words per minute\"> wpm</span>";
+  sdiv.setAttribute('style', "background: #E7E7E7;position: fixed;text-align: center;"
+    + "text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;font-size:16px;"
+    + "top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;"
+    + "margin: auto;width: " + ((document.documentElement.clientWidth < 480)?17:30)+"em;z-index:" + highZ() + 1 + ";"
+    + "-webkit-user-select: none;line-height:normal;");
   var spanpause = document.createElement('span');
   spanpause.innerHTML = "pause"
   spanpause.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
@@ -379,6 +311,76 @@ function showStatus() {
   setupPlusMinus();
   revealStatus(sdiv);
 }
+
+
+function loadAS() {
+  'use strict';
+  var i,
+    ps;
+  if (asSettings.debug) {
+    toggleDebug();
+  }
+  showStatus();
+  ps = getAllPs();
+
+  for (i = 0; i < ps.length; i++) {
+    ps[i].onmouseover = function() {
+      onP(this);
+    };
+    ps[i].onmousemove = function() {
+      if (asSettings.curElm == null) {
+        onP(this);
+      }
+    };
+    ps[i].onmouseout = function() {
+      offP(this);
+    };
+  }
+}
+
+function setupPlusMinus() {
+  'use strict';
+  var chwpm = document.getElementById('chwpm');
+  var mwpm = document.getElementById('mwpm');
+  var pwpm = document.getElementById('pwpm');
+  var wpm = document.getElementById('wpm');
+
+  mwpm.onclick = function() {
+    asSettings.wordsReadPerMinute -= 1;
+    wpmChanged();
+  };
+  pwpm.onclick = function() {
+    asSettings.wordsReadPerMinute += 1;
+    wpmChanged();
+  };
+}
+
+function wpmChanged() {
+  'use strict';
+  wpm.innerText = asSettings.wordsReadPerMinute;
+  clearInterval(asSettings.saveInterval);
+  onP(asSettings.curElm);
+  asSettings.saveInterval = setTimeout(function (){saveSettings();}, 3000);
+}
+
+function saveSettings() {
+  'use strict';
+  var http = new XMLHttpRequest();
+  var url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
+  http.open("POST", url, true);
+  http.setRequestHeader("Authorization", asSettings.guid);
+  http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  var params = "wpm="+asSettings.wordsReadPerMinute;
+  http.onreadystatechange = function() { //Call a function when the state changes.
+    if (http.readyState == 4 && http.status == 200) {
+      console.log("Settings saved");
+    }
+  }
+  http.send(params);
+}
+
+
+
 
 
 
