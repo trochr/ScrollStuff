@@ -101,28 +101,69 @@ function unloadAS() {
 
 function getServerSettings(guid) {
   'use strict';
-  if (document.getElementById('wpm') === null){
+  if (document.getElementById('wpm') === null) {
     return;
   }
   asSettings.guid = guid;
-  var http = new XMLHttpRequest(),
-    url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
+  var http = new window.XMLHttpRequest(),
+    url = "https://fierce-escarpment-8017.herokuapp.com/user/settings";
   http.open("GET", url, true);
   http.setRequestHeader("Authorization", guid);
-    
-  http.onreadystatechange = function() { //Call a function when the state changes.
-    if (http.readyState == 4 && http.status == 200) {
+
+  http.onreadystatechange = function () { //Call a function when the state changes.
+    if (http.readyState === 4 && http.status === 200) {
       var resp = JSON.parse(http.responseText);
       if (!resp.hasOwnProperty('wpm')) {
-        return console.log("Settings doesn't contain wpm");
+        return;
       }
       if (Math.floor(resp.wpm) > 0) {
         asSettings.wordsReadPerMinute = resp.wpm;
         document.getElementById('wpm').innerHTML = resp.wpm;
       }
     }
-  }
+  };
   http.send(null);
+}
+
+
+function revealStatus(ds) {
+  'use strict';
+  if (parseInt(ds.style.top) < 0) {
+    ds.style.top = parseInt(ds.style.top) + 1 + "px";
+    window.setTimeout(function() {
+      revealStatus(ds);
+    }, 20);
+  }
+}
+
+
+function toggleDebug() {
+  'use strict';
+  var ddebug = document.getElementById('ddebug');
+  if (ddebug.style.display === "none") {
+    revealStatus(document.getElementById('smartscrollbanner'));
+    document.getElementById('cbdebug').checked = true;
+    ddebug.style.display = "block";
+    asSettings.debug = true;
+    // Add the CSS rule to change bgcolor of current paragraph
+    var css = document.createElement("style");
+    css.type = "text/css";
+    css.innerHTML = "div.hover {background: #EEEEEE;}" 
+    + "p.hover {background: #EEEEEE;}";
+    document.body.appendChild(css);
+    if (asSettings.curElm !== null) {
+      onP(asSettings.curElm);
+    }
+  } 
+  else {
+    ddebug.style.display = "none";
+    document.getElementById('cbdebug').checked = false;
+    if (asSettings.curElm != null) {
+      asSettings.curElm.className = asSettings.curElm.className.replace(/ hover\b/, '');
+    }
+    hideStatus(document.getElementById('smartscrollbanner'));
+    asSettings.debug = false;
+  }
 }
 
 
@@ -148,6 +189,61 @@ function loadAS() {
     };
   }
 }
+
+function setupPlusMinus() {
+  'use strict';
+  var chwpm = document.getElementById('chwpm');
+  var mwpm = document.getElementById('mwpm');
+  var pwpm = document.getElementById('pwpm');
+  var wpm = document.getElementById('wpm');
+
+  mwpm.onclick = function() {
+    asSettings.wordsReadPerMinute -= 1;
+    wpmChanged();
+  };
+  pwpm.onclick = function() {
+    asSettings.wordsReadPerMinute += 1;
+    wpmChanged();
+  };
+}
+
+function wpmChanged() {
+  'use strict';
+  wpm.innerText = asSettings.wordsReadPerMinute;
+  clearInterval(asSettings.saveInterval);
+  onP(asSettings.curElm);
+  asSettings.saveInterval = setTimeout(function (){saveSettings();}, 3000);
+}
+
+function saveSettings() {
+  'use strict';
+  var http = new XMLHttpRequest();
+  var url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
+  http.open("POST", url, true);
+  http.setRequestHeader("Authorization", asSettings.guid);
+  http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  var params = "wpm="+asSettings.wordsReadPerMinute;
+  http.onreadystatechange = function() { //Call a function when the state changes.
+    if (http.readyState == 4 && http.status == 200) {
+      console.log("Settings saved");
+    }
+  }
+  http.send(params);
+}
+
+
+
+function hideStatus(ds) {
+  'use strict';
+  if (!asSettings.debug && parseInt(ds.style.top) > -(ds.offsetHeight + 2)) {
+    ds.style.top = parseInt(ds.style.top) - 1 + "px";
+    window.setTimeout(function() {
+      hideStatus(ds);
+    }, 20);
+  }
+}
+
+
 
 function showStatus() {
   'use strict';
@@ -220,96 +316,6 @@ function showStatus() {
   revealStatus(sdiv);
 }
 
-function setupPlusMinus() {
-  'use strict';
-  var chwpm = document.getElementById('chwpm');
-  var mwpm = document.getElementById('mwpm');
-  var pwpm = document.getElementById('pwpm');
-  var wpm = document.getElementById('wpm');
-
-  mwpm.onclick = function() {
-    asSettings.wordsReadPerMinute -= 1;
-    wpmChanged();
-  };
-  pwpm.onclick = function() {
-    asSettings.wordsReadPerMinute += 1;
-    wpmChanged();
-  };
-}
-
-function wpmChanged() {
-  'use strict';
-  wpm.innerText = asSettings.wordsReadPerMinute;
-  clearInterval(asSettings.saveInterval);
-  onP(asSettings.curElm);
-  asSettings.saveInterval = setTimeout(function (){saveSettings();}, 3000);
-}
-
-function saveSettings() {
-  'use strict';
-  var http = new XMLHttpRequest();
-  var url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
-  http.open("POST", url, true);
-  http.setRequestHeader("Authorization", asSettings.guid);
-  http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  var params = "wpm="+asSettings.wordsReadPerMinute;
-  http.onreadystatechange = function() { //Call a function when the state changes.
-    if (http.readyState == 4 && http.status == 200) {
-      console.log("Settings saved");
-    }
-  }
-  http.send(params);
-}
-
-function revealStatus(ds) {
-  'use strict';
-  if (parseInt(ds.style.top) < 0) {
-    ds.style.top = parseInt(ds.style.top) + 1 + "px";
-    window.setTimeout(function() {
-      revealStatus(ds);
-    }, 20);
-  }
-}
-
-function hideStatus(ds) {
-  'use strict';
-  if (!asSettings.debug && parseInt(ds.style.top) > -(ds.offsetHeight + 2)) {
-    ds.style.top = parseInt(ds.style.top) - 1 + "px";
-    window.setTimeout(function() {
-      hideStatus(ds);
-    }, 20);
-  }
-}
-
-
-function toggleDebug() {
-  'use strict';
-  var ddebug = document.getElementById('ddebug');
-  if (ddebug.style.display == "none") {
-    revealStatus(document.getElementById('smartscrollbanner'));
-    document.getElementById('cbdebug').checked = true;
-    ddebug.style.display = "block";
-    asSettings.debug = true;
-    // Add the CSS rule to change bgcolor of current paragraph
-    var css = document.createElement("style");
-    css.type = "text/css";
-    css.innerHTML = "div.hover {background: #EEEEEE;}" 
-    + "p.hover {background: #EEEEEE;}";
-    document.body.appendChild(css);
-    if (asSettings.curElm != null) {
-      onP(asSettings.curElm);
-    }
-  } 
-  else {
-    ddebug.style.display = "none";
-    document.getElementById('cbdebug').checked = false;
-    if (asSettings.curElm != null) {
-      asSettings.curElm.className = asSettings.curElm.className.replace(/ hover\b/, '');
-    }
-    hideStatus(document.getElementById('smartscrollbanner'));
-    asSettings.debug = false;
-  }
-}
 
 function onP(elm) {
   'use strict';
