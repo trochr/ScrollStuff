@@ -240,6 +240,50 @@ function toggleDebug() {
   }
 }
 
+function deepCss(who, css) {
+  'use strict';
+  var sty, val, dv = document.defaultView || window;
+  if (who.nodeType === 1) {
+    sty = css.replace(/\-([a-z])/g, function (a) {
+      return a.toUpperCase();
+    });
+    val = who.style[sty];
+    if (!val) {
+      if (who.currentStyle) {
+        val = who.currentStyle[sty];
+      } else if (dv.getComputedStyle) {
+        val = dv.getComputedStyle(who, "").getPropertyValue(css);
+      }
+    }
+  }
+  return val || "";
+}
+
+function highZ(parent, limit) {
+  'use strict';
+  limit = limit || Infinity;
+  parent = parent || document.body;
+  var who, temp, max = 1, A = [], i = 0;
+  var children = parent.childNodes, length = children.length;
+  while (i < length) {
+    who = children[i++];
+    if (who.nodeType != 1)
+      continue; // element nodes only
+    if (deepCss(who, "position") !== "static") {
+      temp = deepCss(who, "z-index");
+      if (temp == "auto") { // z-index is auto, so not a new stacking context
+        temp = highZ(who);
+      } else {
+        temp = parseInt(temp, 10) || 0;
+      }
+    } else { // non-positioned element, so not a new stacking context
+      temp = highZ(who);
+    }
+    if (temp > max && temp <= limit)
+      max = temp;
+  }
+  return max;
+}
 
 function showStatus() {
   'use strict';
@@ -252,7 +296,7 @@ function showStatus() {
   sdiv.setAttribute('style', "background: #E7E7E7;position: fixed;text-align: center;"
     + "text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;font-size:16px;"
     + "top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;"
-    + "margin: auto;width: " + ((document.documentElement.clientWidth < 480)?17:30)+"em;z-index:" + highZ() + 1 + ";"
+    + "margin: auto;width: " + ((document.documentElement.clientWidth < 480) ? 17 : 30) + "em;z-index:" + highZ() + 1 + ";"
     + "-webkit-user-select: none;line-height:normal;");
   var spanpause = document.createElement('span');
   spanpause.innerHTML = "pause"
@@ -379,11 +423,6 @@ function saveSettings() {
   http.send(params);
 }
 
-
-
-
-
-
 function pauseScroll() {
   'use strict';
   asSettings.scrolling = (asSettings.scrolling > 0) ? 0 : 1;
@@ -411,51 +450,6 @@ document.onkeyup = function(event) {
     }
     asSettings.lastEscPressTime = thisKeypressTime;
   }
-}
-
-function highZ(parent, limit) {
-  'use strict';
-  limit = limit || Infinity;
-  parent = parent || document.body;
-  var who, temp, max = 1, A = [], i = 0;
-  var children = parent.childNodes, length = children.length;
-  while (i < length) {
-    who = children[i++];
-    if (who.nodeType != 1)
-      continue; // element nodes only
-    if (deepCss(who, "position") !== "static") {
-      temp = deepCss(who, "z-index");
-      if (temp == "auto") { // z-index is auto, so not a new stacking context
-        temp = highZ(who);
-      } else {
-        temp = parseInt(temp, 10) || 0;
-      }
-    } else { // non-positioned element, so not a new stacking context
-      temp = highZ(who);
-    }
-    if (temp > max && temp <= limit)
-      max = temp;
-  }
-  return max;
-}
-
-function deepCss(who, css) {
-  'use strict';
-  var sty, val, dv = document.defaultView || window;
-  if (who.nodeType == 1) {
-    sty = css.replace(/\-([a-z])/g, function(a, b) {
-      return b.toUpperCase();
-    });
-    val = who.style[sty];
-    if (!val) {
-      if (who.currentStyle)
-        val = who.currentStyle[sty];
-      else if (dv.getComputedStyle) {
-        val = dv.getComputedStyle(who, "").getPropertyValue(css);
-      }
-    }
-  }
-  return val || "";
 }
 
 if (document.getElementById('smartscrollbanner') != null) { // if AS is already there, remove it
