@@ -429,9 +429,12 @@ function loadAS() {
 }
 
 // Handling of ESC key. One press : stop the scroll, 2 presses : display debug 
-document.onkeyup = function(event) {
+document.onkeyup = function (event) {
   'use strict';
-  var keyCode = ('which' in event) ? event.which : event.keyCode;
+  var keyCode = event.keyCode;
+  if (event.hasOwnProperty('which')) {
+    keyCode = event.which;
+  }
   if (keyCode === 27) {
     document.getElementById('cbpause').checked = !document.getElementById('cbpause').checked;
     pauseScroll();
