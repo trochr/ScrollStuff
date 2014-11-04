@@ -112,7 +112,7 @@ function getServerSettings(guid) {
     
   http.onreadystatechange = function() { //Call a function when the state changes.
     if (http.readyState == 4 && http.status == 200) {
-      resp = JSON.parse(http.responseText);
+      var resp = JSON.parse(http.responseText);
       if (!resp.hasOwnProperty('wpm')) {
         return console.log("Settings doesn't contain wpm");
       }
