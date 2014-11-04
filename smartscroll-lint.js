@@ -263,15 +263,17 @@ function highZ(parent, limit) {
   'use strict';
   limit = limit || Infinity;
   parent = parent || document.body;
-  var who, temp, max = 1, A = [], i = 0;
-  var children = parent.childNodes, length = children.length;
+  var who, temp, max = 1, i = 0,
+    children = parent.childNodes, length = children.length;
   while (i < length) {
-    who = children[i++];
-    if (who.nodeType != 1)
+    who = children[i];
+    i += 1;
+    if (who.nodeType !== 1) {
       continue; // element nodes only
+    }
     if (deepCss(who, "position") !== "static") {
       temp = deepCss(who, "z-index");
-      if (temp == "auto") { // z-index is auto, so not a new stacking context
+      if (temp === "auto") { // z-index is auto, so not a new stacking context
         temp = highZ(who);
       } else {
         temp = parseInt(temp, 10) || 0;
@@ -279,15 +281,35 @@ function highZ(parent, limit) {
     } else { // non-positioned element, so not a new stacking context
       temp = highZ(who);
     }
-    if (temp > max && temp <= limit)
+    if (temp > max && temp <= limit) {
       max = temp;
+    }
   }
   return max;
 }
 
+function pauseScroll() {
+  'use strict';
+  asSettings.scrolling = (asSettings.scrolling > 0) ? 0 : 1;
+  if (asSettings.scrolling === 0 && asSettings.debug === true) {
+    document.getElementById('psd').innerHTML = "∞";
+  } else {
+    if (asSettings.curElm !== null) {
+      onP(asSettings.curElm);
+    }
+  }
+}
+
 function showStatus() {
   'use strict';
-  var sdiv = document.createElement('div');
+  var sdiv = document.createElement('div'),
+    spanpause = document.createElement('span'),
+    cbpause = document.createElement('input'),
+    ddebug = document.createElement('div'),
+    elm = document.body,
+    sdebug = document.createElement('span'),
+    spanautohide = document.createElement('span'),
+    cbdebug = document.createElement('input');
   sdiv.id = "smartscrollbanner";
   sdiv.innerHTML = "Auto-scrolling at " + "<span id='chwpm'>"
     + "<span id='mwpm' style='cursor:pointer;'> - </span>"
@@ -298,33 +320,28 @@ function showStatus() {
     + "top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;"
     + "margin: auto;width: " + ((document.documentElement.clientWidth < 480) ? 17 : 30) + "em;z-index:" + highZ() + 1 + ";"
     + "-webkit-user-select: none;line-height:normal;");
-  var spanpause = document.createElement('span');
-  spanpause.innerHTML = "pause"
+  spanpause.innerHTML = "pause";
   spanpause.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
   sdiv.appendChild(spanpause);
-  var cbpause = document.createElement('input');
-  cbpause.setAttribute('title','Tip : Press ESC anytime to pause/unpause scrolling');
+  cbpause.setAttribute('title', 'Tip : Press ESC anytime to pause/unpause scrolling');
   cbpause.setAttribute('type', "checkbox");
   cbpause.setAttribute('id', "cbpause");
   cbpause.setAttribute('style', "transform: scale(0.8);vertical-align:middle;margin:0;height:13px;width:13px;");
   cbpause.checked = false;
-  cbpause.onchange = function(e) {
+  cbpause.onchange = function () {
     pauseScroll();
   };
   sdiv.appendChild(cbpause);
-  var spanautohide = document.createElement('span');
   spanautohide.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
   spanautohide.innerHTML = "debug";
-  var cbdebug = document.createElement('input');
   cbdebug.setAttribute('type', "checkbox");
   cbdebug.setAttribute('id', "cbdebug");
   cbdebug.setAttribute('style', "transform: scale(0.8);vertical-align:middle;margin:0;height:13px;width:13px;");
   cbdebug.checked = asSettings.statusAutoHide;
-  cbdebug.onchange = function(e) {
+  cbdebug.onchange = function (e) {
     asSettings.debug = e.target.checked;
     if (!asSettings.debug) {
       document.getElementById('ddebug').setAttribute('style', "display: none;");
-      var ds = document.getElementById('smartscrollbanner');
     } else {
       toggleDebug();
     }
@@ -336,10 +353,8 @@ function showStatus() {
   hlink.style.right = "7px";
   hlink.innerHTML='⌂';
  
-  var ddebug = document.createElement('div');
   ddebug.id = "ddebug";
   ddebug.setAttribute('style', "display: none;");
-  var sdebug = document.createElement('span');
   sdebug.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
   sdebug.innerHTML = "<span id='lpp'>0</span> | <span id='wpl'>0</span> <span title=\"average words per line\">awpl</span> |" 
   + " <span id='psd'>0</span> <span title=\"seconds per line\">spl</span> |"
@@ -350,7 +365,6 @@ function showStatus() {
   ddebug.appendChild(sdebug);
   sdiv.appendChild(ddebug);
   
-  var elm = document.body;
   elm.insertBefore(sdiv, elm.firstChild);
   setupPlusMinus();
   revealStatus(sdiv);
@@ -421,19 +435,6 @@ function saveSettings() {
     }
   }
   http.send(params);
-}
-
-function pauseScroll() {
-  'use strict';
-  asSettings.scrolling = (asSettings.scrolling > 0) ? 0 : 1;
-  if (asSettings.scrolling == 0 && asSettings.debug == true) {
-    document.getElementById('psd').innerHTML = "∞";
-  } 
-  else {
-    if (asSettings.curElm != null) {
-      onP(asSettings.curElm);
-    }
-  }
 }
 
 // Handling of ESC key. One press : stop the scroll, 2 presses : display debug 
