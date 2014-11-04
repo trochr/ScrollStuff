@@ -71,7 +71,7 @@ function getAllPs() {
       return (elm.length > 0);
     });
     newc = nonEmptyWords.length > 10 ? nonEmptyWords.length : 0;
-    if (asSettings.completion[asSettings.completion.length - 1] === null) {
+    if (asSettings.completion[asSettings.completion.length - 1] === undefined) {
       currentCount = newc;
     } else {
       currentCount = newc + asSettings.completion[asSettings.completion.length - 1];
