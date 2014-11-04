@@ -128,28 +128,92 @@ function getServerSettings(guid) {
 
 function revealStatus(ds) {
   'use strict';
-  if (parseInt(ds.style.top) < 0) {
-    ds.style.top = parseInt(ds.style.top) + 1 + "px";
-    window.setTimeout(function() {
+  if (parseInt(ds.style.top, 10) < 0) {
+    ds.style.top = parseInt(ds.style.top, 10) + 1 + "px";
+    window.setTimeout(function () {
       revealStatus(ds);
     }, 20);
   }
 }
 
 
+function launchScroll(wordsPerLine, pixelsPerLine) {
+  'use strict';
+  var delay = (wordsPerLine / (asSettings.wordsReadPerMinute / 60)) / pixelsPerLine,
+    scrollStep = 1;
+  window.clearInterval(asSettings.interval);
+  asSettings.interval = window.setInterval(function () {
+    window.scrollBy(0, scrollStep * asSettings.scrolling);
+  }, 1000 * delay);
+  document.getElementById('smartscrollbanner').setAttribute('interval', asSettings.interval);
+}
+
+
+function onP(elm) {
+  'use strict';
+  var pcopy,
+    lineCount,
+    pixelsPerLine,
+    wordsPerLine,
+    psd,
+    pstyle,
+    lpp,
+    estimatedTotalTime,
+    estimatedRemainingTime;
+  asSettings.curElm = elm;
+  if (asSettings.debug && elm.className.match(/hover/) === null) {
+    elm.className += " " + "hover";
+  }
+  pcopy = elm.cloneNode(true);
+  elm.parentNode.insertBefore(pcopy, elm.nextSibling);
+  pcopy.innerHTML = 'A<br>B<br>C<br>D<br>E'; // Create a identical element with a known number of lines : 5
+  pcopy.setAttribute("style", 'position:absolute;left:-2000px;');
+  lineCount = elm.offsetHeight / (pcopy.offsetHeight / 5);
+  pixelsPerLine = elm.offsetHeight / lineCount;
+  wordsPerLine = elm.innerHTML.split(' ').filter(function (e) {
+    return (e.length > 0);
+  }).length / lineCount;
+  if (asSettings.debug) {
+    psd = (wordsPerLine / (asSettings.wordsReadPerMinute / 60)) / pixelsPerLine;
+    pstyle = elm.className.replace(/ hover\b/, '');
+    lpp = Math.round(lineCount * 10) / 10;
+    document.getElementById('lpp').innerHTML = lpp + ' line' + ((lpp > 1) ? 's' : '');
+    document.getElementById('wpl').innerHTML = Math.round(wordsPerLine);
+    estimatedTotalTime = parseInt(asSettings.totalWords / asSettings.wordsReadPerMinute, 10);
+    estimatedRemainingTime = parseInt(estimatedTotalTime *
+                                        asSettings.completion[asSettings.ps.indexOf(asSettings.curElm)]
+                                        / asSettings.totalWords, 10);
+    document.getElementById('ert').innerHTML = estimatedRemainingTime + '/' + estimatedTotalTime;
+    if (asSettings.scrolling === 1) {
+      document.getElementById('psd').innerHTML = Math.round(psd * 1000) / 1000;
+    }
+  }
+  pcopy.parentNode.removeChild(pcopy);
+  if (lineCount > 1) { // only scroll when on a real paragraph
+    launchScroll(wordsPerLine, pixelsPerLine);
+  }
+}
+
+function offP(elm) {
+  'use strict';
+    if (asSettings.debug && elm.className.match(/hover/) != null) {
+        elm.className = elm.className.replace(/ hover\b/, '');
+    }
+}
+
+
 function toggleDebug() {
   'use strict';
-  var ddebug = document.getElementById('ddebug');
+  var ddebug = document.getElementById('ddebug'),
+    css = document.createElement("style");
   if (ddebug.style.display === "none") {
     revealStatus(document.getElementById('smartscrollbanner'));
     document.getElementById('cbdebug').checked = true;
     ddebug.style.display = "block";
     asSettings.debug = true;
     // Add the CSS rule to change bgcolor of current paragraph
-    var css = document.createElement("style");
     css.type = "text/css";
-    css.innerHTML = "div.hover {background: #EEEEEE;}" 
-    + "p.hover {background: #EEEEEE;}";
+    css.innerHTML = "div.hover {background: #EEEEEE;} p.hover {background: #EEEEEE;}";
     document.body.appendChild(css);
     if (asSettings.curElm !== null) {
       onP(asSettings.curElm);
@@ -316,62 +380,6 @@ function showStatus() {
   revealStatus(sdiv);
 }
 
-
-function onP(elm) {
-  'use strict';
-  var pcopy;
-  
-  asSettings.curElm = elm;
-  if (asSettings.debug && elm.className.match(/hover/) == null) {
-    elm.className += " " + "hover";
-  }
-  pcopy = elm.cloneNode(true);
-  elm.parentNode.insertBefore(pcopy, elm.nextSibling);
-  pcopy.innerHTML = 'A<br>B<br>C<br>D<br>E'; // Create a identical element with a known number of lines : 5
-  pcopy.setAttribute("style", 'position:absolute;left:-2000px;');
-  var lineCount = elm.offsetHeight / (pcopy.offsetHeight / 5);
-  var pixelsPerLine = elm.offsetHeight / lineCount;
-  var wordsPerLine = elm.innerHTML.split(' ').filter(function(e, i, a) {
-    return (e.length > 0)
-  }).length / lineCount;
-  if (asSettings.debug) {
-    var psd = (wordsPerLine / (asSettings.wordsReadPerMinute / 60)) / pixelsPerLine;
-    var pstyle = elm.className.replace(/ hover\b/, '');
-    var lpp = Math.round(lineCount * 10) / 10;
-    document.getElementById('lpp').innerHTML = lpp + ' line' + ((lpp > 1) ? 's' : '');
-    document.getElementById('wpl').innerHTML = Math.round(wordsPerLine);
-    var estimatedTotalTime = parseInt(asSettings.totalWords/asSettings.wordsReadPerMinute);
-    var estimatedRemainingTime = parseInt(estimatedTotalTime*
-                                        asSettings.completion[asSettings.ps.indexOf(asSettings.curElm)]
-                                        /asSettings.totalWords);
-    document.getElementById('ert').innerHTML = estimatedRemainingTime+'/'+estimatedTotalTime;
-      
-    if (asSettings.scrolling == 1) {
-      document.getElementById('psd').innerHTML = Math.round(psd * 1000) / 1000;
-    }
-  }
-  pcopy.parentNode.removeChild(pcopy);
-  if (lineCount > 1) { // only scroll when on a real paragraph
-    launchScroll(wordsPerLine, pixelsPerLine);
-  }
-}
-
-function offP(elm) {
-  'use strict';
-    if (asSettings.debug && elm.className.match(/hover/) != null) {
-        elm.className = elm.className.replace(/ hover\b/, '');
-    }
-}
-
-function launchScroll(wordsPerLine, pixelsPerLine) {
-  'use strict';
-  var delay = (wordsPerLine / (asSettings.wordsReadPerMinute / 60)) / pixelsPerLine;
-  clearInterval(asSettings.interval);
-  asSettings.interval = setInterval(function() {
-    window.scrollBy(0, 1 * asSettings.scrolling);
-  }, 1000 * delay);
-  document.getElementById('smartscrollbanner').setAttribute('interval', asSettings.interval);
-}
 
 
 function pauseScroll() {
