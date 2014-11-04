@@ -284,7 +284,7 @@ function hideStatus(ds) {
 
 function toggleDebug() {
   'use strict';
-  ddebug = document.getElementById('ddebug');
+  var ddebug = document.getElementById('ddebug');
   if (ddebug.style.display == "none") {
     revealStatus(document.getElementById('smartscrollbanner'));
     document.getElementById('cbdebug').checked = true;
