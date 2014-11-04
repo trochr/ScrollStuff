@@ -300,6 +300,41 @@ function pauseScroll() {
   }
 }
 
+
+function saveSettings() {
+  'use strict';
+  var http = new window.XMLHttpRequest(),
+    url = "https://fierce-escarpment-8017.herokuapp.com/user/settings",
+    params = "wpm=" + asSettings.wordsReadPerMinute;
+  http.open("POST", url, true);
+  http.setRequestHeader("Authorization", asSettings.guid);
+  http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  http.send(params);
+}
+
+function wpmChanged() {
+  'use strict';
+  document.getElementById('wpm').innerText = asSettings.wordsReadPerMinute;
+  window.clearInterval(asSettings.saveInterval);
+  onP(asSettings.curElm);
+  asSettings.saveInterval = window.setTimeout(function () {saveSettings(); }, 2000);
+}
+
+function setupPlusMinus() {
+  'use strict';
+  var mwpm = document.getElementById('mwpm'),
+    pwpm = document.getElementById('pwpm');
+
+  mwpm.onclick = function () {
+    asSettings.wordsReadPerMinute -= 1;
+    wpmChanged();
+  };
+  pwpm.onclick = function () {
+    asSettings.wordsReadPerMinute += 1;
+    wpmChanged();
+  };
+}
+
 function showStatus() {
   'use strict';
   var sdiv = document.createElement('div'),
@@ -309,7 +344,9 @@ function showStatus() {
     elm = document.body,
     sdebug = document.createElement('span'),
     spanautohide = document.createElement('span'),
-    cbdebug = document.createElement('input');
+    cbdebug = document.createElement('input'),
+    hlink = document.createElement('a');
+
   sdiv.id = "smartscrollbanner";
   sdiv.innerHTML = "Auto-scrolling at " + "<span id='chwpm'>"
     + "<span id='mwpm' style='cursor:pointer;'> - </span>"
@@ -347,24 +384,22 @@ function showStatus() {
     }
   };
 
-  var hlink = document.createElement('a');
-  hlink.href="http://trochr.github.io/ScrollStuff";
+  hlink.href = "http://trochr.github.io/ScrollStuff";
   hlink.style.position = "absolute";
   hlink.style.right = "7px";
-  hlink.innerHTML='⌂';
- 
+  hlink.innerHTML = '⌂';
+
   ddebug.id = "ddebug";
   ddebug.setAttribute('style', "display: none;");
   sdebug.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
-  sdebug.innerHTML = "<span id='lpp'>0</span> | <span id='wpl'>0</span> <span title=\"average words per line\">awpl</span> |" 
-  + " <span id='psd'>0</span> <span title=\"seconds per line\">spl</span> |"
-  + " <span id='ert'>0</span> <span title=\"estimated reading time\">min</span>";
+  sdebug.innerHTML = "<span id='lpp'>0</span> | <span id='wpl'>0</span> <span title=\"average words per line\">awpl</span> |"
+    + " <span id='psd'>0</span> <span title=\"seconds per line\">spl</span> |"
+    + " <span id='ert'>0</span> <span title=\"estimated reading time\">min</span>";
   sdiv.appendChild(spanautohide);
   sdiv.appendChild(cbdebug);
   sdiv.appendChild(hlink);
   ddebug.appendChild(sdebug);
   sdiv.appendChild(ddebug);
-  
   elm.insertBefore(sdiv, elm.firstChild);
   setupPlusMinus();
   revealStatus(sdiv);
@@ -373,68 +408,24 @@ function showStatus() {
 
 function loadAS() {
   'use strict';
-  var i,
-    ps;
+  var ps = getAllPs();
   if (asSettings.debug) {
     toggleDebug();
   }
   showStatus();
-  ps = getAllPs();
-
-  for (i = 0; i < ps.length; i++) {
-    ps[i].onmouseover = function() {
+  ps.forEach(function (e) {
+    e.onmouseover = function () {
       onP(this);
     };
-    ps[i].onmousemove = function() {
-      if (asSettings.curElm == null) {
+    e.onmousemove = function () {
+      if (asSettings.curElm === null) {
         onP(this);
       }
     };
-    ps[i].onmouseout = function() {
+    e.onmouseout = function () {
       offP(this);
     };
-  }
-}
-
-function setupPlusMinus() {
-  'use strict';
-  var chwpm = document.getElementById('chwpm');
-  var mwpm = document.getElementById('mwpm');
-  var pwpm = document.getElementById('pwpm');
-  var wpm = document.getElementById('wpm');
-
-  mwpm.onclick = function() {
-    asSettings.wordsReadPerMinute -= 1;
-    wpmChanged();
-  };
-  pwpm.onclick = function() {
-    asSettings.wordsReadPerMinute += 1;
-    wpmChanged();
-  };
-}
-
-function wpmChanged() {
-  'use strict';
-  wpm.innerText = asSettings.wordsReadPerMinute;
-  clearInterval(asSettings.saveInterval);
-  onP(asSettings.curElm);
-  asSettings.saveInterval = setTimeout(function (){saveSettings();}, 3000);
-}
-
-function saveSettings() {
-  'use strict';
-  var http = new XMLHttpRequest();
-  var url = "https://fierce-escarpment-8017.herokuapp.com/user/settings"
-  http.open("POST", url, true);
-  http.setRequestHeader("Authorization", asSettings.guid);
-  http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  var params = "wpm="+asSettings.wordsReadPerMinute;
-  http.onreadystatechange = function() { //Call a function when the state changes.
-    if (http.readyState == 4 && http.status == 200) {
-      console.log("Settings saved");
-    }
-  }
-  http.send(params);
+  });
 }
 
 // Handling of ESC key. One press : stop the scroll, 2 presses : display debug 
