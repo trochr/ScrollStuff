@@ -387,7 +387,9 @@ function showStatus() {
   hlink.href = "http://trochr.github.io/ScrollStuff";
   hlink.style.position = "absolute";
   hlink.style.right = "7px";
-  hlink.innerHTML = '⌂';
+  hlink.style.color = 'rgb(107,107,107)';
+  hlink.style.textDecoration = 'none';
+  hlink.innerHTML = '⌂'; // text-decoration: none;color: rgb(107,107,107);
 
   ddebug.id = "ddebug";
   ddebug.setAttribute('style', "display: none;");
