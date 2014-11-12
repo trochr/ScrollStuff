@@ -216,7 +216,8 @@ function hideStatus(ds) {
 function toggleDebug() {
   'use strict';
   var ddebug = document.getElementById('ddebug'),
-    css = document.createElement("style");
+    css = document.createElement("style"),
+    hoverDiv;
   if (ddebug.style.display === "none") {
     revealStatus(document.getElementById('smartscrollbanner'));
     document.getElementById('cbdebug').checked = true;
@@ -232,9 +233,10 @@ function toggleDebug() {
   } else {
     ddebug.style.display = "none";
     document.getElementById('cbdebug').checked = false;
-    if (asSettings.curElm !== null) {
-      asSettings.curElm.className = asSettings.curElm.className.replace(/ hover\b/, '');
-    }
+    hoverDiv = Array.prototype.slice.call(document.getElementsByClassName('hover'));
+    hoverDiv.forEach(function(e){
+      e.className = e.className.replace(/ hover\b/, '');
+    });
     hideStatus(document.getElementById('smartscrollbanner'));
     asSettings.debug = false;
   }
