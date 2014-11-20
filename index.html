@@ -38,6 +38,7 @@
       window.onload = function() {
        var js = "javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.onload=function(){getServerSettings('"+guid()+"');};s.src='https://trochr.github.io/ScrollStuff/smartscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();";
         document.getElementById("bmlet").setAttribute("href",js);
+        document.getElementById("bmprecode").innerHTML = js;
         document.getElementById('showcode').onclick =
           function(){
             document.getElementById('bmcode').style.display = "block";
@@ -71,11 +72,10 @@ in a continuous manner. It detects the words per lines and, knowing your reading
 
 <div><ul>
   <li>Drag this to your Bookmarks Bar → 
-  <a id="bmlet" class="minibutton" href="javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.onload=function(){getServerSettings('0a35106c-9937-e426-967a-43302806e910');};s.src='https://trochr.github.io/ScrollStuff/smartscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();">SmartScroll</a>
+  <a id="bmlet" class="minibutton" href="will be generated at load time">SmartScroll</a>
   [<a id="showcode" href="#scode">show</a>]
   <div id="bmcode" style="display: none;">
-    <pre style="word-wrap:break-word;">javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.onload=function(){getServerSettings('a0a53a33-201c-840b-c78f-fdc51f8c1bf9');};s.src='https://trochr.github.io/ScrollStuff/smartscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();
-    </pre>
+    <pre id='bmprecode' style="word-wrap:break-word;">will be generated at load time</pre>
   </div>
   </li>
   <li>Surf to a website with some text to read.</li>
