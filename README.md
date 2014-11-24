@@ -13,7 +13,6 @@ See the setup instructions on the [homepage](http://trochr.github.io/ScrollStuff
 Caveats
 ------
 
-- HTTPS pages require the bookmarklet to be loaded from a HTTPS path
 - Some sites (such as github) block modifications of the DOM by externally loaded script.
 
 
