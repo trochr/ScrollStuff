@@ -26,7 +26,7 @@ function getAllPs() {
   psp = Array.prototype.slice.call(psp);
   psp = psp.filter(function (e) {
     if (e.firstChild !== null && (e.firstChild.nodeType === 3 // a text node
-         || ["A", "SPAN", "FONT", "STRONG"].indexOf(e.firstChild.nodeName) >= 0)) { // a tolerated node
+         || ["A", "SPAN", "FONT", "STRONG", "IMG"].indexOf(e.firstChild.nodeName) >= 0)) { // a tolerated node
       var nonEmptyWords = e.textContent.split(' ').filter(function (elm) {
         return (elm.length > 0);
       });
