@@ -365,7 +365,7 @@ function showStatus() {
   cbpause.setAttribute('title', 'Tip : Press ESC anytime to pause/unpause scrolling');
   cbpause.setAttribute('type', "checkbox");
   cbpause.setAttribute('id', "cbpause");
-  cbpause.setAttribute('style', "transform: scale(0.8);vertical-align:middle;margin:0;height:13px;width:13px;");
+  cbpause.setAttribute('style', "transform: scale(0.8);vertical-align:middle;margin:0;height:13px;width:13px;-webkit-appearance: checkbox;");
   cbpause.checked = false;
   cbpause.onchange = function () {
     pauseScroll();
@@ -375,7 +375,7 @@ function showStatus() {
   spanautohide.innerHTML = "debug";
   cbdebug.setAttribute('type', "checkbox");
   cbdebug.setAttribute('id', "cbdebug");
-  cbdebug.setAttribute('style', "transform: scale(0.8);vertical-align:middle;margin:0;height:13px;width:13px;");
+  cbdebug.setAttribute('style', "transform: scale(0.8);vertical-align:middle;margin:0;height:13px;width:13px;-webkit-appearance: checkbox;");
   cbdebug.checked = asSettings.statusAutoHide;
   cbdebug.onchange = function (e) {
     asSettings.debug = e.target.checked;
