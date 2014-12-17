@@ -18,7 +18,7 @@ var asSettings = {wordsReadPerMinute: 180,
 
 function getAllPs() {
   'use strict';
-  /*
+  
   var psp = document.body.getElementsByTagName('p'),
     psd = document.body.getElementsByTagName('div'),
     ps,
@@ -81,7 +81,7 @@ function getAllPs() {
   });
   asSettings.ps = ps;
   return ps;
-  */
+  /*
   var n, textNodes=[] ,ps=[]
    , walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false);
   while(n=walk.nextNode()) textNodes.push(n);
@@ -97,7 +97,7 @@ function getAllPs() {
   }
  );
  
- return ps;
+ return ps; */
 }
 
 function unloadAS() {
