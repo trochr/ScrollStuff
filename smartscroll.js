@@ -18,6 +18,7 @@ var asSettings = {wordsReadPerMinute: 180,
 
 function getAllPs() {
   'use strict';
+  /*
   var psp = document.body.getElementsByTagName('p'),
     psd = document.body.getElementsByTagName('div'),
     ps,
@@ -80,6 +81,23 @@ function getAllPs() {
   });
   asSettings.ps = ps;
   return ps;
+  */
+  var n, textNodes=[] ,ps=[]
+   , walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false);
+  while(n=walk.nextNode()) textNodes.push(n);
+
+ textNodes.forEach(
+  function(e){
+    if ((e.textContent.split(' ').length > 5) // have at least 5 words
+        && (e.parentNode.nodeName !== "SCRIPT" ) // is not a script tag
+        && (e.parentNode.children.length === 0) // is a leaf
+        && e.textContent.match(/[a-zA-Z]{3}/)) {   // has a leat 3 letters
+      ps.push(e.parentNode);
+    }
+  }
+ );
+ 
+ return ps;
 }
 
 function unloadAS() {
