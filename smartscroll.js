@@ -81,23 +81,6 @@ function getAllPs() {
   });
   asSettings.ps = ps;
   return ps;
-  /*
-  var n, textNodes=[] ,ps=[]
-   , walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false);
-  while(n=walk.nextNode()) textNodes.push(n);
-
- textNodes.forEach(
-  function(e){
-    if ((e.textContent.split(' ').length > 5) // have at least 5 words
-        && (e.parentNode.nodeName !== "SCRIPT" ) // is not a script tag
-        && (e.parentNode.children.length === 0) // is a leaf
-        && e.textContent.match(/[a-zA-Z]{3}/)) {   // has a leat 3 letters
-      ps.push(e.parentNode);
-    }
-  }
- );
- 
- return ps; */
 }
 
 function unloadAS() {
@@ -308,18 +291,53 @@ function highZ(parent, limit) {
   return max;
 }
 
+function hashCode(s){
+	var hash = 0;
+	if (s.length == 0) return hash;
+	for (i = 0; i < s.length; i++) {
+		c = s.charCodeAt(i);
+		hash = ((hash<<5)-hash)+c;
+		hash = hash & hash; // Convert to 32bit integer
+	}
+	return hash+Math.pow(2,32)/2;
+}
+
+function saveProgress() {
+  'use strict';
+  var e=document.body;
+  var currentPos = e.scrollTop/(e.scrollHeight-e.clientHeight);
+  var http = new window.XMLHttpRequest(),
+    url = "https://fierce-escarpment-8017.herokuapp.com/user/progress",
+    params = "p=" + currentPos + '&id=' + hashCode(window.location.href+asSettings.guid);
+  http.onreadystatechange=function() {
+    if (http.readyState==4 && http.status==200) {
+      console.log('Progress saved');
+    } else {
+      console.error('Failed to save progress');
+    }
+  }
+  console.log("Will send : "+params);
+/*  http.open("POST", url, true);
+  http.setRequestHeader("Authorization", asSettings.guid);
+  http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  http.send(params);
+  */
+}
+
 function pauseScroll() {
   'use strict';
   asSettings.scrolling = (asSettings.scrolling > 0) ? 0 : 1;
-  if (asSettings.scrolling === 0 && asSettings.debug === true) {
-    document.getElementById('psd').innerHTML = "∞";
+  if (asSettings.scrolling === 0) {
+    setTimeout(saveProgress,0);
+    if (asSettings.debug === true) {
+      document.getElementById('psd').innerHTML = "∞";       
+    }
   } else {
     if (asSettings.curElm !== null) {
       onP(asSettings.curElm);
     }
   }
 }
-
 
 function saveSettings() {
   'use strict';
