@@ -310,7 +310,7 @@ function saveProgress() {
   'use strict';
   var e=document.body;
   asSettings.progress = e.scrollTop/(e.scrollHeight-e.clientHeight);
- alert("will save to : "+hashCode(window.location.href+asSettings.guid)+'('+asSettings.guid+'')');
+ alert("will save to : "+hashCode(window.location.href+asSettings.guid)+'('+asSettings.guid+')');
   var http = new window.XMLHttpRequest(),
     url = APIUrl+"/progress/"+hashCode(window.location.href+asSettings.guid),
     params = "progress=" + asSettings.progress.toString().substring(0,20)  ;
