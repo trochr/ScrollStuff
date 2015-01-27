@@ -408,6 +408,9 @@ function showStatus() {
   cbpause.onchange = function () {
     pauseScroll();
   };
+  sdiv.onclick = function () {
+    pauseScroll();
+  };
   sdiv.appendChild(cbpause);
   spanautohide.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
   spanautohide.innerHTML = "debug";
