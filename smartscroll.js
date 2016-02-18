@@ -588,8 +588,11 @@ function reformatPage() {
 }
 
 function removeAllCSS() {
-    document.head.getElementsBySelector("meta[name=viewport]")[0].remove();
-    var links = Array.prototype.slice.call( document.head.getElementsByTagName('link') );
+    var metas = Array.prototype.slice.call(document.head.getElementsBySelector("meta[name=viewport]")),
+	scripts = Array.prototype.slice.call(document.head.getElementsBySelector('script[type=text/javascript]')),
+    	links = Array.prototype.slice.call(document.head.getElementsByTagName('link'));
+    metas.forEach(function(e){e.remove()});
+    scripts.forEach(function(e){e.remove()});
     links.forEach(function(e){e.remove()});
     for (i=0 ; i<document.styleSheets.length;i++) {
         var mysheet=document.styleSheets[i];
