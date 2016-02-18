@@ -588,6 +588,7 @@ function reformatPage() {
 }
 
 function removeAllCSS() {
+    document.head.getElementsBySelector("meta[name=viewport]")[0].remove();
     var links = Array.prototype.slice.call( document.head.getElementsByTagName('link') );
     links.forEach(function(e){e.remove()});
     for (i=0 ; i<document.styleSheets.length;i++) {
