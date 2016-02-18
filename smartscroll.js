@@ -430,7 +430,7 @@ function showStatus() {
     }
   };
 
-  reformat.onclick = reformatPage();
+  reformat.onclick = reformatPage;
   reformat.innerHTML = "<span style=\"margin-left:10px;cursor:pointer;\">reformat</span>";
   hlink.href = "http://trochr.github.io/ScrollStuff";
   hlink.style.position = "absolute";
