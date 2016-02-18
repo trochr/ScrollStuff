@@ -385,6 +385,7 @@ function showStatus() {
     sdebug = document.createElement('span'),
     spanautohide = document.createElement('span'),
     cbdebug = document.createElement('input'),
+    reformat = document.createElement('a'),
     hlink = document.createElement('a');
 
   sdiv.id = "smartscrollbanner";
@@ -429,6 +430,8 @@ function showStatus() {
     }
   };
 
+  reformat.onclick = reformatPage();
+  reformat.innerHTML = "<span style=\"margin-left:10px;cursor:pointer;\">reformat</span>";
   hlink.href = "http://trochr.github.io/ScrollStuff";
   hlink.style.position = "absolute";
   hlink.style.right = "7px";
@@ -447,6 +450,7 @@ function showStatus() {
   sdiv.appendChild(hlink);
   ddebug.appendChild(sdebug);
   sdiv.appendChild(ddebug);
+  sdiv.appendChild(reformat);
   elm.insertBefore(sdiv, elm.firstChild);
   setupPlusMinus();
   revealStatus(sdiv);
@@ -526,4 +530,74 @@ if (document.getElementById('smartscrollbanner') !== null) { // if AS is already
   unloadAS();
 } else {
   loadAS();
+}
+
+/* All Reformating */
+
+
+function insertOrAdd(parents,elm) {
+    for (var i=0; i< parents.length; i++) {
+        if (parents[i].node == elm.parentNode) {
+            parents[i].count += 1; 
+            return;
+        }
+    }
+    parents.push({'node':elm.parentNode,"count":1})
+}
+
+function topParent(parents) {
+    var max = 0;
+    for (var i=0; i< parents.length; i++) {
+        if (parents[i].count > max) {
+            max = parents[i].count;
+        }         
+    }
+    for (var i=0; i< parents.length; i++) {
+        if (parents[i].count == max) {
+            return parents[i].node;
+        }         
+    }
+
+    return null;
+}
+
+
+function getFeature() {
+ // election of the main node containing paragraphs
+ var ps = asSettings.ps;
+ document.parents = []
+ ps.forEach(function(e){
+     insertOrAdd(document.parents,e)
+ })
+ return topParent(document.parents)
+}
+
+
+function reformatPage() {
+    // First find the "main" element containing the most p/div with content 
+    var article = getFeature();
+    // then copy it somewhere, remove everything from the body, then add it again
+    while (document.body.firstChild) {
+        document.body.removeChild(document.body.firstChild);
+    }
+    document.body.appendChild(article);
+    removeAllCSS();
+    addCustomCSS();
+    window.setTimeout(unloadAS,2000);
+    window.setTimeout(loadAS,2500);
+}
+
+function removeAllCSS() {
+    for (i=0 ; i<document.styleSheets.length;i++) {
+        var mysheet=document.styleSheets[i].deleteRule(0);
+    }
+}
+
+function addCustomCSS () {
+   var head  = document.getElementsByTagName('head')[0];
+   css = document.createElement("link");
+   css.setAttribute('rel',"stylesheet");
+   css.type = "text/css";
+   css.href = "https://trochr.github.io/ScrollStuff/stylesheets/stylesheet.css";
+   head.appendChild(css);
 }
