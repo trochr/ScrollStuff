@@ -170,7 +170,7 @@ function onP(elm) {
   }
   pcopy = elm.cloneNode(true);
   elm.parentNode.insertBefore(pcopy, elm.nextSibling);
-  pcopy.innerHTML = 'line 1<br/>line 2<br/>line 3<br/>line 4<br/>line 5'; // Create a identical element with a known number of lines : 5
+  pcopy.innerHTML = 'line 1<br/>line 2<br/>line 3<br/>line 4<br/>line 5'; // Create a known number of lines : 5
   pcopy.setAttribute("style", 'position:absolute;left:-2000px;');
   lineCount = elm.offsetHeight / (pcopy.offsetHeight / 5);
   pixelsPerLine = elm.offsetHeight / lineCount;
