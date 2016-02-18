@@ -588,8 +588,8 @@ function reformatPage() {
 }
 
 function removeAllCSS() {
-    var metas = Array.prototype.slice.call(document.head.getElementsBySelector("meta[name=viewport]")),
-	scripts = Array.prototype.slice.call(document.head.getElementsBySelector('script[type=text/javascript]')),
+    var metas = Array.prototype.slice.call(document.head.querySelectorAll("meta[name=viewport]")),
+	scripts = Array.prototype.slice.call(document.head.getElementsByTagName('script')),
     	links = Array.prototype.slice.call(document.head.getElementsByTagName('link'));
     metas.forEach(function(e){e.remove()});
     scripts.forEach(function(e){e.remove()});
