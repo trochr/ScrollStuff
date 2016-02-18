@@ -589,9 +589,15 @@ function reformatPage() {
 
 function removeAllCSS() {
     for (i=0 ; i<document.styleSheets.length;i++) {
-        var mysheet=document.styleSheets[i].deleteRule(0);
+        var mysheet=document.styleSheets[i];
+        if (mysheet.rules!==null) {
+           for (var j=0;j<mysheet.rules.length;j++) {
+                mysheet.removeRule(j);
+            }
+        }
     }
 }
+
 
 function addCustomCSS () {
    var head  = document.getElementsByTagName('head')[0];
