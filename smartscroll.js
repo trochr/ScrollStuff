@@ -588,6 +588,8 @@ function reformatPage() {
 }
 
 function removeAllCSS() {
+    var links = Array.prototype.slice.call( document.head.getElementsByTagName('link') );
+    links.forEach(function(e){e.remove()});
     for (i=0 ; i<document.styleSheets.length;i++) {
         var mysheet=document.styleSheets[i];
         if (mysheet.rules!==null) {
