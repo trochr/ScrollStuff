@@ -13,9 +13,7 @@ var asSettings = {wordsReadPerMinute: 180,
     totalWords: 0,
     guid: null,
     completion: null,
-    ps: null,
-    progress:null,
-    progressUpdated:"0"};
+    ps: null};
 
 var APIUrl = "https://fierce-escarpment-8017.herokuapp.com";
 
@@ -126,7 +124,6 @@ function getServerSettings(guid) {
       }
     }
   };
-  asSettings.progress = loadProgress();
   http.send(null);
 }
 
@@ -306,31 +303,11 @@ function hashCode(s){
 	return hash+Math.pow(2,32)/2;
 }
 
-function saveProgress() {
-  'use strict';
-  var e=document.body;
-  asSettings.progress = e.scrollTop/(e.scrollHeight-e.clientHeight);
-  var http = new window.XMLHttpRequest(),
-    url = APIUrl+"/progress/"+hashCode(window.location.href+asSettings.guid),
-    params = "progress=" + asSettings.progress.toString().substring(0,20)  ;
-  http.onreadystatechange=function() {
-    if (http.readyState==4) {
-      if (http.status==200) {
-        asSettings.progressUpdated = new Date().toISOString();
-      }
-    }
-  }
-  http.open("POST", url, true);
-  http.setRequestHeader("Authorization", asSettings.guid);
-  http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  http.send(params);
-}
 
 function pauseScroll() {
   'use strict';
   asSettings.scrolling = (asSettings.scrolling > 0) ? 0 : 1;
   if (asSettings.scrolling === 0) {
-    setTimeout(saveProgress,0);
     if (asSettings.debug === true) {
       document.getElementById('psd').innerHTML = "∞";       
     }
@@ -456,32 +433,7 @@ function showStatus() {
   revealStatus(sdiv);
 }
 
-function loadProgress() {
-  'use strict';
-  var http = new window.XMLHttpRequest(),
-    url = APIUrl+"/progress/"+hashCode(window.location.href+asSettings.guid);
-  http.onreadystatechange=function() {
-    if (http.readyState==4) {
-      if (http.status==200) {
-        var resp = JSON.parse(http.response);
-        if (resp.hasOwnProperty('progress')) {
-          asSettings.progress = resp.progress;
-          if (asSettings.progressUpdated < resp.updated) {
-            asSettings.progressUpdated = resp.updated;
-            scrollToPos();            
-          }
-        }
-      }
-    }
-  }
-  http.open("GET", url, true);
-  http.send();
-}
 
-function scrollToPos() {
-  var progress = asSettings.progress;
-  window.scrollTo(0,progress*document.body.scrollHeight);
-}
 
 
 function loadAS() {
