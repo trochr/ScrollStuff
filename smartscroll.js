@@ -366,15 +366,21 @@ function showStatus() {
     hlink = document.createElement('a');
 
   sdiv.id = "smartscrollbanner";
-  sdiv.innerHTML = "Auto-scrolling at " + "<span id='chwpm'>"
+  sdiv.innerHTML = "<span id='chwpm'>"
     + "<span id='mwpm' style='cursor:pointer;'> - </span>"
     + "<span id='wpm'>" + asSettings.wordsReadPerMinute + "</span>"
     + "<span id='pwpm' style='cursor:pointer;'> + </span></span>" + "<span title=\"words per minute\"> wpm</span> ";
-  sdiv.setAttribute('style', "background: #E7E7E7;position: fixed;text-align: center;"
+  sdiv.setAttribute('style', "background: white;position: fixed;text-align: center;"
     + "text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;font-size:16px;"
-    + "top: -10px;left: 0;right: 0;box-shadow: 0 1px 3px #BBB;"
-    + "margin: auto;width: " + ((document.documentElement.clientWidth < 480) ? 15 : 30) + "em;z-index:" + highZ() + 1 + ";"
+    + "top: 10px;right: 10px; border-radius: 4px;opacity: 0.6;border: 1px solid #d0d0d0;"
+    + "margin: auto;width: " + ((document.documentElement.clientWidth < 480) ? 15 : 20) + "em;z-index:" + highZ() + 1 + ";"
     + "-webkit-user-select: none;line-height:normal;");
+  sdiv.onmouseover = function() {
+      this.style.opacity = 1;
+  }
+  sdiv.onmouseout = function() {
+      this.style.opacity = 0.6;
+  }
   spanpause.innerHTML = "pause";
   spanpause.setAttribute('style', "font-size: x-small;margin-left: 10px;vertical-align: middle;");
   sdiv.appendChild(spanpause);
