@@ -35,6 +35,10 @@ span#playpause {
   font-family: Arial Unicode MS;
 }
 
+a {
+  color: rgba(0, 0, 0, 0.8);  
+}
+
 @media only screen 
 and (min-device-width : 320px) 
 and (max-device-width : 568px) 
