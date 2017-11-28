@@ -372,7 +372,7 @@ function showStatus() {
     + "<span id='pwpm' style='cursor:pointer;'> + </span></span>" + "<span title=\"words per minute\"> wpm</span> ";
   sdiv.setAttribute('style', "background: white;position: fixed;text-align: center;"
     + "text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;font-size:16px;"
-    + "top: 10px;right: 10px; border-radius: 4px;opacity: 0.6;border: 1px solid #d0d0d0;"
+    + "top: 10px;right: 10px; border-radius: 4px;opacity: 0.6;backdrop-filter:blur(3px);"
     + "margin: auto;width: " + ((document.documentElement.clientWidth < 480) ? 15 : 20) + "em;z-index:" + highZ() + 1 + ";"
     + "-webkit-user-select: none;line-height:normal;");
   sdiv.onmouseover = function() {
