@@ -373,7 +373,7 @@ function showStatus() {
   sdiv.setAttribute('style', "background: white;position: fixed;text-align: center;"
     + "text-shadow: 0 1px 0 #fff;color: #696969;font-family: sans-serif;font-size:16px;"
     + "top: 10px;right: 10px; border-radius: 4px;opacity: 0.6;backdrop-filter:blur(3px);"
-    + "margin: auto;width: " + ((document.documentElement.clientWidth < 480) ? 15 : 20) + "em;z-index:" + highZ() + 1 + ";"
+    + "margin: auto;width: " + ((document.documentElement.clientWidth < 480) ? 15 : 17) + "em;z-index:" + highZ() + 1 + ";"
     + "-webkit-user-select: none;line-height:normal;");
   sdiv.onmouseover = function() {
       this.style.opacity = 1;
@@ -414,7 +414,7 @@ function showStatus() {
   };
 
   reformat.onclick = reformatPage;
-  reformat.innerHTML = "<span style=\"margin-left:10px;cursor:pointer;\">reformat</span>";
+  reformat.innerHTML = "<span style=\"margin-left:10px;font-size:x-small;color:inherit;cursor:pointer;\">🔨</span>";
   hlink.href = "http://trochr.github.io/ScrollStuff";
   hlink.style.position = "absolute";
   hlink.style.right = "7px";
