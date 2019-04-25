@@ -260,6 +260,7 @@ function deepCss(who, css) {
           val = dv.getComputedStyle(who, "").getPropertyValue(css);
         }
       }
+    }
   }
   return val || "";
 }
