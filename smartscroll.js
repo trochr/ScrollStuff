@@ -251,14 +251,15 @@ function deepCss(who, css) {
     sty = css.replace(/\-([a-z])/g, function (a) {
       return a.toUpperCase();
     });
-    val = who.style[sty];
-    if (!val) {
-      if (who.currentStyle) {
-        val = who.currentStyle[sty];
-      } else if (dv.getComputedStyle) {
-        val = dv.getComputedStyle(who, "").getPropertyValue(css);
+    if (who.style != undefined) {
+      val = who.style[sty];
+      if (!val) {
+        if (who.currentStyle) {
+          val = who.currentStyle[sty];
+        } else if (dv.getComputedStyle) {
+          val = dv.getComputedStyle(who, "").getPropertyValue(css);
+        }
       }
-    }
   }
   return val || "";
 }
