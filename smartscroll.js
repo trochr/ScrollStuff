@@ -188,7 +188,7 @@ function onP(elm) {
                                         / asSettings.totalWords, 10);
     document.getElementById('ert').innerHTML = estimatedRemainingTime + '/' + estimatedTotalTime;
     if (asSettings.scrolling === 1) {
-      document.getElementById('psd').innerHTML = Math.round(secondsPerTextLine * 1000) / 1000;
+      document.getElementById('psd').innerHTML = secondsPerTextLine.toFixed(1);
     }
   }
   pcopy.parentNode.removeChild(pcopy);
