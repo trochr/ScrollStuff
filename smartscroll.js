@@ -158,6 +158,7 @@ function onP(elm) {
     pixelsPerLine,
     wordsPerLine,
     psd,
+	secondsPerTextLine,
     lpp,
     estimatedTotalTime,
     estimatedRemainingTime;
@@ -176,6 +177,7 @@ function onP(elm) {
   }).length / lineCount;
   if (asSettings.debug) {
     psd = (wordsPerLine / (asSettings.wordsReadPerMinute / 60)) / pixelsPerLine;
+	secondsPerTextLine = wordsPerLine / (asSettings.wordsReadPerMinute / 60);
     elm.className.replace(/ hover\b/, '');
     lpp = Math.round(lineCount * 10) / 10;
     document.getElementById('lpp').innerHTML = lpp + ' line' + ((lpp > 1) ? 's' : '');
@@ -186,7 +188,7 @@ function onP(elm) {
                                         / asSettings.totalWords, 10);
     document.getElementById('ert').innerHTML = estimatedRemainingTime + '/' + estimatedTotalTime;
     if (asSettings.scrolling === 1) {
-      document.getElementById('psd').innerHTML = Math.round(psd * 1000) / 1000;
+      document.getElementById('psd').innerHTML = Math.round(secondsPerTextLine * 1000) / 1000;
     }
   }
   pcopy.parentNode.removeChild(pcopy);
