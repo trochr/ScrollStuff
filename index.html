@@ -30,8 +30,36 @@
           function(){
             document.getElementById('bmcode').style.display = "block";
           };
-      } 
-      
+
+        updateCustomBookmarklet();
+
+        document.getElementById('wpm-input').addEventListener('wheel', function(e) {
+          e.preventDefault();
+          var delta = e.deltaY < 0 ? 1 : -1;
+          var current = parseInt(this.value, 10) || 180;
+          this.value = Math.max(50, Math.min(1000, current + delta));
+          updateCustomBookmarklet();
+        }, {passive: false});
+
+        document.getElementById('wpm-input').addEventListener('input', updateCustomBookmarklet);
+
+        document.getElementById('wpm-minus').addEventListener('click', function() {
+          var input = document.getElementById('wpm-input');
+          input.value = Math.max(50, (parseInt(input.value, 10) || 180) - 1);
+          updateCustomBookmarklet();
+        });
+
+        document.getElementById('wpm-plus').addEventListener('click', function() {
+          var input = document.getElementById('wpm-input');
+          input.value = Math.min(1000, (parseInt(input.value, 10) || 180) + 1);
+          updateCustomBookmarklet();
+        });
+
+        document.getElementById('showcode-custom').onclick = function() {
+          document.getElementById('bmcode-custom').style.display = 'block';
+        };
+      }
+
       function launchDemo() {
         s=document.createElement('script');
         s.type='text/javascript';
@@ -70,6 +98,27 @@ in a continuous manner. It detects the words per lines and, knowing your reading
   <li>Point your mouse cursor to a paragraph</li>
   <li>Let it roll ! (hit escape key anytime to pause/unpause)</li>
 </ul></div>    
+<h3><a name="custom-speed" class="anchor" href="#custom-speed"><span class="octicon octicon-link"></span></a>Custom Speed Bookmarklet</h3>
+<p>Set your preferred reading speed below, then drag the generated bookmarklet to your Bookmarks Bar:</p>
+<div id="wpm-configurator" style="margin:10px 0;padding:14px;border:1px solid #ddd;border-radius:4px;display:inline-block;background:#fafafa;">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+    <button id="wpm-minus" style="width:30px;height:30px;font-size:18px;line-height:1;cursor:pointer;border:1px solid #ccc;border-radius:3px;background:#f0f0f0;">−</button>
+    <input type="number" id="wpm-input" value="180" min="50" max="1000"
+      style="width:64px;text-align:center;font-size:16px;padding:4px;border:1px solid #ccc;border-radius:3px;"
+      title="Use mouse wheel or +/- buttons to adjust" />
+    <button id="wpm-plus" style="width:30px;height:30px;font-size:18px;line-height:1;cursor:pointer;border:1px solid #ccc;border-radius:3px;background:#f0f0f0;">+</button>
+    <span style="color:#555;font-size:14px;">words per minute</span>
+  </div>
+  <div>
+    Drag to Bookmarks Bar →
+    <a id="bmlet-custom" class="minibutton" href="#">SmartScroll (custom speed)</a>
+    [<a id="showcode-custom" href="#scode-custom">show</a>]
+    <div id="bmcode-custom" style="display:none;margin-top:8px;">
+      <pre id="bmprecode-custom" style="word-wrap:break-word;font-size:11px;"></pre>
+    </div>
+  </div>
+</div>
+
 <div id="wrapperDemo">
 <h3>Demo</h3>
         <p><a href="#demo" onclick="launchDemo();">Click here</a> to see the demo</p>

@@ -2,7 +2,7 @@
 // the number of words per line in the paragraph under the mouse, and the height in pixels of the line
 /*global document: false,window: false */
 
-var asSettings = {wordsReadPerMinute: 180,
+var asSettings = {wordsReadPerMinute: (window.asCustomWPM > 0 ? Math.round(window.asCustomWPM) : 180),
     interval: null,
     scrolling: 1,
     debug: false,
