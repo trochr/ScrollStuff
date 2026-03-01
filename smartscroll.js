@@ -294,7 +294,13 @@ function pauseScroll() {
 
 function wpmChanged() {
   'use strict';
-  document.getElementById('wpm').innerText = asSettings.wordsReadPerMinute;
+  var wpm = asSettings.wordsReadPerMinute,
+    link = document.getElementById('wpm-bookmarklet'),
+    drawer = document.getElementById('wpm-drawer');
+  document.getElementById('wpm').innerText = wpm;
+  link.href = "javascript:(function(){window.asCustomWPM=" + wpm + ";s=document.createElement('script');s.type='text/javascript';s.src='https://trochr.github.io/ScrollStuff/smartscroll.js?v='+parseInt(Math.random()*99999999);document.body.appendChild(s);})();";
+  link.innerHTML = '\u2605 SmartScroll ' + wpm + 'wpm';
+  drawer.style.maxHeight = '44px';
   onP(asSettings.curElm);
 }
 
@@ -395,6 +401,24 @@ function showStatus() {
   ddebug.appendChild(sdebug);
   sdiv.appendChild(ddebug);
   sdiv.appendChild(reformat);
+
+  var drawerDiv = document.createElement('div'),
+    drawerLabel = document.createElement('div'),
+    drawerLink = document.createElement('a');
+  drawerDiv.id = 'wpm-drawer';
+  drawerDiv.setAttribute('style', 'overflow:hidden;max-height:0;transition:max-height 0.3s ease;');
+  drawerLabel.setAttribute('style', 'font-size:10px;color:#aaa;padding:3px 0 1px;');
+  drawerLabel.innerText = 'drag to bookmarks bar:';
+  drawerLink.id = 'wpm-bookmarklet';
+  drawerLink.setAttribute('style', 'display:inline-block;margin:0 0 4px;padding:2px 10px;'
+    + 'background:#f0f0f0;border:1px solid #bbb;border-radius:3px;'
+    + 'font-size:x-small;color:#555;text-decoration:none;cursor:grab;');
+  drawerLink.title = 'Drag to bookmarks bar';
+  drawerLink.innerHTML = '\u2605 SmartScroll ' + asSettings.wordsReadPerMinute + 'wpm';
+  drawerDiv.appendChild(drawerLabel);
+  drawerDiv.appendChild(drawerLink);
+  sdiv.appendChild(drawerDiv);
+
   elm.insertBefore(sdiv, elm.firstChild);
   setupPlusMinus();
   revealStatus(sdiv);
