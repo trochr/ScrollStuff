@@ -9,13 +9,9 @@ var asSettings = {wordsReadPerMinute: (window.asCustomWPM > 0 ? Math.round(windo
     curElm: null,
     debugInvokeDelay: 200,
     lastEscPressTime: 0,
-    saveInterval: null,
     totalWords: 0,
-    guid: null,
     completion: null,
     ps: null};
-
-var APIUrl = "https://fierce-escarpment-8017.herokuapp.com";
 
 function getAllPs() {
   'use strict';
@@ -100,32 +96,6 @@ function unloadAS() {
   document.getElementById('smartscrollbanner').remove();
 }
 
-
-function getServerSettings(guid) {
-  'use strict';
-  if (document.getElementById('wpm') === null) {
-    return;
-  }
-  asSettings.guid = guid;
-  var http = new window.XMLHttpRequest(),
-    url = APIUrl+"/user/settings";
-  http.open("GET", url, true);
-  http.setRequestHeader("Authorization", guid);
-
-  http.onreadystatechange = function () { //Call a function when the state changes.
-    if (http.readyState === 4 && http.status === 200) {
-      var resp = JSON.parse(http.responseText);
-      if (!resp.hasOwnProperty('wpm')) {
-        return;
-      }
-      if (Math.floor(resp.wpm) > 0) {
-        asSettings.wordsReadPerMinute = resp.wpm;
-        document.getElementById('wpm').innerHTML = resp.wpm;
-      }
-    }
-  };
-  http.send(null);
-}
 
 
 function revealStatus(ds) {
@@ -322,23 +292,10 @@ function pauseScroll() {
   }
 }
 
-function saveSettings() {
-  'use strict';
-  var http = new window.XMLHttpRequest(),
-    url = APIUrl+"/user/settings",
-    params = "wpm=" + asSettings.wordsReadPerMinute;
-  http.open("POST", url, true);
-  http.setRequestHeader("Authorization", asSettings.guid);
-  http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  http.send(params);
-}
-
 function wpmChanged() {
   'use strict';
   document.getElementById('wpm').innerText = asSettings.wordsReadPerMinute;
-  window.clearInterval(asSettings.saveInterval);
   onP(asSettings.curElm);
-  asSettings.saveInterval = window.setTimeout(function () {saveSettings(); }, 2000);
 }
 
 function setupPlusMinus() {
