@@ -23,7 +23,7 @@
   
   
       window.onload = function() {
-        var js = "javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.src='https://cdn.jsdelivr.net/gh/trochr/ScrollStuff@gh-pages/smartscroll.js';document.body.appendChild(s);})();";
+        var js = "javascript:(function(){s=document.createElement('script');s.type='text/javascript';s.src='https://cdn.jsdelivr.net/gh/trochr/ScrollStuff@1.0.1/smartscroll.js';document.body.appendChild(s);})();";
         document.getElementById("bmlet").setAttribute("href",js);
         document.getElementById("bmprecode").innerHTML = js;
         document.getElementById('showcode').onclick =
@@ -62,7 +62,7 @@
 
       function updateCustomBookmarklet() {
         var wpm = parseInt(document.getElementById('wpm-input').value, 10) || 180;
-        var js = "javascript:(function(){window.asCustomWPM=" + wpm + ";s=document.createElement('script');s.type='text/javascript';s.src='https://cdn.jsdelivr.net/gh/trochr/ScrollStuff@gh-pages/smartscroll.js';document.body.appendChild(s);})();";
+        var js = "javascript:(function(){window.asCustomWPM=" + wpm + ";s=document.createElement('script');s.type='text/javascript';s.src='https://cdn.jsdelivr.net/gh/trochr/ScrollStuff@1.0.1/smartscroll.js';document.body.appendChild(s);})();";
         document.getElementById('bmlet-custom').setAttribute('href', js);
         document.getElementById('bmprecode-custom').textContent = js;
       }
@@ -70,7 +70,7 @@
       function launchDemo() {
         s=document.createElement('script');
         s.type='text/javascript';
-        s.src='https://cdn.jsdelivr.net/gh/trochr/ScrollStuff@gh-pages/smartscroll.js';
+        s.src='https://cdn.jsdelivr.net/gh/trochr/ScrollStuff@1.0.1/smartscroll.js';
         document.body.appendChild(s);
         document.getElementById('demo').style.display='block';
       }
