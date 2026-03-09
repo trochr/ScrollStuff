@@ -298,7 +298,7 @@ function wpmChanged() {
     link = document.getElementById('wpm-bookmarklet'),
     drawer = document.getElementById('wpm-drawer');
   document.getElementById('wpm').innerText = wpm;
-  link.href = "javascript:(function(){window.asCustomWPM=" + wpm + ";s=document.createElement('script');s.type='text/javascript';s.src='https://cdn.jsdelivr.net/gh/trochr/ScrollStuff@gh-pages/smartscroll.js';document.body.appendChild(s);})();";
+  link.href = "javascript:(function(){window.asCustomWPM=" + wpm + ";s=document.createElement('script');s.type='text/javascript';s.src='https://cdn.jsdelivr.net/gh/trochr/ScrollStuff@1.0.1/smartscroll.js';document.body.appendChild(s);})();";
   link.innerHTML = '\u2605 SmartScroll ' + wpm + 'wpm';
   drawer.style.maxHeight = '44px';
   onP(asSettings.curElm);
